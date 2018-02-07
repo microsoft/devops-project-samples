@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Exceptions;
+
+use Exception;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+
+class Handler extends ExceptionHandler
+{
+    private $_telemetryClient;
+    
+    /**
+     * A list of the exception types that are not reported.
+     *
+     * @var array
+     */
+    protected $dontReport = [
+        //
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
+    ];
+
+    /**
+     * Report or log an exception.
+     *
+     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+     *
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function report(Exception $exception)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Turn On The Lights
+        |--------------------------------------------------------------------------
+        */
+
+        if ($exception != NULL)
+        {
+            $app_insights_instrumentation =env('APPINSIGHTS_INSTRUMENTATIONKEY');
+            $this->_telemetryClient = new \ApplicationInsights\Telemetry_Client();
+            $this->_telemetryClient->getContext()->setInstrumentationKey($app_insights_instrumentation);
+            $this->_telemetryClient->trackException($exception);
+            $this->_telemetryClient->flush();
+        }
+        parent::report($exception);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Illuminate\Http\Response
+     */
+    public function render($request, Exception $exception)
+    {
+        return parent::render($request, $exception);
+    }
+}

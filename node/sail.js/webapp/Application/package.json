@@ -1,0 +1,26 @@
+{
+  "name": "webapp",
+  "private": true,
+  "version": "0.0.0",
+  "description": "a Sails application",
+  "keywords": [],
+  "dependencies": {
+    "ejs": "2.3.4",
+    "sails": "~0.12.14",
+    "sails-disk": "~0.10.9"
+  },
+  "scripts": {
+    "debug": "node debug app.js",
+    "start": "node app.js"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/anonymous node/sails user/webapp.git"
+  },
+  "author": "anonymous node/sails user",
+  "license": "",
+  "devDependencies": {
+    "grunt": "^1.0.1"
+  }
+}

@@ -23,3 +23,6 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          env:
+            - name: APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
+              value: {{ .Values.applicationInsights.InstrumentationKey }}

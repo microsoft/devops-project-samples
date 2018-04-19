@@ -5,7 +5,7 @@
                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ServiceTypes>
-    <!-- This is the name of your ServiceType. 
+    <!-- This is the name of your ServiceType.
          This name must match the string used in RegisterServiceType call in Program.cs. -->
     <StatefulServiceType ServiceTypeName="VotingDataType"  HasPersistedState="true" />
   </ServiceTypes>
@@ -18,9 +18,13 @@
         <WorkingFolder>CodePackage</WorkingFolder>
       </ExeHost>
     </EntryPoint>
+    <EnvironmentVariables>
+      <EnvironmentVariable Name="APPINSIGHTS_INSTRUMENTATIONKEY" Value="DefaultValue"/>
+    </EnvironmentVariables>
+
   </CodePackage>
 
-  <!-- Config package is the contents of the Config directoy under PackageRoot that contains an 
+  <!-- Config package is the contents of the Config directoy under PackageRoot that contains an
        independently-updateable and versioned set of custom configuration settings for your service. -->
   <ConfigPackage Name="Config" Version="1.0.0" />
 

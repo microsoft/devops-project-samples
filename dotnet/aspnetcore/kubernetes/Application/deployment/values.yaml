@@ -13,6 +13,15 @@ service:
   type: LoadBalancer
   port: 80
 
+ingress:
+  ## Enable Ingress resource creation
+  # enabled: true
+  hostname: VALUE_TO_BE_OVERRIDDEN
+  annotations:
+     kubernetes.io/ingress.class: addon-http-application-routing
+  ## Enable Ingress TLS
+  # tls: true
+
 resources: {}
 
 nodeSelector: {}

@@ -6,7 +6,11 @@ metadata:
     app: {{ template "deployment.name" . }}
     chart: {{ template "deployment.chart" . }}
 spec:
+  {{- if .Values.ingress.enabled }}
+  type: ClusterIP
+  {{- else }}
   type: {{ .Values.service.type }}
+  {{- end }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: http

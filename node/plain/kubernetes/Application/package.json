@@ -1,0 +1,14 @@
+{
+  "name": "nodejs-webapp",
+  "version": "0.0.0",
+  "description": "nodejs-webapp",
+  "main": "server.js",
+  "author": {
+    "name": "alagrawa"
+  },
+  "dependencies": {
+    "applicationinsights": "^1.0.0",
+    "ioredis": "^3.2.2",
+    "nodemon": "~1.17.3"
+  }
+}

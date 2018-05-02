@@ -26,8 +26,8 @@ process.chdir(__dirname);
 
 // Attempt to import `sails`.
 // var sails;
-// const  appInsights = require('applicationinsights');
-// appInsights.setup();
+const  appInsights = require('applicationinsights');
+appInsights.setup();
 
 //
 var redis = require('ioredis');
@@ -75,6 +75,6 @@ try {
   }
 }
 
-// appInsights.start();
+appInsights.start();
 // Start server
 sails.lift(rc('sails'));

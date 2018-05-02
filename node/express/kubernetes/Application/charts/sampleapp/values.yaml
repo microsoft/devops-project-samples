@@ -1,7 +1,7 @@
-# Default values for service-a.
+# Default values for sampleapp.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-fullnameOverride: service-a
+fullnameOverride: sampleapp
 replicaCount: 1
 image:
   repository: aksdevopsa204.azurecr.io/aks-node-express

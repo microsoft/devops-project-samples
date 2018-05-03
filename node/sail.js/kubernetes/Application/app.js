@@ -26,28 +26,13 @@ process.chdir(__dirname);
 
 // Attempt to import `sails`.
 // var sails;
-const  appInsights = require('applicationinsights');
+const appInsights = require('applicationinsights');
 appInsights.setup();
-
-//
-var redis = require('ioredis');
-
-console.log("trying to create redis client");
-var redisServer = process.env.redis_server || 'redis-cache';
-console.log(redisServer);
-var client = redis.createClient(6379, redisServer);
-console.log("redis client created");
-client.set('foo', 'barsails');
-
 
 
 try {
   sails = require('sails');
   console.log("Index route");
-  client.get('foo', function (err, result) {
-    console.log('ioredis get completed');  
-    console.log(result);
-  });     
 } catch (e) {
   console.error('To run an app using `node app.js`, you usually need to have a version of `sails` installed in the same directory as your app.');
   console.error('To do that, run `npm install sails`');

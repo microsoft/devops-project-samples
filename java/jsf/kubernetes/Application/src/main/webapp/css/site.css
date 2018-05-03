@@ -94,7 +94,7 @@
             top: 110px;
         }
         .content-body{
-            min-width: 400px;
+            min-width: 450px;
         }
 
         @media (max-width: 1024px) {

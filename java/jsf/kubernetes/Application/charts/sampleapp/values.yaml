@@ -6,6 +6,7 @@ replicaCount: 1
 image:
   repository: aksdevopsa204.azurecr.io/aks-java-jsf
   tag: stable
+
 imagePullSecrets: []
   # Optionally specify an array of imagePullSecrets.
   # Secrets must be manually created in the namespace.
@@ -64,3 +65,6 @@ redis:
     name: redis-cache
     port: 6379
   basedomain: foo.redis-cache.com
+
+applicationInsights:
+  InstrumentationKey: VALUE_TO_BE_OVERRIDDEN

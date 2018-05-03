@@ -1,30 +1,60 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.annotation.PostConstruct;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.exceptions.JedisException;
+
+import redis.clients.jedis.*;
 
 @ManagedBean
 @SessionScoped
-public class HelloBean  implements Serializable{
+public class HelloBean  implements Serializable {
 
 	private static final long serialVersionUID = -4823295172962937652L;
-	
-	private String message = "Your Java app is up and running on Azure";
+	private String message = "";
+	private String _defaultMessageFormat = "Total Visits: %s. Last Visit: %s";
+	private Jedis jedis = null; 
 
+	@PostConstruct
+   	public void init() {
+		try {
+			this.jedis = new Jedis(new URI("redis://redis-cache:6379"));
+		} catch (URISyntaxException ex) {
+			System.out.println(ex.toString());
+			return;	
+		}
+
+		if (!this.jedis.exists("viewCount")) {
+			this.jedis.set("viewCount", "0");
+		}
+    	
+		this.jedis.set("lastVisit", (new Date()).toString());
+    }
+	
 	public String getMessage() {
-		Jedis jedis = new Jedis("redis-cache",6379 );
-		String value = jedis.get("foo");
-		return value;
+		if (this.jedis != null) {
+			String viewCount = this.jedis.get("viewCount");
+			String lastVisit = this.jedis.get("lastVisit");
+			this.setMessage(String.format(this._defaultMessageFormat, viewCount, lastVisit));
+		}
+		
+		return this.message;
 	}
 
 	public void setMessage(String message) {
-		Jedis jedis = new Jedis("redis-cache",6379);
-		jedis.set("foo", "barjsf1");
+		if (this.jedis != null) {
+			this.jedis.incr("viewCount");
+			this.jedis.set("lastVisit", (new Date()).toString());
+		}
+		
 		this.message = message;
 	}	
 

@@ -20,11 +20,10 @@
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.5.2",
     "include-all": "^1.0.8",
+    "nodemon": "~1.17.3",
     "rc": "1.0.1",
-    "sails": "~0.12.14",
-    "sails-disk": "~0.10.9",
-    "ioredis": "^3.2.2",
-    "nodemon": "~1.17.3"
+    "sails": "^0.12.14",
+    "sails-disk": "~0.10.9"
   },
   "scripts": {
     "debug": "node debug app.js",

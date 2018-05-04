@@ -64,3 +64,6 @@ redis:
     name: redis-cache
     port: 6379
   basedomain: foo.redis-cache.com
+
+applicationInsights:
+  InstrumentationKey: VALUE_TO_BE_OVERRIDDEN

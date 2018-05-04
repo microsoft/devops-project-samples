@@ -57,3 +57,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+applicationInsights:
+  InstrumentationKey: VALUE_TO_BE_OVERRIDDEN

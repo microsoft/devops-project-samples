@@ -36,6 +36,8 @@ spec:
               path: /
               port: http
           env:
+            - name: APPINSIGHTS_INSTRUMENTATIONKEY
+              value: {{ .Values.applicationInsights.InstrumentationKey }}
             {{- $root := . }}
             {{- range $ref, $values := .Values.secrets }}
             {{- range $key, $value := $values }}

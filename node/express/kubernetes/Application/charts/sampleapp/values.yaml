@@ -2,10 +2,11 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 fullnameOverride: sampleapp
-replicaCount: 1
+replicaCount: 2
 image:
-  repository: aksdevopsa204.azurecr.io/aks-node-express
-  tag: stable
+  repository: VALUE_TO_BE_OVERRIDDEN
+  tag: latest
+
 imagePullSecrets: []
   # Optionally specify an array of imagePullSecrets.
   # Secrets must be manually created in the namespace.

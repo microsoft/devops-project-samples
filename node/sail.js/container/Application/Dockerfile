@@ -1,5 +1,5 @@
 FROM node:6.9.3
-MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
+LABEL maintainer="Azure App Service Container Images <appsvc-images@microsoft.com>"
 
 # Create app directory
 WORKDIR /app

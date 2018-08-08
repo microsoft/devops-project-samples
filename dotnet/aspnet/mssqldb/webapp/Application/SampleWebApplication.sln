@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplication", "Sam
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database1", "Database1\Database1.sqlproj", "{9D42710E-7C1C-49F5-B8D2-146844A8B2F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplication.L0.Tests", "SampleWebApplication.L0.Tests\SampleWebApplication.L0.Tests.csproj", "{F34965FD-E751-4F15-A5D0-759436E0C1B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplication.UnitTests", "SampleWebApplication.UnitTests\SampleWebApplication.UnitTests.csproj", "{F34965FD-E751-4F15-A5D0-759436E0C1B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplication.L2.Tests", "SampleWebApplication.L2.Tests\SampleWebApplication.L2.Tests.csproj", "{7D15A631-042A-4C9D-BA57-FF60AA7F48C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplication.FunctionalTests", "SampleWebApplication.FunctionalTests\SampleWebApplication.FunctionalTests.csproj", "{7D15A631-042A-4C9D-BA57-FF60AA7F48C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

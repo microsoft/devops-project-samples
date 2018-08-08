@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using System;
 using System.IO;
 
-namespace SampleWebApplication.L2.Tests
+namespace SampleWebApplication.FunctionalTests
 {
     [TestClass]
     public class SampleFunctionalTests
@@ -22,6 +21,7 @@ namespace SampleWebApplication.L2.Tests
         public void SampleFunctionalTest1()
         {
             driver = GetChromeDriver();
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(180);
             var webAppUrl = testContext.Properties["webAppUrl"].ToString();
             driver.Navigate().GoToUrl(webAppUrl);
             Assert.AreEqual(driver.Title, "Home Page - My ASP.NET Application", "Expected title to be 'Home Page - My ASP.NET Application'");

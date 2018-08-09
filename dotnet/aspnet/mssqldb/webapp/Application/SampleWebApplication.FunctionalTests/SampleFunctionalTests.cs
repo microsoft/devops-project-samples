@@ -11,6 +11,7 @@ namespace SampleWebApplication.FunctionalTests
     {
         private static TestContext testContext;
         private RemoteWebDriver driver;
+
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
@@ -20,21 +21,22 @@ namespace SampleWebApplication.FunctionalTests
         [TestMethod]
         public void SampleFunctionalTest1()
         {
-            driver = GetChromeDriver();
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(180);
-            var webAppUrl = testContext.Properties["webAppUrl"].ToString();
-            driver.Navigate().GoToUrl(webAppUrl);
-            Assert.AreEqual(driver.Title, "Home Page - My ASP.NET Application", "Expected title to be 'Home Page - My ASP.NET Application'");
-            var filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()) + ".png";
-            var screenshot = driver.GetScreenshot();
-            screenshot.SaveAsFile(filePath);
-            testContext.AddResultFile(filePath);
-        }
-
-        [TestCleanup]
-        public void TestCleanUp()
-        {
-            driver.Quit();
+            try
+            {
+                driver = GetChromeDriver();
+                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(180);
+                var webAppUrl = testContext.Properties["webAppUrl"].ToString();
+                driver.Navigate().GoToUrl(webAppUrl);
+                Assert.AreEqual(driver.Title, "Home Page - My ASP.NET Application", "Expected title to be 'Home Page - My ASP.NET Application'");
+                var filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()) + ".png";
+                var screenshot = driver.GetScreenshot();
+                screenshot.SaveAsFile(filePath);
+                testContext.AddResultFile(filePath);
+            }
+            finally
+            {
+                driver.Quit();
+            }
         }
 
         private RemoteWebDriver GetChromeDriver()

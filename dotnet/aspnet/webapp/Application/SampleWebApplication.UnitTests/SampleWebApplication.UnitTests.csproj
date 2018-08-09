@@ -57,17 +57,17 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SampleWebApplication\SampleWebApplication.csproj">
+      <Project>{7F8BAE5D-C640-4854-90DE-A0E5AFE28C61}</Project>
+      <Name>SampleWebApplication</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="SampleUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SampleWebApplication\SampleWebApplication.csproj">
-      <Project>{7F8BAE5D-C640-4854-90DE-A0E5AFE28C61}</Project>
-      <Name>SampleWebApplication</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SampleWebApplication.Controllers;
+using System.Web.Mvc;
 
 namespace SampleWebApplication.UnitTests
 {
@@ -6,21 +8,19 @@ namespace SampleWebApplication.UnitTests
     public class UnitTest1
     {
         [TestMethod]
-        public void SampleUnitTest1()
+        public void AboutPageTest()
         {
-            Assert.AreEqual(1, 1);
+            var controller = new HomeController();
+            ActionResult result = controller.About();
+            Assert.AreEqual("Your application description page.", controller.ViewBag.Message);
         }
 
         [TestMethod]
-        public void SampleUnitTest2()
+        public void ContactPageTest()
         {
-            Assert.AreEqual(1, 1);
-        }
-
-        [TestMethod]
-        public void SampleUnitTest3()
-        {
-            Assert.AreEqual(1, 1);
+            var controller = new HomeController();
+            ActionResult result = controller.Contact();
+            Assert.AreEqual("Your contact page.", controller.ViewBag.Message);
         }
     }
 }

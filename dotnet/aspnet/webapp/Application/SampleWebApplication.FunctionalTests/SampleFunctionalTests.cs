@@ -24,10 +24,9 @@ namespace SampleWebApplication.FunctionalTests
             try
             {
                 driver = GetChromeDriver();
-                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(180);
                 var webAppUrl = testContext.Properties["webAppUrl"].ToString();
                 driver.Navigate().GoToUrl(webAppUrl);
-                Assert.AreEqual(driver.Title, "Home Page - My ASP.NET Application", "Expected title to be 'Home Page - My ASP.NET Application'");
+                Assert.AreEqual("Home Page - My ASP.NET Application", driver.Title, "Expected title to be 'Home Page - My ASP.NET Application'");
                 var filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()) + ".png";
                 var screenshot = driver.GetScreenshot();
                 screenshot.SaveAsFile(filePath);
@@ -47,7 +46,7 @@ namespace SampleWebApplication.FunctionalTests
 
             if (!string.IsNullOrWhiteSpace(path))
             {
-                return new ChromeDriver(path, options);
+                return new ChromeDriver(path, options, TimeSpan.FromSeconds(300));
             }
             else
             {

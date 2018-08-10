@@ -23,7 +23,6 @@ namespace SampleWebApplication.FunctionalTests
             try
             {
                 driver = GetChromeDriver();
-                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(180);
                 var webAppUrl = testContext.Properties["webAppUrl"].ToString();
                 driver.Navigate().GoToUrl(webAppUrl);
                 Assert.AreEqual(driver.Title, "Home Page - My ASP.NET Application", "Expected title to be 'Home Page - My ASP.NET Application'");
@@ -42,7 +41,7 @@ namespace SampleWebApplication.FunctionalTests
 
             if (!string.IsNullOrWhiteSpace(path))
             {
-                return new ChromeDriver(path, options);
+                return new ChromeDriver(path, options, TimeSpan.FromSeconds(300));
             }
             else
             {

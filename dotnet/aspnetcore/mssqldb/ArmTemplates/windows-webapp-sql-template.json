@@ -14,6 +14,21 @@
         "sku": {
             "type": "string",
             "defaultValue": "Standard S1"
+        },
+        "databaseServerName": {
+            "type": "string"
+        },
+        "databaseUsername": {
+            "type": "string"
+        },
+        "databasePassword": {
+            "type": "securestring"
+        },
+        "databaseLocation": {
+            "type": "string"
+        },
+        "databaseName": {
+            "type": "string"
         }
     },
     "resources": [
@@ -89,6 +104,47 @@
                 "applicationId": "[parameters('webAppName')]",
                 "Request_Source": "AzureTfsExtensionAzureProject"
             }
+        },
+		{
+            "type": "Microsoft.Sql/servers",
+            "name": "[parameters('databaseServerName')]",
+            "apiVersion": "2014-04-01-preview",
+            "location": "[parameters('databaseLocation')]",
+            "properties": {
+                "administratorLogin": "[parameters('databaseUsername')]",
+                "administratorLoginPassword": "[parameters('databasePassword')]",
+                "version": "12.0"
+            },
+            "resources": [
+                {
+                    "type": "databases",
+                    "name": "[parameters('databaseName')]",
+                    "apiVersion": "2014-04-01-preview",
+                    "location": "[parameters('databaseLocation')]",
+                    "properties": {
+                        "edition": "Basic",
+                        "collation": "SQL_Latin1_General_CP1_CI_AS",
+                        "maxSizeBytes": "2147483648",
+                        "requestedServiceObjectiveId": "dd6d99bb-f193-4ec1-86f2-43d3bccbc49c"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('databaseServerName'))]"
+                    ]
+                },
+                {
+                    "type": "firewallrules",
+                    "name": "AllowAllWindowsAzureIps",
+                    "apiVersion": "2014-04-01-preview",
+                    "location": "[parameters('databaseLocation')]",
+                    "properties": {
+                        "endIpAddress": "0.0.0.0",
+                        "startIpAddress": "0.0.0.0"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('databaseServerName'))]"
+                    ]
+                }
+            ]
         }
     ]
 }

@@ -22,6 +22,9 @@
         "registryName": {
             "type": "String"
         },
+        "imageName": {
+            "type":"String"
+        },
         "registryLocation": {
             "type": "String"
         },
@@ -69,7 +72,7 @@
                         }
                     ],
                     "appCommandLine": "[parameters('startupCommand')]",
-                    "linuxFxVersion": "[concat('DOCKER|', reference(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName'))).loginServer)]"
+                    "linuxFxVersion": "[concat('DOCKER|', reference(concat('Microsoft.ContainerRegistry/registries/', parameters('registryName'))).loginServer, '/', parameters('imageName'))]"
                 },
                 "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
                 "hostingEnvironment": ""

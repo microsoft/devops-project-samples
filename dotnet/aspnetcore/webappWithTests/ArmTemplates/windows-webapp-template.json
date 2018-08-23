@@ -63,7 +63,7 @@
         {
             "type": "Microsoft.Web/serverfarms",
             "sku": {
-                "Tier": "[first(take(split(parameters('sku'), ' '), 1))]",
+                "Tier": "[first(skip(split(parameters('sku'), ' '), 1))]",
                 "Name": "[first(split(parameters('sku'), ' '))]"
             },
             "name": "[parameters('hostingPlanName')]",

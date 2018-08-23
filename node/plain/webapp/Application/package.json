@@ -5,5 +5,14 @@
   "main": "server.js",
   "author": {
     "name": "alagrawa"
+  },
+  "dependencies": {
+    "mocha": "^5.2.0",
+    "mock-fs": "^4.6.0",
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "sinon": "^6.1.5"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }

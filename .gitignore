@@ -13,7 +13,7 @@
 *.userprefs
 
 # Vscode-specific files
-# .vscode/
+.vscode/
 
 # Build results
 [Dd]ebug/

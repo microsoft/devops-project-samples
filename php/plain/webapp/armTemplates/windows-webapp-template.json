@@ -74,8 +74,8 @@
         {
             "type": "Microsoft.Web/serverfarms",
             "sku": {
-                "Tier": "[parameters('sku')]",
-                "Name": "[concat(substring(parameters('sku'), 0, 1), '1')]"
+                "Tier": "[first(skip(split(parameters('sku'), ' '), 1))]",
+                "Name": "[first(split(parameters('sku'), ' '))]"
             },
             "name": "[parameters('hostingPlanName')]",
             "apiVersion": "2015-08-01",

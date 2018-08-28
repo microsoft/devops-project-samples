@@ -1,0 +1,82 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "clusterName": {
+            "type": "string"
+        },
+        "dnsPrefix": {
+            "type": "string"
+        },
+        "appInsightsLocation": {
+            "type": "string"
+        },
+        "clusterLocation": {
+            "type": "string"
+        },
+        "servicePrincipalClientId": {
+            "type": "securestring"
+        },
+        "servicePrincipalClientSecret": {
+            "type": "securestring"
+        },
+        "agentCount": {
+            "defaultValue": 3,
+            "type": "int"
+        },
+        "agentVMSize": {
+            "defaultValue": "Standard_D2_v2",
+            "type": "string"
+        },
+        "kubernetesVersion": {
+            "type": "string"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Insights/components",
+            "name": "[parameters('clusterName')]",
+            "apiVersion": "2014-04-01",
+            "location": "[parameters('appInsightsLocation')]",
+            "tags": {
+                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.ContainerService/managedClusters/', parameters('clusterName'))]": "Resource"
+            },
+            "properties": {
+                "applicationId": "[parameters('clusterName')]",
+                "Request_Source": "AzureTfsExtensionAzureProject"
+            }
+        },
+        {
+            "apiVersion": "2018-03-31",
+            "type": "Microsoft.ContainerService/managedClusters",
+            "location": "[parameters('clusterLocation')]",
+            "name": "[parameters('clusterName')]",
+            "properties": {
+                "dnsPrefix": "[parameters('dnsPrefix')]",
+                "kubernetesVersion": "[parameters('kubernetesVersion')]",
+                "addonProfiles": {
+                    "httpApplicationRouting": {
+                        "enabled": true
+                    }
+                },
+                "agentPoolProfiles": [
+                    {
+                        "name": "agentpool",
+                        "count": "[parameters('agentCount')]",
+                        "vmSize": "[parameters('agentVMSize')]"
+                    }
+                ],
+                "servicePrincipalProfile": {
+                    "clientId": "[parameters('servicePrincipalClientId')]",
+                    "secret": "[parameters('servicePrincipalClientSecret')]"
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "applicationRoutingZone": {
+            "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('clusterName'))).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName]",
+            "type": "string"
+        }
+    }
+}

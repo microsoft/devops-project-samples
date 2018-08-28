@@ -30,9 +30,6 @@
         },
         "kubernetesVersion": {
             "type": "string"
-        },
-        "sshKey": {
-            "type": "string"
         }
     },
     "resources": [
@@ -72,16 +69,6 @@
                 "servicePrincipalProfile": {
                     "clientId": "[parameters('servicePrincipalClientId')]",
                     "secret": "[parameters('servicePrincipalClientSecret')]"
-                },
-                "linuxProfile": {
-                    "adminUsername": "azureuser",
-                    "ssh": {
-                        "publicKeys": [
-                            {
-                                "keyData": "[parameters('sshKey')]"
-                            }
-                        ]
-                    }
                 }
             }
         }

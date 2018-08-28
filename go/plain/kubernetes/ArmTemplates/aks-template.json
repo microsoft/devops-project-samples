@@ -72,5 +72,11 @@
                 }
             }
         }
-    ]
+    ],
+    "outputs": {
+        "dns": {
+            "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('clusterName'))).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName]",
+            "type": "string"
+        }
+    }
 }

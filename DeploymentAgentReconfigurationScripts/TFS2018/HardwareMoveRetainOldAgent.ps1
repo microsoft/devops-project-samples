@@ -14,6 +14,11 @@ If action is set to apply, this script this script will
 1. Configure a new agent to the deployment group in the TFS with same properties as the existing unusable, offline agent including tags. Name of the new agent will be appended by agentNamePostFix.
 2. It will add reconfigured tag to the new agent which can be used to filter out old agents during deployment.
 3. Old agents can be used to audit the existing deployment history." 
+
+Example usage:
+.\HardwareMoveRetainOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS>
+.\HardwareMoveRetainOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -agentNamePostFix 'PostServerUpdate'
+.\HardwareMoveRetainOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -action 'apply'
 #>
 
 param([string]$targetTFSUrl,

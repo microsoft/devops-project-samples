@@ -12,6 +12,11 @@ Output:
 If action is set to apply, this script will
 1. Delete the existing unusable offline agent and re-configure a new agent in with same name and properties including tags.
 2. All existing deployment history will be deleted. 
+
+Example usage:
+.\HardwareMoveRemoveOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS>
+.\HardwareMoveRemoveOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)>
+.\HardwareMoveRemoveOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -action 'apply'
 #>
 
 param([string]$targetTFSUrl,

@@ -1,5 +1,5 @@
 ﻿<# 
-This script can be used as a guidance script to bring a deployment group agent online after TFS Hardware move activity for TFS2018. Post Hardware move, all the agents will be offline as the TFS server url has been updated. User can use\follow this script to bring them online.
+This is a guidance script to bring a deployment group agent online after TFS Hardware move activity for TFS2018 Update2. Post Hardware move, all the agents will be offline as the TFS server url has been updated. User can use\follow this script to bring them online. The script has to be run from Administrator PowerShell prompt on the each agent machine.
 
 Inputs:
 1. targetTFSUrl : New TFS url after hardware move.
@@ -48,7 +48,7 @@ if ($existingAgentFolder -eq ""){
 }
 
 if ($existingAgentFolder -eq ""){
-    throw "Not able to auto detect existing agent folder. Provide the existingAgentFolder as input parameter. You can find it in agent capabilities UI as Agent.HomeDirectory.";
+    throw "Not able to auto detect existing agent folder. Provide the existingAgentFolder as input parameter. You can find it in agent capabilities UI as Agent.HomeDirectory.  Generally it is in C:\vstsagent folder.";
 }
 
 cd $existingAgentFolder;

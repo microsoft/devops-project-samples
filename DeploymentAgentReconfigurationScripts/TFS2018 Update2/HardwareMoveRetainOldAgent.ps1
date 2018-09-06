@@ -1,5 +1,6 @@
 ﻿<# 
-This is a guidance script to bring a deployment group agent online after TFS Hardware move activity for TFS2018 Update2. Post Hardware move, all the agents will be offline as the TFS server url has been updated. User can use\follow this script to bring them online. The script has to be run from Administrator PowerShell prompt on the each agent machine.
+This script is applicable for TFS 2018 Update2.
+This is a guidance script to bring a deployment group agent online after TFS Hardware move activity. Post Hardware move, all the agents will be offline as the TFS server url has been updated. User can use\follow this script to bring them online. The script has to be run from Administrator PowerShell prompt on the each agent machine.
 
 Inputs:
 1. targetTFSUrl : New TFS url after hardware move.
@@ -29,6 +30,7 @@ param([string]$targetTFSUrl,
       [string]$action = "PrintEffect")
 
 $ErrorActionPreference="Stop"
+$apiVersion = '5.0-preview.1'
 
 # Basic validations
 If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent() ).IsInRole( [Security.Principal.WindowsBuiltInRole] “Administrator”)){ 
@@ -72,50 +74,34 @@ $deploymentGroupName = "NoAbleToReadAgentFile"
 $agentName = "NoAbleToReadAgentFile"
 $tags = "NoAbleToReadAgentFile"
 
-foreach($line in Get-Content .\.agent) {
-    $token = $line.split('"');
+$agentproperties = Get-Content .\.agent |ConvertFrom-Json
+$sourceTFSUrl = $agentproperties.serverUrl;
+$collectionName = $agentproperties.collectionName;
+$projectName = $agentproperties.projectId;
+$deploymentGroupId = $agentproperties.deploymentGroupId;
+$agentName = $agentproperties.agentName;
 
-    if ($token[1] -eq 'serverUrl'){
-        $sourceTFSUrl = $token[3];
-        if ($sourceTFSUrl.StartsWith($targetTFSUrl)){
-            Write-Verbose -Verbose "Agent is already configured to the TFS $targetTFSUrl"
-            return 0;
-        }
-    }
-
-    if ($token[1] -eq 'collectionName'){
-        $collectionName = $token[3];
-    }
-
-    if ($token[1] -eq 'projectId'){
-        $projectName = $token[3];
-    }
-
-    if ($token[1] -eq 'deploymentGroupId'){
-        $deploymentGroupId = $token[2].Substring(2, $token[2].Length - 3);
-    }
-
-    if ($token[1] -eq 'agentName'){
-        $agentName = $token[3];
-    }
+if ($sourceTFSUrl.StartsWith($targetTFSUrl)){
+    Write-Verbose -Verbose "Agent $agentName is already configured to the TFS $targetTFSUrl";
+    return 0;
 }
 
 # Get the Deployment group name
 $encodedPat = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$patToken"))
-$getDeploymentGroupUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '?api-version=5.0-preview.1'
+$getDeploymentGroupUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '?api-version=' + $apiVersion
  
 $dg = Invoke-RestMethod -Uri $getDeploymentGroupUrl -Method Get -Headers @{Authorization = "Basic $encodedPat"} -ContentType "application/json"
 $deploymentGroupName = $dg.name
 
 
 # Get the Machine Tags
-$getDeploymentMachineUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '/targets?name=' + $agentName + '&api-version=5.0-preview.1'
+$getDeploymentMachineUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '/targets?name=' + $agentName + '&api-version=' + $apiVersion
 
 $dm = Invoke-RestMethod -Uri $getDeploymentMachineUrl -Method Get -Headers @{Authorization = "Basic $encodedPat"} -ContentType "application/json"
 $tags = $dm.value[0].tags -join ",";
 
-if ($dm.value[0].agent.status -ne 'offline'){
-    Write-Verbose -Verbose "Agent is already configured to the TFS $targetTFSUrl"
+if ($dm.value[0].agent.status -eq 'online'){
+    Write-Verbose -Verbose "Agent $agentName is already configured to the TFS $targetTFSUrl"
     return 0;
 }
 
@@ -123,7 +109,7 @@ if ($dm.value[0].agent.status -ne 'offline'){
 $newAgentName = $agentName + $agentNamePostFix;
 
 # Validate that new agent is not already configured
-$getDeploymentMachineUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '/targets?name=' + $newAgentName + '&api-version=5.0-preview.1'
+$getDeploymentMachineUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '/targets?name=' + $newAgentName + '&api-version=' + $apiVersion
 
 $dm = Invoke-RestMethod -Uri $getDeploymentMachineUrl -Method Get -Headers @{Authorization = "Basic $encodedPat"} -ContentType "application/json"
 
@@ -133,13 +119,10 @@ if ($dm.value.Length -ne 0){
 }
 
 # Create and go to new agent folder
-If(-NOT (Test-Path $env:SystemDrive\'vstsagent'))
-{
-    mkdir $env:SystemDrive\'vstsagent'
-}
-
+$parentPath = Split-Path $existingAgentFolder -Parent
+cd $parentPath
 $newAgentFolfer = "";
-cd $env:SystemDrive\'vstsagent';
+
 for ($i=1; $i -lt 100; $i++){
     $destFolder="A"+$i.ToString();
     if (-NOT (Test-Path ($destFolder))){
@@ -147,7 +130,8 @@ for ($i=1; $i -lt 100; $i++){
         break;
     }
 };
-$newAgentPath = $env:SystemDrive + '\vstsagent\' + $newAgentFolfer; 
+
+$newAgentPath = $parentPath + $newAgentFolfer;
 
 if ($action -ne "apply"){
     Write-Verbose -Verbose "If action is set to apply, this script will configure an agent with name $newAgentName in $newAgentPath path to the deployment group $deploymentGroupName in the TFS $targetTFSUrl with same properties as the existing unusable, offline agent $agentName incluing tags $tags. It will add reconfigured tag to the new agent which can be used to filterout old agents during deployment. Old agents can be used to audit the existing deployment history.";

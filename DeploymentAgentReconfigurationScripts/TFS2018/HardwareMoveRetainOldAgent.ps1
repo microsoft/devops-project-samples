@@ -50,7 +50,7 @@ if ($existingAgentFolder -eq ""){
         $service = get-wmiobject -query "select * from win32_service where name = `'$serviceName`'";
         $serviceExePath = $service.pathname;
         # $serviceExePath will have value like "C:\vstsAgent2\A8\bin\AgentService.exe"
-        $existingAgentFolder = $serviceExePath.Substring(1, $serviceExePath.Length - 22);
+        $existingAgentFolder = Split-Path (Split-Path $serviceExePath -Parent) -Parent;
     }
 }
 

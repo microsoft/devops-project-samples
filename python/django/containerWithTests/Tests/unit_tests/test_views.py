@@ -1,12 +1,12 @@
 """
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+This file demonstrates writing tests using the unittest module.
 """
 
 import django
 from django.test import TestCase
-
-# TODO: Configure your database in settings.py and sync before running tests.
+import os
+import sys
+import unittest
 
 class ViewTest(TestCase):
     """Tests for the application views."""
@@ -15,20 +15,30 @@ class ViewTest(TestCase):
         # Django 1.7 requires an explicit setup() when running tests in PTVS
         @classmethod
         def setUpClass(cls):
+            sys.path.append(os.path.join(os.getcwd(), 'Application'))
+            os.environ.setdefault(
+                "DJANGO_SETTINGS_MODULE",
+                "python_webapp_django.settings"
+            )
             super(ViewTest, cls).setUpClass()
             django.setup()
 
-    def test_home(self):
+    def test_unit_home(self):
         """Tests the home page."""
         response = self.client.get('/')
         self.assertContains(response, 'Home Page', 1, 200)
 
-    def test_contact(self):
+    def test_unit_contact(self):
         """Tests the contact page."""
         response = self.client.get('/contact')
         self.assertContains(response, 'Contact', 3, 200)
 
-    def test_about(self):
+    def test_unit_about(self):
         """Tests the about page."""
         response = self.client.get('/about')
         self.assertContains(response, 'About', 3, 200)
+
+
+# run tests
+if __name__ == '__main__':
+    unittest.main()

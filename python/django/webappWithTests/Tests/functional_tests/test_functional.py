@@ -28,15 +28,15 @@ class FunctionalTests(TestCase):
             webAppUrl = pytest.config.getoption('webAppUrl')
             response = self.driver.get(webAppUrl)
             html_source = self.driver.page_source
-            self.assertIn("Home Page - Python Django Application", html_source)
+            self.assertIn("<title>Home Page - Python Django Application</title>", html_source)
         except AssertionError:
             raise
-        except:
-            print('An error occurred.')
+        except Exception as e:
+            sys.stderr.write('tests_selenium.Error occurred : ' + str(e))
             self.driver.quit()
 
     def tearDown(self):
         try:
             self.driver.quit()
-        except:
-            print('An error occurred.')
+        except Exception as e:
+            print('tearDown.Error occurred : ' + str(e))

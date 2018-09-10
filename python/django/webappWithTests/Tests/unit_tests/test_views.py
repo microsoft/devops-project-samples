@@ -6,7 +6,13 @@ import django
 from django.test import TestCase
 import os
 import sys
-import unittest
+
+sys.path.append(os.path.join(os.getcwd(), 'Application'))
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE",
+    "python_webapp_django.settings"
+)
+django.setup()
 
 class ViewTest(TestCase):
     """Tests for the application views."""
@@ -15,13 +21,7 @@ class ViewTest(TestCase):
         # Django 1.7 requires an explicit setup() when running tests in PTVS
         @classmethod
         def setUpClass(cls):
-            sys.path.append(os.path.join(os.getcwd(), 'Application'))
-            os.environ.setdefault(
-                "DJANGO_SETTINGS_MODULE",
-                "python_webapp_django.settings"
-            )
             super(ViewTest, cls).setUpClass()
-            django.setup()
 
     def test_unit_home(self):
         """Tests the home page."""
@@ -37,8 +37,3 @@ class ViewTest(TestCase):
         """Tests the about page."""
         response = self.client.get('/about')
         self.assertContains(response, 'About', 3, 200)
-
-
-# run tests
-if __name__ == '__main__':
-    unittest.main()

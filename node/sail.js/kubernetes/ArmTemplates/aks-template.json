@@ -30,7 +30,14 @@
         },
         "kubernetesVersion": {
             "type": "string"
+        },
+        "omsLocation": {
+            "type": "string"
         }
+    },
+    "variables": {
+        "omsWorkspaceName": "[concat(parameters('clusterName'), '-', guid(parameters('clusterName')))]",
+        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
     },
     "resources": [
         {
@@ -51,12 +58,21 @@
             "type": "Microsoft.ContainerService/managedClusters",
             "location": "[parameters('clusterLocation')]",
             "name": "[parameters('clusterName')]",
+            "dependsOn": [
+                "[variables('omsWorkspaceId')]"
+            ],
             "properties": {
                 "dnsPrefix": "[parameters('dnsPrefix')]",
                 "kubernetesVersion": "[parameters('kubernetesVersion')]",
                 "addonProfiles": {
                     "httpApplicationRouting": {
                         "enabled": true
+                    },
+                    "omsagent": {
+                        "enabled": true,
+                        "config": {
+                            "logAnalyticsWorkspaceResourceID": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('omsWorkspaceName'))]"
+                        }
                     }
                 },
                 "agentPoolProfiles": [
@@ -69,6 +85,17 @@
                 "servicePrincipalProfile": {
                     "clientId": "[parameters('servicePrincipalClientId')]",
                     "secret": "[parameters('servicePrincipalClientSecret')]"
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-03-15-preview",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "name": "[variables('omsWorkspaceName')]",
+            "location": "[parameters('omsLocation')]",
+            "properties": {
+                "sku": {
+                    "name": "free"
                 }
             }
         }

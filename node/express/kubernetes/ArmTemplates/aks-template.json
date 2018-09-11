@@ -36,7 +36,7 @@
         }
     },
     "variables": {
-        "omsWorkspaceName": "[concat(parameters('clusterName'), '-', guid(parameters('clusterName')))]",
+        "omsWorkspaceName": "[concat(take(parameters('clusterName'), 30), '-', guid(parameters('clusterName')))]",
         "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
     },
     "resources": [
@@ -95,8 +95,26 @@
             "location": "[parameters('omsLocation')]",
             "properties": {
                 "sku": {
-                    "name": "free"
+                    "name": "standalone"
                 }
+            }
+        },
+        {
+            "apiVersion": "2015-11-01-preview",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "[parameters('omsLocation')]",
+            "dependsOn": [
+                "[variables('omsWorkspaceId')]"
+            ],
+            "name": "[concat('ContainerInsights', '(', variables('omsWorkspaceName'), ')')]",
+            "properties": {
+                "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
+            },
+            "plan": {
+                "name": "[concat('ContainerInsights', '(', variables('omsWorkspaceName'), ')')]",
+                "product": "OMSGallery/ContainerInsights",
+                "promotionCode": "",
+                "publisher": "Microsoft"
             }
         }
     ],

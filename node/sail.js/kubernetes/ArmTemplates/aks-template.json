@@ -30,7 +30,14 @@
         },
         "kubernetesVersion": {
             "type": "string"
+        },
+        "omsLocation": {
+            "type": "string"
         }
+    },
+    "variables": {
+        "omsWorkspaceName": "[concat(take(parameters('clusterName'), 30), '-', guid(parameters('clusterName')))]",
+        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
     },
     "resources": [
         {
@@ -51,12 +58,21 @@
             "type": "Microsoft.ContainerService/managedClusters",
             "location": "[parameters('clusterLocation')]",
             "name": "[parameters('clusterName')]",
+            "dependsOn": [
+                "[variables('omsWorkspaceId')]"
+            ],
             "properties": {
                 "dnsPrefix": "[parameters('dnsPrefix')]",
                 "kubernetesVersion": "[parameters('kubernetesVersion')]",
                 "addonProfiles": {
                     "httpApplicationRouting": {
                         "enabled": true
+                    },
+                    "omsagent": {
+                        "enabled": true,
+                        "config": {
+                            "logAnalyticsWorkspaceResourceID": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('omsWorkspaceName'))]"
+                        }
                     }
                 },
                 "agentPoolProfiles": [
@@ -71,11 +87,44 @@
                     "secret": "[parameters('servicePrincipalClientSecret')]"
                 }
             }
+        },
+        {
+            "apiVersion": "2017-03-15-preview",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "name": "[variables('omsWorkspaceName')]",
+            "location": "[parameters('omsLocation')]",
+            "properties": {
+                "sku": {
+                    "name": "standalone"
+                }
+            }
+        },
+        {
+            "apiVersion": "2015-11-01-preview",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "location": "[parameters('omsLocation')]",
+            "dependsOn": [
+                "[variables('omsWorkspaceId')]"
+            ],
+            "name": "[concat('ContainerInsights', '(', variables('omsWorkspaceName'), ')')]",
+            "properties": {
+                "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
+            },
+            "plan": {
+                "name": "[concat('ContainerInsights', '(', variables('omsWorkspaceName'), ')')]",
+                "product": "OMSGallery/ContainerInsights",
+                "promotionCode": "",
+                "publisher": "Microsoft"
+            }
         }
     ],
     "outputs": {
         "applicationRoutingZone": {
             "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('clusterName'))).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName]",
+            "type": "string"
+        },
+        "aiKey": {
+            "value": "[reference(concat('Microsoft.Insights/components/', parameters('clusterName'))).InstrumentationKey]",
             "type": "string"
         }
     }

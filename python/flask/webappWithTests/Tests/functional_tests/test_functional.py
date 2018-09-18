@@ -13,9 +13,11 @@ class FunctionalTests(unittest.TestCase):
 		self.driver = webdriver.Chrome(os.environ["ChromeWebDriver"], chrome_options=options)
 
 	"""
-    Sample selenium test. Asserting webapp page title and since webapp deployment takes
-    time until the tests are run, we assert default page title until the issue is not 
-    with the webapp deployment. We shall remove the default title assertion once the issue is fixed.
+    Sample selenium test.
+	The current time taken by the webapp to refresh after deployment is a considerable amount and the selenium tests
+	in the release run much faster than this duration, hence the tests do not assert the current deployed app but from
+	the last deployment (in case of the first deployment it happens to be the default iis page). Hence the try catch 
+	around the title assertion which is a temporary solution until the webapp deployment refresh times are fixed.
     """
 	def test_selenium(self):
 		try:

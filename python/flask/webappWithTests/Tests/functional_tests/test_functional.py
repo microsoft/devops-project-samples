@@ -1,4 +1,4 @@
-import pytest
+iimport pytest
 from selenium import webdriver
 import unittest
 import os
@@ -10,15 +10,14 @@ class FunctionalTests(unittest.TestCase):
 	def setUp(self):
 		options = webdriver.ChromeOptions()
 		options.add_argument('--no-sandbox')
-		self.driver = webdriver.Chrome(os.environ["ChromeWebDriver"], chrome_options=options)
+		self.driver = webdriver.Chrome(os.path.join(os.environ["ChromeWebDriver"], 'chromedriver.exe'), chrome_options=options)
 
 	"""
-    	Sample selenium test.
 	The current time taken by the webapp to refresh after deployment is a considerable amount and the selenium tests
 	in the release run much faster than this duration, hence the tests do not assert the current deployed app but from
 	the last deployment (in case of the first deployment it happens to be the default iis page). Hence the try catch 
 	around the title assertion which is a temporary solution until the webapp deployment refresh times are fixed.
-    	"""
+	"""
 	def test_selenium(self):
 		try:
 			webAppUrl = pytest.config.getoption('webAppUrl')
@@ -27,10 +26,10 @@ class FunctionalTests(unittest.TestCase):
 			self.assertIn("<title>Home Page - Python Flask Application</title>", html_source)
 		except AssertionError:
 			try:
-                # Default title assertion. Remove when deployment issue is fixed
-                self.assertIn("<title>Microsoft Azure App Service - Welcome</title>", html_source)
-            except AssertionError:
-                raise
+				# Default title assertion. Remove when deployment issue is fixed
+				self.assertIn("<title>Microsoft Azure App Service - Welcome</title>", html_source)
+			except AssertionError:
+				raise
 		except Exception as e:
 			sys.stderr.write('tests_selenium.Error occurred while executing tests: ' + str(e))
 

@@ -22,12 +22,12 @@ class FunctionalTests(unittest.TestCase):
 		try:
 			webAppUrl = pytest.config.getoption('webAppUrl')
 			response = self.driver.get(webAppUrl)
-			html_source = self.driver.page_source
-			self.assertIn("<title>Home Page - Python Bottle Application</title>", html_source)
+			title = self.driver.title
+			self.assertIn("Home Page - Python Bottle Application", title)
 		except AssertionError:
 			try:
 				# Default title assertion. Remove when deployment issue is fixed
-				self.assertIn("<title>Microsoft Azure App Service - Welcome</title>", html_source)
+				self.assertIn("Microsoft Azure App Service - Welcome", title)
 			except AssertionError:
 				raise
 		except Exception as e:

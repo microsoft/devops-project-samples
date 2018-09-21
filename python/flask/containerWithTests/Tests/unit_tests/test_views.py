@@ -4,6 +4,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.getcwd(), 'Application'))
+os.environ["APPINSIGHTS_INSTRUMENTATIONKEY"] = os.path.join(os.getcwd(), 'Application')
 from python_webapp_flask import app
 
 class ViewTest(unittest.TestCase):

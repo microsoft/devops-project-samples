@@ -31,7 +31,7 @@ class FunctionalTests(unittest.TestCase):
 			except AssertionError:
 				raise
 		except Exception as e:
-			sys.stderr.write('tests_selenium.Error occurred while executing tests: ' + str(e))
+			pytest.fail('tests_selenium.Error occurred while executing tests: ' + str(e))
 
 	def tearDown(self):
 		try:

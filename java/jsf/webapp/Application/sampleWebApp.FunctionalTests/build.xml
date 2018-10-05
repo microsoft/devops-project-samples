@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test" basedir=".">
+
+	<property name="RELEASE_ROOT" value=".." />
+	<property name="BIN" value="${RELEASE_ROOT}/target" /> <!-- Change it to your binary folder where you need to gerate the compiled binary file -->
+	<property name="REPORT" value="${RELEASE_ROOT}/report" /> <!-- Change it to your output report folder -->
+	<path id="test.classpath"> <!-- Creating a classpath for use while compiling -->
+		<pathelement location="${BIN}" />
+		<fileset dir="${BIN}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<target name="run-single-test"> <!-- Target for running a single test -->
+		<delete dir="${REPORT}" />
+		<mkdir dir="${REPORT}" />
+			<mkdir dir="${REPORT}/xml" /> <!-- Creating a xml folder under the report folder for saving the report output. -->
+		<junit printsummary="yes" haltonfailure="no">
+			<classpath>
+				<pathelement location="${BIN}" />
+				<fileset dir="${BIN}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+
+			<test name="functional_tests.SampleFunctionalTest" haltonfailure="no" todir="${REPORT}/xml" outfile="TEST-result"> <!-- Change the class in name="" to your Java test class. -->
+				<formatter type="xml" />
+			</test>
+		</junit>
+		<junitreport todir="${REPORT}"> <!-- This section generated the Junit report in html to "html" folder from the xml file. -->
+			<fileset dir="${REPORT}/xml">
+				<include name="TEST*.xml" />
+			</fileset>
+			<report format="frames" todir="${REPORT}/html" />
+		</junitreport>
+
+	</target>
+	<target name="run-batch-test"> <!-- Target to run test in batches. -->
+		<delete dir="${REPORT}" />
+				<mkdir dir="${REPORT}" />
+					<mkdir dir="${REPORT}/xml" />
+		<junit printsummary="yes" haltonfailure="no">
+			<classpath>
+				<pathelement location="${BIN}" />
+				<pathelement location="${SRC}" />
+				<fileset dir="${BIN}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<formatter type="xml" usefile="true" />
+			<batchtest fork="yes" todir="${REPORT}/xml">
+				<fileset dir="${BIN}">
+					<include name="**/Test*.java" />
+
+				</fileset>
+			</batchtest>
+
+		</junit>
+		<junitreport todir="${REPORT}">
+			<fileset dir="${REPORT}/xml">
+				<include name="TEST*.xml" />
+			</fileset>
+			<report format="frames" todir="${REPORT}/html" />
+		</junitreport>
+
+	</target>
+
+</project>

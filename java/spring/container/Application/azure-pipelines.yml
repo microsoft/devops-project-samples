@@ -14,3 +14,9 @@ steps:
       cd java/spring/container/Application/
       docker build -f Dockerfile -t $(imageName) .
     displayName: 'docker build'
+  - task: Docker@0
+    displayName: 'Push an image'
+    inputs:
+      azureSubscription: '$(SubscriptionName)'
+      azureContainerRegistry: '{"loginServer":"$(loginServer)", "id" : "/subscriptions/$(SubscriptionId)/resourceGroups/$(ResourceGroup)/providers/Microsoft.ContainerRegistry/registries/$(ContainerRegistry)"}'
+      action: 'Push an image'

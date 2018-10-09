@@ -11,6 +11,6 @@ variables:
 
 steps:
   - script: |
-    cd java/spring/container/Application/
-    docker build -f Dockerfile -t $(imageName) .
+      cd java/spring/container/Application/
+      docker build -f Dockerfile -t $(imageName) .
     displayName: 'docker build'

@@ -1,0 +1,36 @@
+{
+    "apiVersion": "vlabs",
+    "properties": {
+      "orchestratorProfile": {
+        "orchestratorType": "Swarm"
+      },
+      "masterProfile": {
+        "count": 1,
+        "dnsPrefix": "oneweek4-acs-engine-master",
+        "vmSize": "Standard_D2_v2"
+      },
+      "agentPoolProfiles": [
+        {
+          "name": "agentpublic",
+          "count": 1,
+          "vmSize": "Standard_D2_v2",
+          "dnsPrefix": "oneweek4-acs-engine-agent",
+          "ports": [
+            80,
+            443,
+            8080
+          ]
+        }
+      ],
+      "linuxProfile": {
+        "adminUsername": "azureuser",
+        "ssh": {
+          "publicKeys": [
+            {
+              "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDl2nu3OLzQibeH5cafIIiL93FrUfln+/uslIeXCU4lyyItUfT+l/s3JbnT0yQLEe24C2v9O+6TE1zsd2wh/73v3NMVkE+BtgtYEqJqxGqyp327CkqSvjdl9G9r2mhUyKZgMYpbMfe+lv81m/OLgdROciA+LfbVlO1v7EbcYx/qytOHtSSdgeVvfxPLJ7qGjnohpTaBG5/SvcwRJjWVWDr0pP+ANzV9vyH7Xk9fyfJruV7PeRa4i4vBjGcGS80eOUegd49tnvBg53QHRqkCKUez/qbD0BiIZfnduhopBBhoXtg1y34v/rZ6LRzYaqc2pE3Y2OT3yGfsx4INTvNYbXu5PLs6LIyTJhs7TtnSdYl3amm1zIxMq4p9+O9Fy/ZtOmz/Bpbs4Fx4Dy6Xv9WsM97M/P/7GSbw1HnKbb4K4GifwVYyltg8xkAypqzHwzwDUfZo3bBoVlLSJsbpqOhmJ8dTK8BsLOVOoEpbeVfPT5x9I8SxKi5vJWOYnbEw0/PbqCYkZYyn0lMzly1UumgpuDIUhnXbIKPMCF13VFGi7lT8Nr7BDGaQ2tPD5+MctxaNwXt3ZaSPcIBlB/fHcYAwL2ScNrx6qNBl0LOPHz9/e5MlwREDmHI1dXXUUXFzgwXF8eaIKjkU8gesPVe18wEzse7Ui0DB1EyO0GyUIrKqmUbtww=="
+            }
+          ]
+        }
+      }
+    }
+  }

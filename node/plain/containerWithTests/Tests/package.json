@@ -13,6 +13,6 @@
     "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "scripts": {
-    "test": "mocha --reporter mocha-junit-reporter --reporter-options mochaFile=../TestResults/TEST-RESULT.xml"
+    "test": "node node_modules/mocha/bin/mocha --reporter mocha-junit-reporter --reporter-options mochaFile=../TestResults/TEST-RESULT.xml"
   }
 }

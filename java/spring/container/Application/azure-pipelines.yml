@@ -7,7 +7,7 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  imageName: 'javasample:$(build.buildId)'
+  imageName: '$(ContainerRegistryName).azurecr.io/javasample:$(build.buildId)'
 
 steps:
   - script: |
@@ -15,6 +15,6 @@ steps:
       docker build -f Dockerfile -t $(imageName) .
     displayName: 'docker build'
   - script: |
-      docker login -u $(ContainerRegistry) -p $(ContainerRegistryPassword) $(ContainerRegistry).azurecr.io
-      docker push $(ContainerRegistry).azurecr.io/$(imageName)
+      docker login -u $(ContainerRegistryName) -p $(ContainerRegistryPassword) $(ContainerRegistryName).azurecr.io
+      docker push $(imageName)
     displayName: 'Push an image'

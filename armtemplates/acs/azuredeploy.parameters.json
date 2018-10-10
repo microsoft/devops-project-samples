@@ -1,0 +1,25 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "envName": {
+        "value": "preprod"
+      },
+      "dnsNamePrefix": {
+        "value": "oneweek4"
+      },
+      "agentCount": {
+        "value": 2
+      },
+      "agentVMSize" : {
+        "value": "Standard_A2"
+      },
+      "masterCount": {
+        "value": 3
+      },
+      "sshRSAPublicKey": {
+        "value": "SSH PUBLIC KEY"
+      }
+    }
+  }
+  

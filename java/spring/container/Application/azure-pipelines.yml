@@ -15,6 +15,6 @@ steps:
       docker build -f Dockerfile -t $(imageName) .
     displayName: 'docker build'
   - script: |
-      docker login -u $(ContainerRegistry).azurecr.io -p $(ContainerRegistryPassword) $(ContainerRegistry).azurecr.io
+      docker login -u $(ContainerRegistry) -p $(ContainerRegistryPassword) $(ContainerRegistry).azurecr.io
       docker push $(ContainerRegistry).azurecr.io/$(imageName)
     displayName: 'Push an image'

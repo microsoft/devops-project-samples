@@ -1,0 +1,7 @@
+version: '3'
+services:
+  myJavaApp:
+    build: .
+    image: ${IMAGE_NAME}
+    ports:
+      - "8080:8080"

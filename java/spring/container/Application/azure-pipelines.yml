@@ -17,6 +17,7 @@ steps:
   - script: |
       docker login -u $(ContainerRegistryUsername) -p $(ContainerRegistryPassword) $(ContainerRegistryUri)
       docker push $(ContainerRegistryUri)/$(imageNameAndTag)
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: 'Push docker image'
   - task: CopyFiles@2
     inputs:

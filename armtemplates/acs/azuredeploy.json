@@ -107,13 +107,14 @@
     }
   },
   "variables": {
+    "containerServiceName": "[concat('containerservice-',resourceGroup().name, parameters('envName'))]",
     "agentCount": "[parameters('agentCount')]",
     "agentsEndpointDNSNamePrefix": "[concat(parameters('dnsNamePrefix'),'agents-', parameters('envName'))]",
     "agentVMSize": "[parameters('agentVMSize')]",
     "masterCount": "[parameters('masterCount')]",
     "mastersEndpointDNSNamePrefix": "[concat(parameters('dnsNamePrefix'),'mgmt-', parameters('envName'))]",
     "masterVMSize": "Standard_D2_v2",
-    "orchestratorType": "Swarm",
+    "orchestratorType": "DockerCE",
     "linuxAdminUsername": "azureuser",
     "sshRSAPublicKey": "[parameters('sshRSAPublicKey')]",
     "enableDiagnostics": "true"
@@ -123,7 +124,7 @@
       "apiVersion": "2017-07-01",
       "type": "Microsoft.ContainerService/containerServices",
       "location": "[parameters('location')]",
-      "name": "[concat('containerservice-',resourceGroup().name)]",
+      "name": "[variables('containerServiceName')]",
       "properties": {
         "orchestratorProfile": {
           "orchestratorType": "[variables('orchestratorType')]"
@@ -162,15 +163,15 @@
   "outputs": {
     "masterFQDN": {
       "type": "string",
-      "value": "[reference(concat('Microsoft.ContainerService/containerServices/', 'containerservice-', resourceGroup().name)).masterProfile.fqdn]"
+      "value": "[reference(concat('Microsoft.ContainerService/containerServices/', variables('containerServiceName'))).masterProfile.fqdn]"
     },
     "sshMaster0": {
       "type": "string",
-      "value": "[concat('ssh ', variables('linuxAdminUsername'), '@', reference(concat('Microsoft.ContainerService/containerServices/', 'containerservice-', resourceGroup().name)).masterProfile.fqdn, ' -A -p 2200')]"
+      "value": "[concat('ssh ', variables('linuxAdminUsername'), '@', reference(concat('Microsoft.ContainerService/containerServices/', variables('containerServiceName'))).masterProfile.fqdn, ' -A -p 2200')]"
     },
     "agentFQDN": {
       "type": "string",
-      "value": "[reference(concat('Microsoft.ContainerService/containerServices/', 'containerservice-', resourceGroup().name)).agentPoolProfiles[0].fqdn]"
+      "value": "[reference(concat('Microsoft.ContainerService/containerServices/', variables('containerServiceName'))).agentPoolProfiles[0].fqdn]"
     }
   }
 }

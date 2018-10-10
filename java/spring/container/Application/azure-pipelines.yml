@@ -18,5 +18,5 @@ steps:
     displayName: 'Push an image'
     inputs:
       azureSubscription: '$(SubscriptionName)'
-      azureContainerRegistry: '{"loginServer":"$(loginServer)", "id" : "/subscriptions/$(SubscriptionId)/resourceGroups/$(ResourceGroup)/providers/Microsoft.ContainerRegistry/registries/$(ContainerRegistry)"}'
+      azureContainerRegistry: '{"loginServer":"$(LoginServer)", "id" : "/subscriptions/$(SubscriptionId)/resourceGroups/$(ResourceGroup)/providers/Microsoft.ContainerRegistry/registries/$(ContainerRegistry)"}'
       action: 'Push an image'

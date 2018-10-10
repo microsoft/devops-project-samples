@@ -7,10 +7,28 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  imageName: 'javasample:$(build.buildId)'
+  imageNameAndTag: '$(ImageName):$(build.buildId)'
 
 steps:
   - script: |
-      cd java/spring/container/Application/
-      docker build -f Dockerfile -t $(imageName) .
+      cd $(JavasampleDockerfileFolderPath)
+      docker build -f Dockerfile -t $(ContainerRegistryUri)/$(imageNameAndTag) .
     displayName: 'docker build'
+  - script: |
+      docker login -u $(ContainerRegistryUsername) -p $(ContainerRegistryPassword) $(ContainerRegistryUri)
+      docker push $(ContainerRegistryUri)/$(imageNameAndTag)
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: 'Push docker image'
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: $(Build.SourcesDirectory)/$(JavasampleDockerfileFolderPath)
+      contents: 'docker-compose.yml'
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+      cleanTargetFolder: true
+    displayName: 'Copy docker compose file to staging directory'
+  - task: PublishBuildArtifacts@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: 'drop'
+    displayName: 'Publish docker compose file'

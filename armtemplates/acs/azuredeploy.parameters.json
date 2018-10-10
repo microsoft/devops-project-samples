@@ -18,7 +18,7 @@
         "value": 3
       },
       "sshRSAPublicKey": {
-        "value": "SSH PUBLIC KEY"
+        "value": "YOUR SSH PUBLIC KEY"
       }
     }
   }

@@ -27,7 +27,7 @@
         "ssh": {
           "publicKeys": [
             {
-              "keyData": "SSH PUBLIC KEY"
+              "keyData": "YOUR SSH PUBLIC KEY"
             }
           ]
         }

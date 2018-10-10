@@ -1,0 +1,75 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "envName": {
+      "type": "string",
+      "minLength": 3,
+      "metadata": {
+        "description": "Environment name (e.g. dev, prod)"
+      }
+    },
+    "keyVaultNamePrefix": {
+        "type": "string",
+        "defaultValue": "table4"
+    },
+    "keyVaultClientId": {
+      "type": "securestring",
+      "minLength": 1
+    },
+    "keyVaultClientSecret": {
+      "type": "securestring",
+      "minLength": 1
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "acrName": "[concat('table4', parameters('envName'))]",
+    "acrSku": "Standard",
+    "acrAdminUserEnabled": true,
+    "keyVaultName": "[concat(parameters('keyVaultNamePrefix'),parameters('envName'))]",
+    "clientIdSecretName": "ClientId",
+    "clientSecretSecretName": "ClientSecret"
+},
+  "resources": [
+      {
+        "name": "[variables('acrName')]",
+        "type": "Microsoft.ContainerRegistry/registries",
+        "apiVersion": "2017-10-01",
+        "location": "[variables('location')]",
+        "comments": "Container registry for storing docker images",
+        "tags": {
+          "displayName": "Container Registry",
+          "container.registry": "[variables('acrName')]"
+        },
+        "sku": {
+            "name": "[variables('acrSku')]"
+        },
+        "properties": {
+          "adminUserEnabled": "[variables('acrAdminUserEnabled')]"
+        }
+      },
+      {
+        "type": "Microsoft.KeyVault/vaults/secrets",
+        "name": "[concat(variables('keyVaultName'), '/', variables('clientIdSecretName'))]",
+        "apiVersion": "2015-06-01",
+        "properties": {
+            "value": "[parameters('keyVaultClientId')]"
+        },
+        "dependsOn": [
+        ]
+      },
+      {
+        "type": "Microsoft.KeyVault/vaults/secrets",
+        "name": "[concat(variables('keyVaultName'), '/', variables('clientSecretSecretName'))]",
+        "apiVersion": "2015-06-01",
+        "properties": {
+            "value": "[parameters('keyVaultClientSecret')]"
+        },
+        "dependsOn": [
+        ]
+      }
+    ],
+    "outputs": {
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "adServicePrincipalAppID": {
+        "value": "YOUR SERVICE PRINCIPAL APP ID"
+      },
+      "adServicePrincipalAppSecret": {
+        "value": "YOUR SERVICE PRINCIPAL SECRET"
+      },
+      "enableExtLogs": {
+        "value": "yes"
+      },
+      "enableSystemPrune": {
+        "value": "yes"
+      },
+      "linuxSSHPublicKey": {
+        "value": "YOUR SSH PUBLIC KEY"
+      },
+      "linuxWorkerCount": {
+        "value": 2
+      },
+      "linuxWorkerVMSize": {
+        "value": "Standard_D2_v2"
+      },
+      "managerCount": {
+        "value": 3
+      },
+      "managerVMSize": {
+        "value": "Standard_D2_v2"
+      },
+      "swarmName": {
+        "value": "dockerswarm"
+      }
+    }
+  }

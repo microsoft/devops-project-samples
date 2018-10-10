@@ -1,0 +1,47 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "envName": {
+        "type": "string",
+        "minLength": 3,
+        "metadata": {
+          "description": "Environment name (e.g. dev, prod)"
+        }
+      },
+      "keyVaultNamePrefix": {
+          "type": "string",
+          "defaultValue": "table4"
+      }
+    },
+    "variables": {
+      "location": "[resourceGroup().location]",
+      "keyVaultName": "[concat(parameters('keyVaultNamePrefix'),parameters('envName'))]",
+      "enableVaultForDeployment": false,
+      "enableVaultForDiskEncryption": false,
+      "enabledForTemplateDeployment": true,
+      "keyVaultSkuName": "Standard"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.KeyVault/vaults",
+        "name": "[variables('keyVaultName')]",
+        "apiVersion": "2018-02-14",
+        "location": "[variables('location')]",
+        "properties": {
+          "enabledForDeployment": "[variables('enableVaultForDeployment')]",
+          "enabledForDiskEncryption": "[variables('enableVaultForDiskEncryption')]",
+          "enabledForTemplateDeployment": "[variables('enabledForTemplateDeployment')]",
+          "tenantId": "[subscription().tenantId]",
+          "accessPolicies": [],
+          "sku": {
+            "name": "[variables('keyVaultSkuName')]",
+            "family": "A"
+          }
+        }
+      }
+    ],
+    "outputs": {
+    }
+  }
+  

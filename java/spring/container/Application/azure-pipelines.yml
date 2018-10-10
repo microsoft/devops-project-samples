@@ -19,13 +19,15 @@ steps:
       docker push $(ContainerRegistryUri)/$(imageVersion)
     displayName: 'Push docker image'
   - task: CopyFiles@2
-  inputs:
-    sourceFolder: $(Build.SourcesDirectory)/$(JavasampleDockerfileFolderPath)
-    contents: 'docker-compose.yml'
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-    cleanTargetFolder: true
+    inputs:
+      sourceFolder: $(Build.SourcesDirectory)/$(JavasampleDockerfileFolderPath)
+      contents: 'docker-compose.yml'
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+      cleanTargetFolder: true
+    displayName: 'Copy docker compose file to staging directory'
   - task: PublishBuildArtifacts@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       pathtoPublish: '$(Build.ArtifactStagingDirectory)'
       artifactName: 'drop'
+    displayName: 'Publish docker compose file'

@@ -11,7 +11,7 @@ variables:
 
 steps:
   - script: |
-      cd java/spring/container/Application/
+      cd $(JavasampleDockerfileFolderPath)
       docker build -f Dockerfile -t $(ContainerRegistryUri)/$(imageVersion) .
     displayName: 'docker build'
   - script: |

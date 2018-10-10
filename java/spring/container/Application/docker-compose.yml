@@ -1,0 +1,7 @@
+version: '3'
+services:
+  myJavaApp:
+    build: .
+    image: springcontainer
+    ports:
+      - "8080:8080"

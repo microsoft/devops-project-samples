@@ -7,14 +7,14 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  imageName: '$(ContainerRegistryName).azurecr.io/javasample:$(build.buildId)'
+  imageVersion: '$(ImageName):$(build.buildId)'
 
 steps:
   - script: |
       cd java/spring/container/Application/
-      docker build -f Dockerfile -t $(imageName) .
+      docker build -f Dockerfile -t $(ContainerRegistryUri)/$(imageVersion) .
     displayName: 'docker build'
   - script: |
-      docker login -u $(ContainerRegistryName) -p $(ContainerRegistryPassword) $(ContainerRegistryName).azurecr.io
-      docker push $(imageName)
-    displayName: 'Push an image'
+      docker login -u $(ContainerRegistryUsername) -p $(ContainerRegistryPassword) $(ContainerRegistryUri)
+      docker push $(ContainerRegistryUri)/$(imageVersion)
+    displayName: 'Push docker image'

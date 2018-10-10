@@ -7,10 +7,14 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  imageName: 'javasample:$(build.buildId)'
+  imageNameAndTag: '$(ImageName):$(build.buildId)'
 
 steps:
   - script: |
-      cd java/spring/container/Application/
-      docker build -f Dockerfile -t $(imageName) .
+      cd $(JavasampleDockerfileFolderPath)
+      docker build -f Dockerfile -t $(ContainerRegistryUri)/$(imageNameAndTag) .
     displayName: 'docker build'
+  - script: |
+      docker login -u $(ContainerRegistryUsername) -p $(ContainerRegistryPassword) $(ContainerRegistryUri)
+      docker push $(ContainerRegistryUri)/$(imageNameAndTag)
+    displayName: 'Push docker image'

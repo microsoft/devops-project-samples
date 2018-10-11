@@ -605,11 +605,5 @@
                 "[concat('Microsoft.Storage/storageAccounts/', variables('supportLogStorageAccountName'))]"
             ]
         }
-    ],
-    "outputs": {
-        "aiKey": {
-            "value": "[reference(concat('Microsoft.Insights/components/', parameters('clusterName'))).InstrumentationKey]",
-            "type": "string"
-        }
-    }
+    ]
 }

@@ -1,6 +1,6 @@
 <?php
     require_once 'vendor/autoload.php';
-    $app_insights_instrumentation =getenv('APPINSIGHTS_INSTRUMENTATIONKEY');
+    $app_insights_instrumentation = getenv('APPINSIGHTS_INSTRUMENTATIONKEY');
     $telemetryClient = new \ApplicationInsights\Telemetry_Client();
     $telemetryClient->getContext()->setInstrumentationKey($app_insights_instrumentation);
     $telemetryClient->trackRequest('Server Requests','Azure DevOps Project', time());

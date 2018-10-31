@@ -1,0 +1,6 @@
+{
+    "endpoint": "localhost",
+    "primaryKey": "",
+    "databaseId": "database1",
+    "containerId": "pageViewContainer"
+}

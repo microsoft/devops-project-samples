@@ -4,7 +4,7 @@ var router = express.Router();
 var dbOperations = require('./databaseOperations.js');
 
 /* GET users listing. */
-router.get('/', function (req, res) {
+router.get('/', async function (req, res) {
     await dbOperations.addRecord("users");
     res.send('respond with a resource');
 });

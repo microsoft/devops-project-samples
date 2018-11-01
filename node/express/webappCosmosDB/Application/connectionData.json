@@ -1,0 +1,6 @@
+{
+    "endpoint": "https://tedeshpa05.documents.azure.com:443/",
+    "primaryKey": "UPyXa7pVC9QdeogOyTpxj4QwyprC2xMOEpPwAshVRows9KZcGs79dMn0MSHt9u9ms3J798JTL0qmAdA8JaYbiQ==",
+    "databaseId": "database1",
+    "containerId": "pageViewContainer"
+}

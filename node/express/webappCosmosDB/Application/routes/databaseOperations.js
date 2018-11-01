@@ -35,7 +35,7 @@ module.exports = {
      */
     createContainer: async function () {
         const { container } = await client.database(databaseId).containers.createIfNotExists({ id: containerId });
-        console.log(`Created container:\n${config.containerId}\n`);
+        console.log(`Created container:\n${containerId}\n`);
     },
 
     /**
@@ -70,28 +70,26 @@ module.exports = {
      * Query the container using SQL
      */
     queryContainer: async function () {
-        console.log(`Querying container:\n${config.containerId}`);
+        console.log(`Querying container:\n${containerId}`);
 
         // query to return count
         const querySpec = {
-            query: "SELECT count(*) FROM root",
+            query: "SELECT count(1) FROM c",
         };
-
-        const { result: results } = await client.database(databaseId).container(containerId).items.query(querySpec).toArray();
-        for (var queryResult of results) {
-            let resultString = JSON.stringify(queryResult);
-            console.log(`\tQuery returned ${resultString}\n`);
-        }
+        var { result: results } = await client.database(databaseId).container(containerId).items.query(querySpec).toArray();
+        var res = results[0].$1;
+        return res;
     },
 
     addRecord: async function(pageName){
-        var milliseconds = (new Date).getTime();
+        var milliseconds = (new Date).getTime().toString();
         var itemBody = {
             "id": milliseconds,
             "page": pageName
-        }
-        createDatabase()
-        .then(createContainer())
-        .then(createPageViewItem(itemBody));
+        };
+
+        module.exports.createDatabase()
+        .then(module.exports.createContainer())
+        .then(module.exports.createPageViewItem(itemBody));
     }
 }

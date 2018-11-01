@@ -37,7 +37,7 @@ spec:
               port: http
           env:
             - name: APPINSIGHTS_INSTRUMENTATIONKEY
-              value: {{ .Values.applicationInsights.InstrumentationKey }}          
+              value: {{ .Values.applicationInsights.InstrumentationKey }}
             {{- $root := . }}
             {{- range $ref, $values := .Values.secrets }}
             {{- range $key, $value := $values }}
@@ -50,9 +50,11 @@ spec:
             {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.imagePullSecrets }}
+    {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-{{ toYaml . | indent 8 }}
+      {{- range .Values.imagePullSecrets }}
+        - name: {{ . }}
+      {{- end}}
     {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:

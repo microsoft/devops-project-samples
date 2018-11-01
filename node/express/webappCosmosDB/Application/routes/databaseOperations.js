@@ -3,7 +3,7 @@ var fs = require('fs');
 var obj = JSON.parse(fs.readFileSync('connectionData.json', 'utf8'));
 
 var endpoint = obj.endpoint;
-var masterKey = obj.primaryKey;
+var masterKey = obj.accountPrimaryMasterKey;
 
 var HttpStatusCodes = { NOTFOUND: 404 };
 

@@ -1,5 +1,6 @@
-FROM node:8-onbuild
-MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
+FROM node:8
+LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
+
 ENV PORT 8080
 EXPOSE 8080
 

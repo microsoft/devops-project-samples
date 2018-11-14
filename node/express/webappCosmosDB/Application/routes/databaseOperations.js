@@ -88,8 +88,8 @@ module.exports = {
             "page": pageName
         };
 
-        module.exports.createDatabase()
-        .then(module.exports.createContainer())
-        .then(module.exports.createPageViewItem(itemBody));
+        await module.exports.createDatabase();
+        await module.exports.createContainer();
+        await module.exports.createPageViewItem(itemBody);
     }
 }

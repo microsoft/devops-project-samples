@@ -14,6 +14,18 @@
         "sku": {
             "type": "string",
             "defaultValue": "Standard S1"
+        },
+        "databaseAccountId": {
+            "type": "string"
+        },
+        "databaseAccountLocation": {
+            "type": "string"
+        },
+        "databaseAccountLocationName": {
+            "type": "string"
+        },
+        "defaultExperience": {
+            "type": "string"
         }
     },
     "resources": [
@@ -88,6 +100,30 @@
             "properties": {
                 "applicationId": "[parameters('webAppName')]",
                 "Request_Source": "AzureTfsExtensionAzureProject"
+            }
+        },
+        {
+            "apiVersion": "2015-04-08",
+            "kind": "GlobalDocumentDB",
+            "type": "Microsoft.DocumentDb/databaseAccounts",
+            "name": "[parameters('databaseAccountId')]",
+            "location": "[parameters('databaseAccountLocation')]",
+            "properties": {
+                "databaseAccountOfferType": "Standard",
+                "locations": [
+                    {
+                        "id": "[concat(parameters('databaseAccountId'), '-', parameters('databaseAccountLocation'))]",
+                        "failoverPriority": 0,
+                        "locationName": "[parameters('databaseAccountLocationName')]"
+                    }
+                ],
+                "enableMultipleWriteLocations": true,
+                "isVirtualNetworkFilterEnabled": false,
+                "virtualNetworkRules": [],
+                "dependsOn": []
+            },
+            "tags": {
+                "defaultExperience": "[parameters('defaultExperience')]"
             }
         }
     ]

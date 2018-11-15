@@ -1,43 +1,45 @@
-<# 
-This script is applicable for TFS 2018 Update2.
+Ôªø<# 
+This script is applicable for TFS 2018 Update2 or later.
 This is a guidance script to bring a deployment group agent online after TFS Hardware move activity. Post Hardware move, all the agents will be offline as the TFS server url has been updated. User can use\follow this script to bring them online. The script has to be run from Administrator PowerShell prompt on the each agent machine.
 
 Inputs:
 1. targetTFSUrl : New TFS url after hardware move.
 2. patToken : PAT token from new TFS with Deployment group manage scope (at least)
-3. agentDownloadUrl: this is optional, user can specify if she wants any specific agent version to be installed.
-4. existingAgentFolder: The script will Auto-detect the agent folder if it was running as windows service. User need to pass the folder path otherwise.
-5. action: By default, the script will not do any update operation, it will just print what changes will happen after the script is applied. User need to set action parameter to 'apply' to execute actual steps.
+3. existingAgentFolder: The script will Auto-detect the agent folder if it was running as windows service. User need to pass the folder path otherwise.
+4. agentDownloadUrl: this is optional, user can specify if she wants any specific agent version to be installed.
+5. agentNamePostFix : this will be appended to the new agent name to resolve the exiting agent name conflict.
+6. action: By default, the script will not do any update operation, it will just print what changes will happen after the script is applied. User need to set action parameter to 'apply' to update execute actual steps.
 
 Output:
-If action is set to apply, this script will
-1. Delete the existing unusable offline agent and re-configure a new agent in with same name and properties including tags.
-2. All existing deployment history will be deleted. 
+If action is set to apply, this script this script will
+1. Configure a new agent to the deployment group in the TFS with same properties as the existing unusable, offline agent including tags. Name of the new agent will be appended by agentNamePostFix.
+2. It will add reconfigured tag to the new agent which can be used to filter out old agents during deployment.
+3. Old agents can be used to audit the existing deployment history." 
 
 Example usage:
-.\HardwareMoveRemoveOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS>
-.\HardwareMoveRemoveOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)>
-.\HardwareMoveRemoveOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -action 'apply'
+.\HardwareMoveRetainOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS>
+.\HardwareMoveRetainOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -agentNamePostFix 'PostServerUpdate'
+.\HardwareMoveRetainOldAgent.ps1 -targetTFSUrl <newTfsUrl> -patToken <PAT-for-new-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -action 'apply'
 #>
 
 param([string]$targetTFSUrl,
       [string]$patToken,
       [string]$existingAgentFolder = "",
       [string]$agentDownloadUrl = 'https://vstsagentpackage.azureedge.net/agent/2.131.0/vsts-agent-win-x64-2.131.0.zip',
+      [string]$agentNamePostFix = "Reconfigured",
       [string]$action = "PrintEffect")
 
 $ErrorActionPreference="Stop"
 $apiVersion = '5.0-preview.1'
 
-# Basic input validations
-If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent() ).IsInRole( [Security.Principal.WindowsBuiltInRole] ìAdministratorî)){ 
+# Basic validations
+If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent() ).IsInRole( [Security.Principal.WindowsBuiltInRole] ‚ÄúAdministrator‚Äù)){ 
     throw "Run command in an administrator PowerShell prompt"
 };
 
 If ($PSVersionTable.PSVersion -lt (New-Object System.Version("3.0"))){
     throw "The minimum version of Windows PowerShell that is required by the script (3.0) does not match the currently running version of Windows PowerShell."
 }
-
 
 # Auto detect existing agent folder
 if ($existingAgentFolder -eq ""){
@@ -71,7 +73,6 @@ $deploymentGroupId = "NoAbleToReadAgentFile"
 $deploymentGroupName = "NoAbleToReadAgentFile"
 $agentName = "NoAbleToReadAgentFile"
 $tags = "NoAbleToReadAgentFile"
-$deploymentMachineId = "NoAbleToReadAgentFile"
 
 $agentproperties = Get-Content .\.agent |ConvertFrom-Json
 $sourceTFSUrl = $agentproperties.serverUrl;
@@ -98,13 +99,24 @@ $getDeploymentMachineUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projec
 
 $dm = Invoke-RestMethod -Uri $getDeploymentMachineUrl -Method Get -Headers @{Authorization = "Basic $encodedPat"} -ContentType "application/json"
 $tags = $dm.value[0].tags -join ",";
-$deploymentMachineId = $dm.value[0].id;
 
 if ($dm.value[0].agent.status -eq 'online'){
     Write-Verbose -Verbose "Agent $agentName is already configured to the TFS $targetTFSUrl"
     return 0;
 }
 
+
+$newAgentName = $agentName + $agentNamePostFix;
+
+# Validate that new agent is not already configured
+$getDeploymentMachineUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '/targets?name=' + $newAgentName + '&api-version=' + $apiVersion
+
+$dm = Invoke-RestMethod -Uri $getDeploymentMachineUrl -Method Get -Headers @{Authorization = "Basic $encodedPat"} -ContentType "application/json"
+
+if ($dm.value.Length -ne 0){
+    Write-Verbose -Verbose "Agent $newAgentName is already configured to the TFS $targetTFSUrl"
+    return 0;
+}
 
 # Create and go to new agent folder
 $parentPath = Split-Path $existingAgentFolder -Parent
@@ -122,12 +134,11 @@ for ($i=1; $i -lt 100; $i++){
 $newAgentPath = $parentPath + $newAgentFolfer;
 
 if ($action -ne "apply"){
-    Write-Verbose -Verbose "If action is set to apply, this script will delete the existing unusable, offline agent $agentName from the deployment group $deploymentGroupName in the TFS $targetTFSUrl and re-configure a new agent in $newAgentPath path with same name and properties including tags $tags. Deployment history associated with existing agent will be removed along with agent removal.";
+    Write-Verbose -Verbose "If action is set to apply, this script will configure an agent with name $newAgentName in $newAgentPath path to the deployment group $deploymentGroupName in the TFS $targetTFSUrl with same properties as the existing unusable, offline agent $agentName incluing tags $tags. It will add reconfigured tag to the new agent which can be used to filterout old agents during deployment. Old agents can be used to audit the existing deployment history.";
     return 0;
 }
 
-Write-Verbose -Verbose "Start execution : It will delete the existing unusable, offline agent $agentName from the deployment group $deploymentGroupName in the TFS $targetTFSUrl and re-configure a new agent in $newAgentPath path with same name and properties including tags $tags. Deployment history associated with existing agent will be removed along with agent removal.";
-
+Write-Verbose -Verbose "Start execution : It will configure an agent with name $newAgentName in $newAgentPath path to the deployment group $deploymentGroupName in the TFS $targetTFSUrl with same properties as the existing unusable, offline agent $agentName incluing tags $tags. It will add reconfigured tag to the new agent which can be used to filterout old agents during deployment. Old agents can be used to audit the existing deployment history.";
 mkdir $newAgentFolfer;
 cd $newAgentFolfer; 
 
@@ -146,16 +157,14 @@ if($DefaultProxy -and (-not $DefaultProxy.IsBypassed($agentDownloadUrl)))
 $WebClient.DownloadFile($agentDownloadUrl, $agentZip);
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem;[System.IO.Compression.ZipFile]::ExtractToDirectory( $agentZip, "$PWD"); 
+	
 
-# Delete existing agent reference from the target TFS	
-$deleteDeploymentMachineUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '/targets/' + $deploymentMachineId + '?api-version=' + $apiVersion
-Invoke-RestMethod -Uri $deleteDeploymentMachineUrl -Method Delete -Headers @{Authorization = "Basic $encodedPat"} -ContentType "application/json"
-
-
-# Re-configure the agent to the target TFS
+# configure the agent
 if ($tags -ne ""){
-    .\config.cmd --deploymentgroup --url $targetTFSUrl --collectionname $collectionName --projectname $projectName --deploymentgroupname $deploymentGroupName --agent $agentName --auth Integrated --runasservice --work '_work' --unattended --adddeploymentgrouptags --deploymentgrouptags $tags
+    $tags = $tags + ',Reconfigured';
 }
 else{
-    .\config.cmd --deploymentgroup --url $targetTFSUrl --collectionname $collectionName --projectname $projectName --deploymentgroupname $deploymentGroupName --agent $agentName --auth Integrated --runasservice --work '_work' --unattended
+    $tags = 'Reconfigured';
 }
+
+.\config.cmd --deploymentgroup --url $targetTFSUrl --collectionname $collectionName --projectname $projectName --deploymentgroupname $deploymentGroupName --agent $newAgentName --auth Integrated --runasservice --work '_work' --unattended --adddeploymentgrouptags --deploymentgrouptags $tags

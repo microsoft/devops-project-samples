@@ -13,9 +13,9 @@ Output:
 If action is set to apply, this script this script will
 1. Configure a new agent to the deployment group in the target TFS with same properties as the existing agent in the source TFS including tags.
 Example usage:
-.\ConfigureDeploymentAgentToTargetServer.ps1 -targetTFSUrl <newTfsUrl> -sourceTFSPatToken <PAT-for-old-TFS>
-.\ConfigureDeploymentAgentToTargetServer.ps1 -targetTFSUrl <newTfsUrl> -sourceTFSPatToken <PAT-for-old-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)>
-.\ConfigureDeploymentAgentToTargetServer.ps1 -targetTFSUrl <newTfsUrl> -sourceTFSPatToken <PAT-for-old-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -action 'apply'
+.\ConfigureAgentToTargetServerUsingSourceServer.ps1 -targetTFSUrl <newTfsUrl> -sourceTFSPatToken <PAT-for-old-TFS>
+.\ConfigureAgentToTargetServerUsingSourceServer.ps1 -targetTFSUrl <newTfsUrl> -sourceTFSPatToken <PAT-for-old-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)>
+.\ConfigureAgentToTargetServerUsingSourceServer.ps1 -targetTFSUrl <newTfsUrl> -sourceTFSPatToken <PAT-for-old-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -action 'apply'
 #>
 
 param([string]$targetTFSUrl,

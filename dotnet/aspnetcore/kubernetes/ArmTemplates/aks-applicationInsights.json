@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "clusterName": {
+        "applicationInsightsName": {
             "type": "string"
         },
         "clusterId": {
@@ -15,21 +15,21 @@
     "resources": [
         {
             "type": "Microsoft.Insights/components",
-            "name": "[parameters('clusterName')]",
+            "name": "[parameters('applicationInsightsName')]",
             "apiVersion": "2014-04-01",
             "location": "[parameters('appInsightsLocation')]",
             "tags": {
                 "[concat('hidden-link:', parameters('clusterId'))]": "Resource"
             },
             "properties": {
-                "applicationId": "[parameters('clusterName')]",
+                "applicationId": "[parameters('applicationInsightsName')]",
                 "Request_Source": "AzureTfsExtensionAzureProject"
             }
         }
     ],
     "outputs": {
         "aiKey": {
-            "value": "[reference(concat('Microsoft.Insights/components/', parameters('clusterName'))).InstrumentationKey]",
+            "value": "[reference(concat('Microsoft.Insights/components/', parameters('applicationInsightsName'))).InstrumentationKey]",
             "type": "string"
         }
     }

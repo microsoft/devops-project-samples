@@ -1,26 +1,26 @@
 <# 
 This script is applicable for AzureDevOpsServer 2019 or later.
-This is a guidance script to re-configure deployment group agents to the target TFS after detach/attach activity. This script is applicable if the source collection is not online. If source TFS collection is online (Side by Side scenario), use ConfigureAgentToTargetServerUsingSourceServer,ps1 script instead.
+This is a guidance script to re-configure deployment group agents to the target AzureDevOpsServer after detach/attach activity. This script is applicable if the source collection is not online. If source AzureDevOpsServer collection is online (Side by Side scenario), use ConfigureAgentToTargetServerUsingSourceServer,ps1 script instead.
 
 Inputs:
-1. targetTFSUrl : New TFS instance url.
-2. targeTFSPatToken : PAT token from target TFS with Deployment group manage scope (at least)
+1. targetServerUrl : New AzureDevOpsServer instance url.
+2. targeServerPatToken : PAT token from target AzureDevOpsServer with Deployment group manage scope (at least)
 3. existingAgentFolder: The script will Auto-detect the agent folder if it was running as windows service. User need to pass the folder path otherwise.
 4. agentDownloadUrl: this is optional, user can specify if she wants any specific agent version to be installed.
-5. tags : Tags of the target. Since the source TFS is not available, user need to pass the tags explicitly.
+5. tags : Tags of the target. Since the source AzureDevOpsServer is not available, user need to pass the tags explicitly.
 5. action: By default, the script will not do any update operation, it will just print what changes will happen after the script is applied. User need to set action parameter to 'apply' to update execute actual steps.
 
 Output:
 If action is set to apply, this script this script will
-1. Configure a new agent to the deployment group in the target TFS with same properties as the existing agent in the source TFS including tags.
+1. Configure a new agent to the deployment group in the target AzureDevOpsServer with same properties as the existing agent in the source AzureDevOpsServer.
 Example usage:
-.\ConfigureAgentToTargetServer.ps1 -targetTFSUrl <newTfsUrl> -sourceTFSPatToken <PAT-for-old-TFS>
-.\ConfigureAgentToTargetServer.ps1 -targetTFSUrl <newTfsUrl> -sourceTFSPatToken <PAT-for-old-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -tags 'Web,DB'
-.\ConfigureAgentToTargetServer.ps1 -targetTFSUrl <newTfsUrl> -sourceTFSPatToken <PAT-for-old-TFS> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -action 'apply'
+.\ConfigureAgentToTargetServer.ps1 -targetServerUrl <newAzureDevOpsServerUrl> -targeServerPatToken <PAT-for-new-AzureDevOpsServer>
+.\ConfigureAgentToTargetServer.ps1 -targetServerUrl <newAzureDevOpsServerUrl> -targeServerPatToken <PAT-for-new-AzureDevOpsServer> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -tags 'Web,DB'
+.\ConfigureAgentToTargetServer.ps1 -targetServerUrl <newAzureDevOpsServerUrl> -targeServerPatToken <PAT-for-new-AzureDevOpsServer> -existingAgentFolder <AgentFoilder (C:\vstsagents\A1)> -action 'apply'
 #>
 
-param([string]$targetTFSUrl,
-      [string]$targetTFSPatToken,
+param([string]$targetServerUrl,
+      [string]$targeServerPatToken,
       [string]$existingAgentFolder = "",
       [string]$agentDownloadUrl = 'https://vstsagentpackage.azureedge.net/agent/2.141.1/vsts-agent-win-x64-2.141.1.zip',
       [string]$tags = "",
@@ -63,7 +63,7 @@ if (-not (Test-Path '.\.agent')){
 
 
 # Collect information about the existing agent
-$sourceTFSUrl = "NoAbleToReadAgentFile"
+$sourceServerUrl = "NoAbleToReadAgentFile"
 $collectionName = "NoAbleToReadAgentFile"
 $projectName = "NoAbleToReadAgentFile"
 $deploymentGroupId = "NoAbleToReadAgentFile"
@@ -71,20 +71,20 @@ $deploymentGroupName = "NoAbleToReadAgentFile"
 $agentName = "NoAbleToReadAgentFile"
 
 $agentproperties = Get-Content .\.agent |ConvertFrom-Json
-$sourceTFSUrl = $agentproperties.serverUrl;
+$sourceServerUrl = $agentproperties.serverUrl;
 $collectionName = $agentproperties.collectionName;
 $projectName = $agentproperties.projectId;
 $deploymentGroupId = $agentproperties.deploymentGroupId;
 $agentName = $agentproperties.agentName;
 
-if ($sourceTFSUrl.StartsWith($targetTFSUrl)){
-    Write-Verbose -Verbose "Agent $agentName is already configured to the TFS $targetTFSUrl";
+if ($sourceServerUrl.StartsWith($targetServerUrl)){
+    Write-Verbose -Verbose "Agent $agentName is already configured to the AzureDevOpsServer $targetServerUrl";
     return 0;
 }
 
 # Get the Deployment group name
-$encodedPat = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$targetTFSPatToken"))
-$getDeploymentGroupUrl = $targetTFSUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '?api-version=' + $apiVersion
+$encodedPat = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$targeServerPatToken"))
+$getDeploymentGroupUrl = $targetServerUrl + '/' + $collectionName + '/' + $projectName + '/_apis/distributedtask/deploymentgroups/' + $deploymentGroupId + '?api-version=' + $apiVersion
  
 $dg = Invoke-RestMethod -Uri $getDeploymentGroupUrl -Method Get -Headers @{Authorization = "Basic $encodedPat"} -ContentType "application/json"
 $deploymentGroupName = $dg.name
@@ -106,11 +106,11 @@ for ($i=1; $i -lt 100; $i++){
 $newAgentPath = $parentPath + $newAgentFolfer;
 
 if ($action -ne "apply"){
-    Write-Verbose -Verbose "If action is set to apply, this script will configure an agent with name $agentName and tags $tags in $newAgentPath path to the deployment group $deploymentGroupName in the TFS $targetTFSUrl with same properties as the existing agent $agentName in the source TFS $sourceTFSUrl.";
+    Write-Verbose -Verbose "If action is set to apply, this script will configure an agent with name $agentName and tags $tags in $newAgentPath path to the deployment group $deploymentGroupName in the AzureDevOpsServer $targetServerUrl with same properties as the existing agent $agentName in the source AzureDevOpsServer $sourceServerUrl.";
     return 0;
 }
 
-Write-Verbose -Verbose "Start execution : It will configure an agent with name $agentName and tags $tags in $newAgentPath path to the deployment group $deploymentGroupName in the TFS $targetTFSUrl with same properties as the existing agent $agentName in the source TFS $sourceTFSUrl.";
+Write-Verbose -Verbose "Start execution : It will configure an agent with name $agentName and tags $tags in $newAgentPath path to the deployment group $deploymentGroupName in the AzureDevOpsServer $targetServerUrl with same properties as the existing agent $agentName in the source AzureDevOpsServer $sourceServerUrl.";
 mkdir $newAgentFolfer;
 cd $newAgentFolfer; 
 
@@ -133,8 +133,8 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem;[System.IO.Compression.Z
 
 # configure the agent
 if ($tags -ne ""){
-    .\config.cmd --deploymentgroup --url $targetTFSUrl --collectionname $collectionName --projectname $projectName --deploymentgroupname $deploymentGroupName --agent $agentName --auth Integrated --runasservice --work '_work' --unattended --adddeploymentgrouptags --deploymentgrouptags $tags
+    .\config.cmd --deploymentgroup --url $targetServerUrl --collectionname $collectionName --projectname $projectName --deploymentgroupname $deploymentGroupName --agent $agentName --auth Integrated --runasservice --work '_work' --unattended --adddeploymentgrouptags --deploymentgrouptags $tags
 }
 else{
-    .\config.cmd --deploymentgroup --url $targetTFSUrl --collectionname $collectionName --projectname $projectName --deploymentgroupname $deploymentGroupName --agent $agentName --auth Integrated --runasservice --work '_work' --unattended
+    .\config.cmd --deploymentgroup --url $targetServerUrl --collectionname $collectionName --projectname $projectName --deploymentgroupname $deploymentGroupName --agent $agentName --auth Integrated --runasservice --work '_work' --unattended
 }

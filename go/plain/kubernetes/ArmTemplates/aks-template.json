@@ -34,7 +34,7 @@
         "omsLocation": {
             "type": "string"
         },
-        "tags": {
+        "clusterTags": {
             "type": "object",
             "defaultValue": {}
         }
@@ -62,7 +62,7 @@
             "type": "Microsoft.ContainerService/managedClusters",
             "location": "[parameters('clusterLocation')]",
             "name": "[parameters('clusterName')]",
-            "tags": "[parameters('tags')]",
+            "tags": "[parameters('clusterTags')]",
             "dependsOn": [
                 "[variables('omsWorkspaceId')]"
             ],

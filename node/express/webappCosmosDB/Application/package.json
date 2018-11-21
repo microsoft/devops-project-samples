@@ -10,6 +10,7 @@
     "name": "alagrawa"
   },
   "dependencies": {
+    "@azure/cosmos": "^2.0.5",
     "body-parser": "^1.15.0",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",
@@ -19,6 +20,6 @@
     "serve-favicon": "^2.3.0"
   },
   "engines": {
-    "node": "~6.10.x"
+    "node": "8.1.4"
   }
 }

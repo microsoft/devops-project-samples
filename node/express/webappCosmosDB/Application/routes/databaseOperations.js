@@ -1,95 +1,80 @@
-var CosmosClient = require('@azure/cosmos').CosmosClient;
+var MongoClient = require("mongodb").MongoClient;
+var Db = require("mongodb").Db;
 var fs = require('fs');
+var assert = require('assert');
 var obj = JSON.parse(fs.readFileSync('connectionData.json', 'utf8'));
 
-var endpoint = obj.endpoint;
-var masterKey = obj.accountPrimaryMasterKey;
+var connectionString = obj.connectionString;
+var stringSplit1 = connectionString.split("://")[1];
+var stringSplit2 = stringSplit1.split('@');
+var userNamePassword = stringSplit2[0];
+userNamePassword = userNamePassword.split(':');
+var userName = userNamePassword[0];
+var password = userNamePassword[1];
+var databaseName = obj.databaseName;
+var collectionName = obj.collectionName;
+connectionString = ("mongodb://" + encodeURIComponent(userName) + ":" + encodeURIComponent(password) + "@" + stringSplit2[1]);
 
 var HttpStatusCodes = { NOTFOUND: 404 };
 
-var databaseId = obj.databaseId;
-var containerId = obj.containerId;
-
-var client = new CosmosClient({ endpoint: endpoint, auth: { masterKey: masterKey } });
-
-
 module.exports = {
-    /**
-     * Create the database if it does not exist
-     */
-    createDatabase: async function () {
-        const { database } = await client.databases.createIfNotExists({ id: databaseId });
-        console.log(`Created database:\n${databaseId}\n`);
+
+    insertDocument: function (db, itemBody, callback) {
+        // Get the documents collection
+        const collection = db.collection(collectionName);
+        // Insert some documents
+        collection.insertMany([
+            itemBody
+        ], function (err, result) {
+            assert.equal(err, null);
+            assert.equal(1, result.result.n);
+            assert.equal(1, result.ops.length);
+            console.log("Inserted 1 document into the collection");
+            callback();
+        });
     },
 
-    /**
-     * Read the database definition
-     */
-    readDatabase: async function () {
-        const { body: databaseDefinition } = await client.database(databaseId).read();
-        console.log(`Reading database:\n${databaseDefinition.id}\n`);
-    },
-
-    /**
-     * Create the container if it does not exist
-     */
-    createContainer: async function () {
-        const { container } = await client.database(databaseId).containers.createIfNotExists({ id: containerId });
-        console.log(`Created container:\n${containerId}\n`);
-    },
-
-    /**
-     * Read the container definition
-     */
-    readContainer: async function () {
-        const { body: containerDefinition } = await client.database(databaseId).container(containerId).read();
-        console.log(`Reading container:\n${containerDefinition.id}\n`);
-    },
-
-    /**
-     * Create item if it does not exist
-     */
-    createPageViewItem: async function (itemBody) {
-        try {
-            // read the item to see if it exists
-            const { item } = await client.database(databaseId).container(containerId).item(itemBody.id).read();
-            console.log(`Item with id ${itemBody.id} already exists\n`);
-        }
-        catch (error) {
-            // create the item if it does not exist
-            if (error.code === HttpStatusCodes.NOTFOUND) {
-                const { item } = await client.database(databaseId).container(containerId).items.create(itemBody);
-                console.log(`Created item with id:\n${itemBody.id}\n`);
-            } else {
-                throw error;
-            }
-        }
+    findDocuments: function (db, callback) {
+        // Get the documents collection
+        const collection = db.collection(collectionName);
+        // Find some documents
+        collection.find({}).toArray(function (err, docs) {
+            assert.equal(err, null);
+            console.log(`Found ${docs.length} records`);
+            callback(docs.length);
+        });
     },
 
     /**
      * Query the container using SQL
      */
-    queryContainer: async function () {
-        console.log(`Querying container:\n${containerId}`);
-
-        // query to return count
-        const querySpec = {
-            query: "SELECT count(1) FROM c",
-        };
-        var { result: results } = await client.database(databaseId).container(containerId).items.query(querySpec).toArray();
-        var res = results[0].$1;
-        return res;
+    queryContainer: function (callback) {
+        console.log(`Querying container:\n${collectionName}`);
+        MongoClient.connect(connectionString, function(err, client) {
+            assert.equal(null, err);
+            console.log("Connected correctly to server");
+            var db = client.db(databaseName);
+            module.exports.findDocuments(db, function(count) {
+                client.close();
+                callback(count);
+            });
+        });
     },
 
-    addRecord: async function(pageName){
+    addRecord: function(pageName){
         var milliseconds = (new Date).getTime().toString();
         var itemBody = {
             "id": milliseconds,
             "page": pageName
         };
-
-        await module.exports.createDatabase();
-        await module.exports.createContainer();
-        await module.exports.createPageViewItem(itemBody);
+        console.log(`connectionString is ${connectionString}`);
+        MongoClient.connect(connectionString, function(err, client) {
+            assert.equal(null, err);
+            console.log("Connected correctly to server");
+            var db = client.db(databaseName);
+            module.exports.insertDocument(db, itemBody, function() {
+                client.close();
+            });
+        });
     }
 }

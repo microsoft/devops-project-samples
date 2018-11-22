@@ -4,12 +4,13 @@ var router = express.Router();
 var dbOperations = require('./databaseOperations.js');
 
 /* GET home page. */
-router.get('/', async function (req, res) {
-    await dbOperations.addRecord("index");
-    var count = await dbOperations.queryContainer();
-    res.render('index', { 
-        title: 'Express',
-        count: count
+router.get('/', function (req, res) {
+    dbOperations.addRecord("index");
+    var count = dbOperations.queryContainer(function (count) {
+        res.render('index', {
+            title: 'Express',
+            count: count
+        });
     });
 });
 

@@ -1,6 +1,5 @@
 {
-    "endpoint": "endpoint",
-    "accountPrimaryMasterKey": "key",
-    "databaseId": "database1",
-    "containerId": "pageViewContainer"
+    "connectionString": "connectionString",
+    "databaseName": "database1",
+    "collectionName": "collection1"
 }

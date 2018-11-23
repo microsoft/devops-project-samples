@@ -1,6 +1,5 @@
 {
-    "endpoint": "https://tedeshpa01.documents.azure.com:443/",
-    "accountPrimaryMasterKey": "FjrHZIq2IOiLogoB2o0AwlF4K2HhpgWa6y8VmfQ6lp2o5tDshxHKZZTHyhwksjM9Lmge1ugi4Zk1p0z8Iu1unA==",
-    "databaseId": "database1",
-    "containerId": "pageViewContainer"
+    "connectionString": "connectionString",
+    "databaseName": "database23",
+    "collectionName": "collection23"
 }

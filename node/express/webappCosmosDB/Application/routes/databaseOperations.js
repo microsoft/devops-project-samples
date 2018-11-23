@@ -1,5 +1,4 @@
 var MongoClient = require("mongodb").MongoClient;
-var Db = require("mongodb").Db;
 var fs = require('fs');
 var assert = require('assert');
 var obj = JSON.parse(fs.readFileSync('connectionData.json', 'utf8'));
@@ -14,8 +13,6 @@ var password = userNamePassword[1];
 var databaseName = obj.databaseName;
 var collectionName = obj.collectionName;
 connectionString = ("mongodb://" + encodeURIComponent(userName) + ":" + encodeURIComponent(password) + "@" + stringSplit2[1]);
-
-var HttpStatusCodes = { NOTFOUND: 404 };
 
 module.exports = {
 
@@ -67,7 +64,6 @@ module.exports = {
             "id": milliseconds,
             "page": pageName
         };
-        console.log(`connectionString is ${connectionString}`);
         MongoClient.connect(connectionString, function(err, client) {
             assert.equal(null, err);
             console.log("Connected correctly to server");

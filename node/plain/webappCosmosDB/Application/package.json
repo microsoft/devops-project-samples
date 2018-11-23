@@ -7,7 +7,7 @@
     "name": "alagrawa"
   },
   "dependencies": {
-    "@azure/cosmos": "^2.0.5",
+    "mongodb": "^3.1.10",
     "jsdom": "^13.0.0"
   }
 }

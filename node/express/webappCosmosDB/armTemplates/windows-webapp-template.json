@@ -20,12 +20,6 @@
         },
         "databaseAccountLocation": {
             "type": "string"
-        },
-        "databaseAccountLocationName": {
-            "type": "string"
-        },
-        "defaultExperience": {
-            "type": "string"
         }
     },
     "resources": [
@@ -104,27 +98,20 @@
         },
         {
             "apiVersion": "2015-04-08",
-            "kind": "GlobalDocumentDB",
+            "kind": "MongoDB",
             "type": "Microsoft.DocumentDb/databaseAccounts",
             "name": "[parameters('databaseAccountId')]",
             "location": "[parameters('databaseAccountLocation')]",
             "properties": {
                 "databaseAccountOfferType": "Standard",
-                "locations": [
-                    {
-                        "id": "[concat(parameters('databaseAccountId'), '-', parameters('databaseAccountLocation'))]",
-                        "failoverPriority": 0,
-                        "locationName": "[parameters('databaseAccountLocationName')]"
-                    }
-                ],
-                "enableMultipleWriteLocations": true,
-                "isVirtualNetworkFilterEnabled": false,
-                "virtualNetworkRules": [],
-                "dependsOn": []
-            },
-            "tags": {
-                "defaultExperience": "[parameters('defaultExperience')]"
+                "name": "[parameters('databaseAccountId')]"
             }
         }
-    ]
+    ],
+    "outputs": {
+        "keys": {
+            "value": "[listConnectionStrings(parameters('databaseAccountId'), '2015-04-08')]",
+            "type": "object"
+        }
+    }
 }

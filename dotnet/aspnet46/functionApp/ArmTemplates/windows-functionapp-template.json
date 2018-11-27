@@ -33,7 +33,7 @@
             "kind": "Storage",
             "name": "[parameters('storageAccountName')]",
             "apiVersion": "2018-07-01",
-            "location": "resourceGroup().location",
+            "location": "[resourceGroup().location]",
             "tags": {},
             "scale": null,
             "properties": {
@@ -61,8 +61,8 @@
       {
         "type": "Microsoft.Web/serverfarms",
         "sku": {
-            "Tier": "[first(skip(split(parameters('sku'), ' '), 1))]",
-            "Name": "[first(split(parameters('sku'), ' '))]"
+            "Tier": "[first(split(parameters('sku'), ' '))]",
+            "Name": "[first(skip(split(parameters('sku'), ' '), 1))]"
         },
         "apiVersion": "2015-08-01",
         "name": "[parameters('hostingPlanName')]",
@@ -121,7 +121,7 @@
         "type": "microsoft.insights/components",
         "location": "[resourceGroup().location]",
         "tags": {
-          "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('applicationInsightsName'))]": "Resource"
+          "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('functionAppName'))]": "Resource"
         },
         "properties": {
           "ApplicationId": "[parameters('functionAppName')]",

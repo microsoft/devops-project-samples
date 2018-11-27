@@ -14,7 +14,7 @@ public class SampleUnitTest extends AbstractFacesTest {
 	
     @Override  
     protected void setupWebContent() {  
-        String webappDirectory = Paths.get(System.getProperty("user.dir"), "src\\main\\webapp").toString();      
+        String webappDirectory = Paths.get(System.getProperty("user.dir"), "src/main/webapp").toString();      
         File webFile = new File(webappDirectory);  
         facesServer.addResourcesFromDirectory("/", webFile);  
     }  

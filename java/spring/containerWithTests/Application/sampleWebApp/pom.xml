@@ -17,6 +17,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>applicationinsights-web</artifactId>
+            <!-- or applicationinsights-core for bare API -->
+            <version>[1.0,)</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         	<version>1.5.7.RELEASE</version>

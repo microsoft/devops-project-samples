@@ -102,6 +102,10 @@
                     {
                         "name": "WEBSITE_NODE_DEFAULT_VERSION",
                         "value": "6.9.1"
+                    },
+                    {
+                        "name": "FUNCTIONS_EXTENSION_VERSION",
+                        "value": "~1"
                     }
                 ],
                 "phpVersion": "7.1"

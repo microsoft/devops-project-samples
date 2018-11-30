@@ -1,5 +1,5 @@
 {
     "connectionString": "connectionString",
-    "databaseName": "database23",
-    "collectionName": "collection23"
+    "databaseName": "sampledatabase",
+    "collectionName": "samplecollection"
 }

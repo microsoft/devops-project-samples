@@ -1,6 +1,5 @@
 var MongoClient = require("mongodb").MongoClient;
 var fs = require('fs');
-var assert = require('assert');
 var obj = JSON.parse(fs.readFileSync('connectionData.json', 'utf8'));
 
 var connectionString = obj.connectionString;
@@ -16,61 +15,78 @@ connectionString = ("mongodb://" + encodeURIComponent(userName) + ":" + encodeUR
 
 module.exports = {
 
-    insertDocument: function (db, itemBody, callback) {
+    sendError: function(res, data, code){
+        res.writeHead(code, { 'Content-Type': 'text/html', 'Content-Length': data.length });
+        res.write(data);
+        res.end();
+    },
+
+    insertDocument: function (db, itemBody, callback, errorCallback) {
         // Get the documents collection
         const collection = db.collection(collectionName);
         // Insert some documents
         collection.insertMany([
             itemBody
         ], function (err, result) {
-            assert.equal(err, null);
-            assert.equal(1, result.result.n);
-            assert.equal(1, result.ops.length);
-            console.log("Inserted 1 document into the collection");
+            if (err != null) {
+                errorCallback(err, 500)
+            }
+            if (result.ops.length == 1) {
+                console.log("Inserted 1 document into the collection");
+            }
             callback();
         });
     },
 
-    findDocuments: function (db, callback) {
+    findDocuments: function (db, callback, errorCallback) {
         // Get the documents collection
         const collection = db.collection(collectionName);
         // Find some documents
-        collection.find({}).toArray(function (err, docs) {
-            assert.equal(err, null);
-            console.log(`Found ${docs.length} records`);
-            callback(docs.length);
+        collection.count(function (err, count) {
+            if (err != null) {
+                errorCallback(err, 500)
+            }
+            console.log(`Found ${count} records`);
+            callback(count);
         });
     },
 
     /**
-     * Query the container using SQL
+     * Query the number of documents
      */
-    queryContainer: function (callback) {
+    queryCount: function (callback, errorCallback) {
         console.log(`Querying container:\n${collectionName}`);
-        MongoClient.connect(connectionString, function(err, client) {
-            assert.equal(null, err);
+        MongoClient.connect(connectionString, function (err, client) {
+            if (err != null) {
+                errorCallback(err, 500);
+                return;
+            }
             console.log("Connected correctly to server");
             var db = client.db(databaseName);
-            module.exports.findDocuments(db, function(count) {
-                client.close();
+            module.exports.findDocuments(db, function (count) {
                 callback(count);
-            });
+                client.close();
+            }, errorCallback);
         });
     },
 
-    addRecord: function(pageName){
+    addRecord: function (pageName, callback, errorCallback) {
         var milliseconds = (new Date).getTime().toString();
         var itemBody = {
             "id": milliseconds,
             "page": pageName
         };
-        MongoClient.connect(connectionString, function(err, client) {
-            assert.equal(null, err);
+        MongoClient.connect(connectionString, function (err, client) {
+            if (err != null) {
+                errorCallback(err, 500);
+                return;
+            }
             console.log("Connected correctly to server");
             var db = client.db(databaseName);
-            module.exports.insertDocument(db, itemBody, function() {
+            module.exports.insertDocument(db, itemBody, function () {
+                callback();
                 client.close();
-            });
+            }, errorCallback);
         });
     }
 }

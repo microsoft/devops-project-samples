@@ -16,7 +16,7 @@
             <div class="tweet-container">
             <a href="http://twitter.com/intent/tweet/?text=I%20just%20created%20a%20new%20PHP%20website%20on%20Azure%20using%20Azure%20DevOps%20Project&hashtags=AzureDevOpsProject%2CVSTS%20%40Azure%20%40VSTS">
                 <img src="img/tweetThis.svg" alt="tweetThis" />
-            </a>            
+            </a>
         </div>
             <div class="content-body">
                 <div class="success-text">Success!</div>
@@ -44,7 +44,7 @@
                             <div class="step-icon">
                                 <img src="img/deployWhite.svg" alt="deployWhite">
                             </div>
-                            <div class="step-text"><a href="https://go.microsoft.com/fwlink/?linkid=862410">View your CI/CD pipeline on Visual Studio Team Services and customize it as per your needs</a></div>
+                            <div class="step-text"><a href="https://go.microsoft.com/fwlink/?linkid=862410">View your CI/CD pipeline on Azure Devops and customize it as per your needs</a></div>
                         </div>
                         <div class="step">
                             <div class="step-icon">

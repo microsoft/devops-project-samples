@@ -9,7 +9,6 @@ console.log("Trying to create redis client");
 var client = redis.createClient(6379, redisServer);
 
 console.log("Redis Client created");
-client.set('viewCount', 0);
 
 /* GET home page. */
 router.get('/', function (req, res) {

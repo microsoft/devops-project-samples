@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var dbOperations = require('../databaseOperations.js');
+var utils = require('../utils.js');
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -11,8 +12,8 @@ router.get('/', function (req, res) {
                 title: 'Express',
                 count: count
             });
-        }, function(error, code){sendError(res, error, code);});
-    }, function(error, code){sendError(res, error, code);});
+        }, function(error, code){utils.sendError(res, error, code);});
+    }, function(error, code){utils.sendError(res, error, code);});
 });
 
 module.exports = router;

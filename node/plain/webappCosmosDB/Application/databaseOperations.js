@@ -15,23 +15,6 @@ connectionString = ("mongodb://" + encodeURIComponent(userName) + ":" + encodeUR
 
 module.exports = {
 
-    insertDocument: function (db, itemBody, callback, errorCallback) {
-        // Get the documents collection
-        const collection = db.collection(collectionName);
-        // Insert some documents
-        collection.insertMany([
-            itemBody
-        ], function (err, result) {
-            if (err != null) {
-                errorCallback(err, 500)
-            }
-            callback();
-        });
-    },
-
-    /**
-     * Query the number of documents
-     */
     queryCount: function (callback, errorCallback) {
         console.log(`Querying container:\n${collectionName}`);
         MongoClient.connect(connectionString, function (err, client) {

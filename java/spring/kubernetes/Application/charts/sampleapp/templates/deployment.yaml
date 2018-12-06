@@ -50,9 +50,11 @@ spec:
             {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.imagePullSecrets }}
+    {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-{{ toYaml . | indent 8 }}
+      {{- range .Values.imagePullSecrets }}
+        - name: {{ . }}
+      {{- end}}
     {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:

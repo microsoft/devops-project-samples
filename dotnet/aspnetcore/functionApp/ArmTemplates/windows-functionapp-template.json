@@ -117,7 +117,7 @@
                     },
                     {
                         "name": "WEBSITE_CONTENTSHARE",
-                        "value": "[parameters('storageAccountName')"
+                        "value": "[parameters('storageAccountName')]"
                     },
                     {
                         "name": "WEBSITE_NODE_DEFAULT_VERSION",
@@ -130,6 +130,7 @@
             "hostingEnvironment": ""
         },
         "dependsOn": [
+            "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
             "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
             "[resourceId('microsoft.insights/components/', parameters('functionAppName'))]"
         ]

@@ -117,7 +117,7 @@
                     },
                     {
                         "name": "WEBSITE_CONTENTSHARE",
-                        "value": "[toLower(parameters('functionAppName'))]"
+                        "value": "[parameters('storageAccountName')"
                     },
                     {
                         "name": "WEBSITE_NODE_DEFAULT_VERSION",

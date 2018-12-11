@@ -94,6 +94,7 @@
         ],
         "properties": {
             "siteConfig": {
+                "alwaysOn": "[not(equals(parameters('sku'), 'Dynamic Y1'))]",
                 "appSettings": [
                     {
                         "name": "APPINSIGHTS_INSTRUMENTATIONKEY",

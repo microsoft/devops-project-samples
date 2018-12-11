@@ -101,21 +101,37 @@
                         "value": "[reference(resourceId('microsoft.insights/components/', parameters('functionAppName')), '2015-05-01').InstrumentationKey]"
                     },
                     {
-                        "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                        "value": "6.9.1"
+                        "name": "FUNCTIONS_WORKER_RUNTIME",
+                        "value": "dotnet"
+                    },
+                    {
+                        "name": "AzureWebJobsStorage",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2015-05-01-preview').key1)]"
                     },
                     {
                         "name": "FUNCTIONS_EXTENSION_VERSION",
-                        "value": "~1"
+                        "value": "~2"
+                    },
+                    {
+                        "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2015-05-01-preview').key1)]"
+                    },
+                    {
+                        "name": "WEBSITE_CONTENTSHARE",
+                        "value": "[parameters('storageAccountName')]"
+                    },
+                    {
+                        "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                        "value": "8.11.1"
                     }
-                ],
-                "phpVersion": "7.1"
+                ]
             },
             "name": "[parameters('functionAppName')]",
             "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
             "hostingEnvironment": ""
         },
         "dependsOn": [
+            "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
             "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
             "[resourceId('microsoft.insights/components/', parameters('functionAppName'))]"
         ]

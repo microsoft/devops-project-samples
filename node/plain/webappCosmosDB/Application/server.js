@@ -7,20 +7,22 @@ var port = process.env.PORT || 8092;
 var dbOperations = require('./databaseOperations.js');
 var utils = require('./utils.js');
 
-http.createServer(function (req, res) {
+var server = http.createServer(function (req, res) {
     var reqUrl = req.url.replace(/^\/+|\/+$/g, '');
     if(!reqUrl || (!!reqUrl && (reqUrl == "" || reqUrl.toLowerCase() == "index.html"))){
         var data = fs.readFileSync('index.html');
         dbOperations.addRecord("index", function(){
             dbOperations.queryCount(function (visitCount){
                 var dom = new JSDOM(`${data}`);
-                dom.window.document.getElementById("visitCount").innerHTML = visitCount;
+                dom.window.document.getElementById("visitCount").innerHTML = "Total visits: " + visitCount;
                 data = dom.serialize()
-                res.writeHead(200, { 'Content-Type': 'text/html', 'Content-Length': data.length });
-                res.write(data);
-                res.end();
-            }, function(error, code){utils.sendError(res, error, code);});
-        }, function(error, code){utils.sendError(res, error, code);});
+                utils.writeResponse(res, data);
+            }, function(error){
+                utils.writeResponse(res, data);
+            });
+        }, function(error){
+            utils.writeResponse(res, data);
+        });
     }
     else if (reqUrl.toLowerCase() == "favicon.ico"){
         data = fs.readFileSync("img/successCloudNew.svg");
@@ -42,11 +44,21 @@ http.createServer(function (req, res) {
                 contentType = "image/svg+xml";
                 break;
         }
-        res.writeHead(200, { 'Content-Type': 'image/svg+xml', 'Content-Length': data.length });
+        res.writeHead(200, { 'Content-Type': contentType, 'Content-Length': data.length });
         res.write(data);
         res.end();
     }
     else {
-        utils.sendError(res, "not found", 404);
+        utils.sendError(res, "not found");
     }
-}).listen(port);
+});
+
+exports.listen = function () {
+    server.listen.apply(server, arguments);
+};
+  
+exports.close = function (callback) {
+    server.close(callback);
+};
+
+server.listen(port);

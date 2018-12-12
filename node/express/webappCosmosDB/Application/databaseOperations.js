@@ -19,7 +19,7 @@ module.exports = {
         console.log(`Querying container:\n${collectionName}`);
         MongoClient.connect(connectionString, function (err, client) {
             if (err != null) {
-                errorCallback(err, 500);
+                errorCallback(err);
                 return;
             }
             console.log("Connected correctly to server");
@@ -29,7 +29,7 @@ module.exports = {
             // Find some documents
             collection.count(function (err, count) {
                 if (err != null) {
-                    errorCallback(err, 500)
+                    errorCallback(err)
                 }
                 console.log(`Found ${count} records`);
                 callback(count);
@@ -46,7 +46,7 @@ module.exports = {
         };
         MongoClient.connect(connectionString, function (err, client) {
             if (err != null) {
-                errorCallback(err, 500);
+                errorCallback(err);
                 return;
             }
             console.log("Connected correctly to server");
@@ -56,7 +56,7 @@ module.exports = {
             // Insert some documents
             collection.insertMany([itemBody], function (err, result) {
                 if (err != null) {
-                    errorCallback(err, 500)
+                    errorCallback(err)
                 }
                 callback();
                 client.close();

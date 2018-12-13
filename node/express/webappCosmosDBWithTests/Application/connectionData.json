@@ -1,0 +1,5 @@
+{
+    "connectionString": "mongodb://account:key@account.documents.azure.com:10255/?ssl=true&replicaSet=globaldb",
+    "databaseName": "sampledatabase",
+    "collectionName": "samplecollection"
+}

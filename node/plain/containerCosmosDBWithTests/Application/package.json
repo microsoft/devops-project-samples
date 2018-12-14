@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-webapp",
+  "version": "0.0.0",
+  "description": "nodejs-webapp",
+  "main": "server.js",
+  "author": {
+    "name": "alagrawa"
+  },
+  "dependencies": {
+    "mongodb": "^3.1.10",
+    "jsdom": "^13.0.0"
+  }
+}

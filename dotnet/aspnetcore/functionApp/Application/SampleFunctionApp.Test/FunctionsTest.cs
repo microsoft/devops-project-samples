@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace SampleFunctionApp.Test
 {
     public class Function1Test
     {
-        private readonly ILogger logger = TestFactory.CreateLogger();
+        private readonly ILogger logger = NullLoggerFactory.Instance.CreateLogger("Null Logger");
 
         [Fact]
         public async void HttpTriggerWithParams()

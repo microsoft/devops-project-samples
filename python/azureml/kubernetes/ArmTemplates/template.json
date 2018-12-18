@@ -34,9 +34,6 @@
         },
         "appInsightsLocation": {
             "type": "string"
-        },
-        "keyVaultTenant": {
-            "type": "string"
         }
     },
     "resources": [
@@ -100,7 +97,7 @@
                     "name": "Standard",
                     "family": "A"
                 },
-                "tenantId": "[parameters('keyVaultTenant')]"
+                "tenantId": "[subscription().tenantId]"
             }
         },
         {

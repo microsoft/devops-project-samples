@@ -1,5 +1,5 @@
 {
-    "connectionString": "mongodb://tedeshpamdb01:EL3quxXtVZwaxJ6CQn9XzM5v8qidszeq7ccoliQDujicwyNdtEzJiQ21sGeB76BwylnJD9HxMb2OtTI4UEWoEw==@tedeshpamdb01.documents.azure.com:10255/?ssl=true&replicaSet=globaldb",
+    "connectionString": "mongodb://account:key@account.documents.azure.com:10255/?ssl=true&replicaSet=globaldb",
     "databaseName": "sampledatabase",
     "collectionName": "samplecollection"
 }

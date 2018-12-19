@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node --no-deprecation app"
   },
   "description": "nodejs-webapp-express",
   "author": {
-    "name": "atulmalaviya"
+    "name": "tejasd1990"
   },
   "dependencies": {
     "applicationinsights": "^1.0.0",

@@ -3,7 +3,7 @@ var http = require('http');
 var jsdom = require('jsdom');
 var { JSDOM } = jsdom;
 var fs = require('fs');
-var port = process.env.PORT || 8092;
+var port = process.env.PORT || 8080;
 var dbOperations = require('./databaseOperations.js');
 var utils = require('./utils.js');
 const appInsights = require('applicationinsights');
@@ -17,13 +17,15 @@ http.createServer(function (req, res) {
         dbOperations.addRecord("index", function(){
             dbOperations.queryCount(function (visitCount){
                 var dom = new JSDOM(`${data}`);
-                dom.window.document.getElementById("visitCount").innerHTML = visitCount;
+                dom.window.document.getElementById("visitCount").innerHTML = "Total visits: " + visitCount;
                 data = dom.serialize()
-                res.writeHead(200, { 'Content-Type': 'text/html', 'Content-Length': data.length });
-                res.write(data);
-                res.end();
-            }, function(error, code){utils.sendError(res, error, code);});
-        }, function(error, code){utils.sendError(res, error, code);});
+                utils.writeResponse(res, data);
+            }, function(error){
+                utils.writeResponse(res, data);
+            });
+        }, function(error){
+            utils.writeResponse(res, data);
+        });
     }
     else if (reqUrl.toLowerCase() == "favicon.ico"){
         data = fs.readFileSync("img/successCloudNew.svg");
@@ -45,11 +47,11 @@ http.createServer(function (req, res) {
                 contentType = "image/svg+xml";
                 break;
         }
-        res.writeHead(200, { 'Content-Type': 'image/svg+xml', 'Content-Length': data.length });
+        res.writeHead(200, { 'Content-Type': contentType, 'Content-Length': data.length });
         res.write(data);
         res.end();
     }
     else {
-        utils.sendError(res, "not found", 404);
+        utils.writeResponse(res, "not found");
     }
 }).listen(port);

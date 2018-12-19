@@ -17,7 +17,7 @@ module.exports = {
 
     queryCount: function (callback, errorCallback) {
         console.log(`Querying container:\n${collectionName}`);
-        MongoClient.connect(connectionString, function (err, client) {
+        MongoClient.connect(connectionString, { useNewUrlParser: true }, function (err, client) {
             if (err != null) {
                 errorCallback(err);
                 return;
@@ -44,7 +44,7 @@ module.exports = {
             "id": milliseconds,
             "page": pageName
         };
-        MongoClient.connect(connectionString, function (err, client) {
+        MongoClient.connect(connectionString, { useNewUrlParser: true }, function (err, client) {
             if (err != null) {
                 errorCallback(err);
                 return;

@@ -20,7 +20,7 @@ router.get('/', function (req, res) {
             res.render('index', {
                 title: 'Express',
                 count: count,
-                message: "Total Visits: " + result
+                message: "Redis count: " + result
             });
         }, function(error){
             res.render('error', {

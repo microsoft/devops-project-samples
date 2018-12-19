@@ -1,8 +1,8 @@
 module.exports = {
 
-    sendError: function (res, data, code) {
+    writeResponse: function (res, data) {
         data = data.toString();
-        res.writeHead(code, { 'Content-Type': 'text/html', 'Content-Length': data.length });
+        res.writeHead(200, { 'Content-Type': 'text/html', 'Content-Length': data.length });
         res.write(data);
         res.end();
     }

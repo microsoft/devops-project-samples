@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node --no-deprecation app"
   },
   "description": "nodejs-webapp-express",
   "author": {
-    "name": "alagrawa"
+    "name": "tejasd1990"
   },
   "dependencies": {
     "body-parser": "^1.15.0",

@@ -2,7 +2,7 @@ var MongoClient = require("mongodb").MongoClient;
 var fs = require('fs');
 var obj = JSON.parse(fs.readFileSync('connectionData.json', 'utf8'));
 
-var connectionString = process.env.connectionString;
+var connectionString = process.env.MYSECRET_CONNECTIONSTRING;
 var stringSplit1 = connectionString.split("://")[1];
 var stringSplit2 = stringSplit1.split('@');
 var userNamePassword = stringSplit2[0];
@@ -15,28 +15,11 @@ connectionString = ("mongodb://" + encodeURIComponent(userName) + ":" + encodeUR
 
 module.exports = {
 
-    insertDocument: function (db, itemBody, callback, errorCallback) {
-        // Get the documents collection
-        const collection = db.collection(collectionName);
-        // Insert some documents
-        collection.insertMany([
-            itemBody
-        ], function (err, result) {
-            if (err != null) {
-                errorCallback(err, 500)
-            }
-            callback();
-        });
-    },
-
-    /**
-     * Query the number of documents
-     */
     queryCount: function (callback, errorCallback) {
         console.log(`Querying container:\n${collectionName}`);
-        MongoClient.connect(connectionString, function (err, client) {
+        MongoClient.connect(connectionString, { useNewUrlParser: true }, function (err, client) {
             if (err != null) {
-                errorCallback(err, 500);
+                errorCallback(err);
                 return;
             }
             console.log("Connected correctly to server");
@@ -46,7 +29,7 @@ module.exports = {
             // Find some documents
             collection.count(function (err, count) {
                 if (err != null) {
-                    errorCallback(err, 500)
+                    errorCallback(err)
                 }
                 console.log(`Found ${count} records`);
                 callback(count);
@@ -61,9 +44,9 @@ module.exports = {
             "id": milliseconds,
             "page": pageName
         };
-        MongoClient.connect(connectionString, function (err, client) {
+        MongoClient.connect(connectionString, { useNewUrlParser: true }, function (err, client) {
             if (err != null) {
-                errorCallback(err, 500);
+                errorCallback(err);
                 return;
             }
             console.log("Connected correctly to server");
@@ -73,7 +56,7 @@ module.exports = {
             // Insert some documents
             collection.insertMany([itemBody], function (err, result) {
                 if (err != null) {
-                    errorCallback(err, 500)
+                    errorCallback(err)
                 }
                 callback();
                 client.close();

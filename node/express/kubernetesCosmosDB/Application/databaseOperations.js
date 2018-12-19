@@ -2,7 +2,7 @@ var MongoClient = require("mongodb").MongoClient;
 var fs = require('fs');
 var obj = JSON.parse(fs.readFileSync('connectionData.json', 'utf8'));
 
-var connectionString = process.env.connectionString;
+var connectionString = process.env.MYSECRET_CONNECTIONSTRING;
 var stringSplit1 = connectionString.split("://")[1];
 var stringSplit2 = stringSplit1.split('@');
 var userNamePassword = stringSplit2[0];
@@ -17,7 +17,7 @@ module.exports = {
 
     queryCount: function (callback, errorCallback) {
         console.log(`Querying container:\n${collectionName}`);
-        MongoClient.connect(connectionString, function (err, client) {
+        MongoClient.connect(connectionString, { useNewUrlParser: true }, function (err, client) {
             if (err != null) {
                 errorCallback(err);
                 return;
@@ -44,7 +44,7 @@ module.exports = {
             "id": milliseconds,
             "page": pageName
         };
-        MongoClient.connect(connectionString, function (err, client) {
+        MongoClient.connect(connectionString, { useNewUrlParser: true }, function (err, client) {
             if (err != null) {
                 errorCallback(err);
                 return;

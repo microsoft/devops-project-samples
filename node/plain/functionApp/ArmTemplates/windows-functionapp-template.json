@@ -102,7 +102,7 @@
                     },
                     {
                         "name": "FUNCTIONS_WORKER_RUNTIME",
-                        "value": "dotnet"
+                        "value": "node"
                     },
                     {
                         "name": "AzureWebJobsStorage",

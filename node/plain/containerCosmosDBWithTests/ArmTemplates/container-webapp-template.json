@@ -15,17 +15,17 @@
             "defaultValue": "Standard",
             "type": "String"
         },
-        "registryName": {
-            "type": "String"
-        },
-        "imageName": {
-            "type":"String"
-        },
         "databaseAccountId": {
             "type": "string"
         },
         "databaseAccountLocation": {
             "type": "string"
+        },
+        "registryName": {
+            "type": "String"
+        },
+        "imageName": {
+            "type":"String"
         },
         "registryLocation": {
             "type": "String"

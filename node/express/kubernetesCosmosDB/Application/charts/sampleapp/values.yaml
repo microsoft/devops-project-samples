@@ -24,7 +24,9 @@ ingress:
   path: /
   hostname: VALUE_TO_BE_OVERRIDDEN
 
-secrets: {}
+secrets:
+  mysecret:
+    connectionString: VALUE_TO_BE_OVERRIDDEN
   # Optionally specify a set of secret objects whose values
   # will be injected as environment variables by default.
   # You should add this section to a file like secrets.yaml

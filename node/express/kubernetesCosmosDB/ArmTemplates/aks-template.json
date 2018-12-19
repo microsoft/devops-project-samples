@@ -39,6 +39,10 @@
         },
         "databaseAccountLocation": {
             "type": "string"
+        },
+        "clusterTags": {
+            "type": "object",
+            "defaultValue": {}
         }
     },
     "variables": {
@@ -64,6 +68,7 @@
             "type": "Microsoft.ContainerService/managedClusters",
             "location": "[parameters('clusterLocation')]",
             "name": "[parameters('clusterName')]",
+            "tags": "[parameters('clusterTags')]",
             "dependsOn": [
                 "[variables('omsWorkspaceId')]"
             ],

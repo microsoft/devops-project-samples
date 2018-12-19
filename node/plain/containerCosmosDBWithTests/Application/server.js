@@ -49,7 +49,7 @@ var server = http.createServer(function (req, res) {
         res.end();
     }
     else {
-        utils.sendError(res, "not found");
+        utils.writeResponse(res, "not found");
     }
 });
 

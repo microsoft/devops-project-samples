@@ -9,5 +9,8 @@
   "dependencies": {
     "mongodb": "^3.1.10",
     "jsdom": "^13.0.0"
+  },
+  "engines": {
+    "node": "^8.1.4"
   }
 }

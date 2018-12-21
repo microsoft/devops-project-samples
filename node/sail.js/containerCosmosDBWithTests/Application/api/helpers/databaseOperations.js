@@ -16,6 +16,35 @@ var databaseName = obj.databaseName;
 var collectionName = obj.collectionName;
 connectionString = ("mongodb://" + encodeURIComponent(userName) + ":" + encodeURIComponent(password) + "@" + stringSplit2[1]);
 
+if(process.env.NODE_ENV == "test"){
+    MongoClient =  {
+        connect: function(connectionString, options, callback){
+            var client = {
+                db: function(databaseName){
+                    var testDB = {
+                        collection: function(collectionName){
+                            var testCollection = {
+                                count: function(callback){
+                                    callback(null, "unittest");
+                                },
+                                insertMany: function(items, callback){
+                                    callback(null, "success");
+                                }
+                            }
+                            return testCollection;
+                        }
+                    }
+                    return testDB;
+                },
+                close: function(){
+                    
+                }
+            }
+            callback(null, client);
+        }
+    };
+}
+
 module.exports = {
 
     queryCount: function (callback, errorCallback) {

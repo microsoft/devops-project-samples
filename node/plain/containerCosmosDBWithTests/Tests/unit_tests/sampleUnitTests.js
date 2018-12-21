@@ -16,7 +16,6 @@ describe('sampleUnitTests', function () {
     });
 
     it('Should return 200', function (done) {
-        this.timeout(40000);
         http.get('http://localhost:8092', function (res) {
             assert.equal(200, res.statusCode, 'Result code should be 200.');
             done();
@@ -24,7 +23,6 @@ describe('sampleUnitTests', function () {
     });
 
     it('Should read index.html', function (done) {
-        this.timeout(40000);
         http.get('http://localhost:8092', function (res) {
             assert.equal(200, res.statusCode, 'Result code should be 200.');
             var data = '';

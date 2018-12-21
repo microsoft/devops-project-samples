@@ -14,8 +14,11 @@ var server = http.createServer(function (req, res) {
         dbOperations.addRecord("index", function(){
             dbOperations.queryCount(function (visitCount){
                 var dom = new JSDOM(`${data}`);
-                dom.window.document.getElementById("visitCount").innerHTML = "Total visits: " + visitCount;
-                data = dom.serialize()
+                var visitCountElement = dom.window.document.getElementById("visitCount");
+                if(!!visitCountElement){
+                    visitCountElement.innerHTML = "Total visits: " + visitCount;
+                    data = dom.serialize();
+                }
                 utils.writeResponse(res, data);
             }, function(error){
                 utils.writeResponse(res, data);

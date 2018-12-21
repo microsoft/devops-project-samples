@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "nodejs-webapp-tests",
   "author": {
-    "name": "tejasd1990"
+    "name": "shrer"
   },
   "dependencies": {
     "gulp": "^3.9.1",

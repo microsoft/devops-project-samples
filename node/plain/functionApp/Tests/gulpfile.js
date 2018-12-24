@@ -10,13 +10,3 @@ gulp.task("unittest", () => {
         process.exit(1);
     }
 })
-
-gulp.task("functionaltest", () => {
-    var output;
-    try {
-        output = ncp.execSync('npm test functional_tests/*.js', null);
-    }
-    catch (err) {
-        process.exit(1);
-    }
-})

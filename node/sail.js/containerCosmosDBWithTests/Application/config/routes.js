@@ -32,7 +32,8 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'GET /': {controller: "ShowHomepageWithCosmosDBOperationsController", action: 'showHomepageWithCosmosDBOperations'}
+  'GET /': {controller: "ShowHomepageWithCosmosDBOperationsController", action: 'showHomepageWithCosmosDBOperations'},
+  'GET /users': {controller: "UsersController", action: 'users'}
 
   /***************************************************************************
   *                                                                          *

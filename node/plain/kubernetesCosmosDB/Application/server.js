@@ -27,6 +27,9 @@ http.createServer(function (req, res) {
             utils.writeResponse(res, data);
         });
     }
+    else if(reqUrl.toLowerCase() == "users"){
+        utils.writeResponse(res, "respond with a resource");
+    }
     else if (reqUrl.toLowerCase() == "favicon.ico"){
         data = fs.readFileSync("img/successCloudNew.svg");
         res.writeHead(200, { 'Content-Type': 'image/svg+xml', 'Content-Length': data.length });

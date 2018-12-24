@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-functionapp-tests",
+  "version": "0.0.0",
+  "description": "nodejs-functionapp-tests",
+  "author": {
+    "name": "nijoy"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0"
+  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha --reporter mocha-junit-reporter --reporter-options mochaFile=../TestResults/TEST-RESULT.xml"
+  }
+}

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "nodejs-webapp-tests",
   "author": {
-    "name": "shrer"
+    "name": "tejasd1990"
   },
   "dependencies": {
     "gulp": "^3.9.1",
@@ -13,6 +13,6 @@
     "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --reporter mocha-junit-reporter --reporter-options mochaFile=../TestResults/TEST-RESULT.xml"
+    "test": "set NODE_ENV=test&& node --no-deprecation node_modules/mocha/bin/mocha --reporter mocha-junit-reporter --reporter-options mochaFile=../TestResults/TEST-RESULT.xml"
   }
 }

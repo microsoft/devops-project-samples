@@ -1,0 +1,20 @@
+{
+  "name": "nodejs-webapp",
+  "version": "0.0.0",
+  "description": "nodejs-webapp",
+  "scripts": {
+    "start": "node --no-deprecation server"
+  },
+  "author": {
+    "name": "tejasd1990"
+  },
+  "dependencies": {
+    "applicationinsights": "^1.0.0",
+    "nodemon": "~1.17.3",
+    "mongodb": "^3.1.10",
+    "jsdom": "^13.0.0"
+  },
+  "engines": {
+    "node": "^8.1.4"
+  }
+}

@@ -110,7 +110,7 @@
     ],
     "outputs": {
         "azureCosmosDBAccountKeys": {
-            "value": "[listConnectionStrings(parameters('databaseAccountId'), '2015-04-08')]",
+            "value": "[listConnectionStrings(concat('Microsoft.DocumentDb/databaseAccounts/', parameters('databaseAccountId')), '2015-04-08')]",
             "type": "object"
         }
     }

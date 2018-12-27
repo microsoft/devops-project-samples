@@ -1,7 +1,7 @@
 var assert = require('assert');
 var app = require('../../Application/app');
 var http = require('http');
- 
+
 describe('sampleUnitTests', function () {
     before(function () {
     });
@@ -11,7 +11,6 @@ describe('sampleUnitTests', function () {
     });
 
     it('Should return 200', function (done) {
-        this.timeout(5000);
         http.get('http://localhost:3000', function (res) {
             assert.equal(200, res.statusCode, 'Result code should be 200.');
             done();
@@ -19,7 +18,6 @@ describe('sampleUnitTests', function () {
     });
 
     it('Assert title', function (done) {
-        this.timeout(5000);
         http.get('http://localhost:3000', function (res) {
             assert.equal(200, res.statusCode, 'Result code should be 200.');
             var data = '';

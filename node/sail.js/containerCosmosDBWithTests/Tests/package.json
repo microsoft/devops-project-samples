@@ -1,0 +1,17 @@
+{
+  "name": "nodejs-webapp-tests",
+  "version": "0.0.0",
+  "description": "nodejs-webapp-tests",
+  "author": {
+    "name": "shrer"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  },
+  "scripts": {
+    "test": "set connectionString=mongodb://account:key@account.documents.azure.com:10255/?ssl=true&& set NODE_ENV=test&& node --no-deprecation node_modules/mocha/bin/mocha --reporter mocha-junit-reporter --reporter-options mochaFile=../TestResults/TEST-RESULT.xml"
+  }
+}

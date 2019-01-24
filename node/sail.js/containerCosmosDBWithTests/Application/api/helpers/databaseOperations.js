@@ -6,7 +6,7 @@ var obj = {
 };
 
 var connectionString = "mongodb://account:key@account.documents.azure.com:10255/?ssl=true";
-if(process.env.NODE_ENV == "prod"){
+if(process.env.NODE_ENV == "production"){
     var connectionString = process.env.connectionString;
     var stringSplit1 = connectionString.split("://")[1];
     var stringSplit2 = stringSplit1.split('@');

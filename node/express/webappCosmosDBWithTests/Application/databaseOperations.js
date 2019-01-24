@@ -3,7 +3,7 @@ var fs = require('fs');
 var obj = JSON.parse(fs.readFileSync('connectionData.json', 'utf8'));
 
 var connectionString = "mongodb://account:key@account.documents.azure.com:10255/?ssl=true";
-if(process.env.NODE_ENV == "prod"){
+if(process.env.NODE_ENV == "production"){
     var connectionString = obj.connectionString;
     var stringSplit1 = connectionString.split("://")[1];
     var stringSplit2 = stringSplit1.split('@');

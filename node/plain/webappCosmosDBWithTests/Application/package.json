@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "nodejs-webapp",
   "scripts": {
-    "start": "set NODE_ENV=prod&& node --no-deprecation server"
+    "start": "set NODE_ENV=production&& node --no-deprecation server"
   },
   "author": {
     "name": "tejasd1990"

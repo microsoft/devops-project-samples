@@ -26,8 +26,8 @@
     "mongodb": "^3.1.10"
   },
   "scripts": {
-    "debug": "set NODE_ENV=prod&& node --no-deprecation debug app.js",
-    "start": "set NODE_ENV=prod&& node --no-deprecation app.js"
+    "debug": "set NODE_ENV=production&& node --no-deprecation debug app.js",
+    "start": "set NODE_ENV=production&& node --no-deprecation app.js"
   },
   "main": "app.js",
   "repository": {

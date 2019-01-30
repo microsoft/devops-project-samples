@@ -16,7 +16,8 @@
     "express": "^4.14.0",
     "morgan": "^1.7.0",
     "pug": "^2.0.0-beta6",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "natives": "^1.1.6"
   },
   "engines": {
     "node": "~6.10.x"

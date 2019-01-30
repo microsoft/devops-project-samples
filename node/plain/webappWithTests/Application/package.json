@@ -5,5 +5,8 @@
   "main": "server.js",
   "author": {
     "name": "alagrawa"
+  },
+  "dependencies": {
+    "natives": "^1.1.6"
   }
 }

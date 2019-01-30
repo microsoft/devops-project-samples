@@ -22,7 +22,8 @@
     "include-all": "^1.0.8",
     "rc": "1.0.1",
     "sails": "~0.12.14",
-    "sails-disk": "~0.10.9"
+    "sails-disk": "~0.10.9",
+    "natives": "^1.1.6"
   },
   "scripts": {
     "debug": "node debug app.js",

@@ -59,6 +59,11 @@ try {
   }
 }
 
-//appInsights.start();
+var appInsights = require('applicationinsights');
+if(process.env.NODE_ENV == "production"){
+    appInsights.setup();
+    appInsights.start();
+}
+
 // Start server
 sails.lift(rc('sails'));

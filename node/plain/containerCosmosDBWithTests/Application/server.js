@@ -7,6 +7,12 @@ var port = process.env.PORT || 8092;
 var dbOperations = require('./databaseOperations.js');
 var utils = require('./utils.js');
 
+var appInsights = require('applicationinsights');
+if(process.env.NODE_ENV == "production"){
+    appInsights.setup();
+    appInsights.start();
+}
+
 var server = http.createServer(function (req, res) {
     var reqUrl = req.url.replace(/^\/+|\/+$/g, '');
     if(!reqUrl || (!!reqUrl && (reqUrl == "" || reqUrl.toLowerCase() == "index.html"))){

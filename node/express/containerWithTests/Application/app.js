@@ -10,6 +10,12 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var appInsights = require('applicationinsights');
+if(process.env.NODE_ENV == "production"){
+    appInsights.setup();
+    appInsights.start();
+}
+
 var server; 
 var app = express();
 

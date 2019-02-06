@@ -21,6 +21,9 @@
         },  
         "hostingPlanName": {
             "type": "string"
+        },
+        "appInsightLocation": {
+            "type": "string"
         }
     },
     "resources": [
@@ -124,7 +127,7 @@
         "apiVersion": "2018-05-01-preview",
         "name": "[parameters('functionAppName')]",
         "type": "microsoft.insights/components",
-        "location": "[resourceGroup().location]",
+        "location": "[parameters('appInsightLocation')]",
         "tags": {
           "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('functionAppName'))]": "Resource"
         },

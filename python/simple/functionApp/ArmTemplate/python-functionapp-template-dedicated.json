@@ -65,7 +65,7 @@
                         }
                     ],
                     "alwaysOn": "true",
-                    "linuxFxVersion": "DOCKER|microsoft/azure-functions-node8:2.0"
+                    "linuxFxVersion": "DOCKER|microsoft/azure-functions-python3.6:2.0"
                 },
                 "name": "[parameters('functionAppName')]",
                 "clientAffinityEnabled": false,

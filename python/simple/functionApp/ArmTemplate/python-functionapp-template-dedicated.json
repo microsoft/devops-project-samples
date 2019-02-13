@@ -8,18 +8,13 @@
         "storageAccountName": {
             "type": "string"
         },
-        "sku": {
-            "type": "string",
-            "defaultValue": "Dynamic Y1",
-            "allowedValues": [
-                "Dynamic Y1",
-                "Standard S1"
-            ]
-        },
         "hostingPlanName": {
             "type": "string"
         },
         "appInsightLocation": {
+            "type": "string"
+        },
+        "subscriptionId": {
             "type": "string"
         }
     },
@@ -27,16 +22,20 @@
          {
             "type": "Microsoft.Web/serverfarms",
             "sku": {
-                "Tier": "[first(split(parameters('sku'), ' '))]",
-                "Name": "[first(skip(split(parameters('sku'), ' '), 1))]"
+                "Tier": "Standard",
+                "Name": "S1"
             },
             "apiVersion": "2015-08-01",
             "name": "[parameters('hostingPlanName')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "name": "[parameters('hostingPlanName')]",
-                "reserved": true
-            }
+                "workerSizeId": "3",
+                "reserved": true,
+                "numberOfWorkers": "1",
+                "hostingEnvironment": ""
+            },
+            "kind": "linux"
         },
         {
             "name": "[parameters('functionAppName')]",
@@ -64,11 +63,14 @@
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                             "value": "[reference(resourceId('microsoft.insights/components/', parameters('functionAppName')), '2015-05-01').InstrumentationKey]"
                         }
-                    ]
+                    ],
+                    "alwaysOn": "true",
+                    "linuxFxVersion": "DOCKER|microsoft/azure-functions-node8:2.0"
                 },
                 "name": "[parameters('functionAppName')]",
                 "clientAffinityEnabled": false,
-                "reserved": true
+                "serverFarmId": "[concat('subscriptions/', parameters('subscriptionId'), '/resourceGroups/',resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "hostingEnvironment": ""
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
@@ -77,7 +79,7 @@
             ],
             "apiVersion": "2016-03-01",
             "location": "[resourceGroup().location]",
-            "kind": "functionapp,linux"
+            "kind": "functionapp"
         },
         {
             "apiVersion": "2015-05-01-preview",

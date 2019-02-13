@@ -16,10 +16,10 @@ class Request:
 
 def test_response_with_param():
         req = Request()
-        req.params['name'] = "Nitin"
+        req.params['name'] = "Bill"
         response = __init__.main(req)
         assert response.status_code==200
-        assert response.get_body()==b"Hello Nitin! Welcome to Azure Functions!"
+        assert response.get_body()==b"Hello Bill! Welcome to Azure Functions!"
 
         
 def test_response_without_param():

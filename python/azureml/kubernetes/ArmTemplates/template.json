@@ -14,9 +14,6 @@
         "appInsightsName": {
             "type": "string"
         },
-        "keyVaultName": {
-            "type": "string"
-        },
         "containerRegistryId": {
             "type": "string"
         },
@@ -54,7 +51,6 @@
                 "type": "systemAssigned"
             },
             "dependsOn": [                
-                "[parameters('keyVaultId')]",
                 "[parameters('storageAccountId')]",
                 "[parameters('appInsightsId')]",
                 "[parameters('containerRegistryId')]"
@@ -82,23 +78,6 @@
                 "adminUserEnabled": true
             },
             "kind": "Registry"
-        },
-        {
-            "apiVersion": "2015-06-01",
-            "name": "[parameters('keyVaultName')]",
-            "location": "[parameters('location')]",
-            "type": "Microsoft.KeyVault/vaults",
-            "properties": {
-                "accessPolicies": [],
-                "enabledForDeployment": true,
-                "enabledForTemplateDeployment": true,
-                "enabledForVolumeEncryption": true,
-                "sku": {
-                    "name": "Standard",
-                    "family": "A"
-                },
-                "tenantId": "[subscription().tenantId]"
-            }
         },
         {
             "apiVersion": "2015-05-01",

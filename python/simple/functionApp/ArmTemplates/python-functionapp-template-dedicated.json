@@ -16,14 +16,18 @@
         },
         "subscriptionId": {
             "type": "string"
+        },
+        "sku": {
+            "type": "string",
+            "defaultValue": "Standard S1"
         }
     },
     "resources": [
          {
             "type": "Microsoft.Web/serverfarms",
             "sku": {
-                "Tier": "Standard",
-                "Name": "S1"
+                "Tier": "[first(split(parameters('sku'), ' '))]",
+                "Name": "[first(skip(split(parameters('sku'), ' '), 1))]"
             },
             "apiVersion": "2015-08-01",
             "name": "[parameters('hostingPlanName')]",

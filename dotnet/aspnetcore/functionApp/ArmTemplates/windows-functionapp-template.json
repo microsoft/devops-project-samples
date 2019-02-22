@@ -10,11 +10,7 @@
         },
         "sku": {
             "type": "string",
-            "defaultValue": "Dynamic Y1",
-            "allowedValues": [
-                "Dynamic Y1",
-                "Standard S1"
-            ]
+            "defaultValue": "Dynamic Y1"
         },
         "storageAccountName": {
             "type": "string"          

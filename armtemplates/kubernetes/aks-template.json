@@ -1,6 +1,3 @@
-// 20181009152221
-// https://raw.githubusercontent.com/Microsoft/devops-project-samples/armtemplates/kubernetes/aks-template.json
-
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
@@ -36,11 +33,13 @@
     },
     "omsLocation": {
       "type": "string"
+    },
+    "omsWorkspaceName": {
+      "type": "string"
     }
   },
   "variables": {
-    "omsWorkspaceName": "[concat(take(parameters('clusterName'), 30), '-', guid(parameters('clusterName')))]",
-    "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
+    "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', parameters('omsWorkspaceName'))]"
   },
   "resources": [
     {
@@ -74,7 +73,7 @@
           "omsagent": {
             "enabled": true,
             "config": {
-              "logAnalyticsWorkspaceResourceID": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('omsWorkspaceName'))]"
+              "logAnalyticsWorkspaceResourceID": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('omsWorkspaceName'))]"
             }
           }
         },
@@ -94,7 +93,7 @@
     {
       "apiVersion": "2017-03-15-preview",
       "type": "Microsoft.OperationalInsights/workspaces",
-      "name": "[variables('omsWorkspaceName')]",
+      "name": "[parameters('omsWorkspaceName')]",
       "location": "[parameters('omsLocation')]",
       "properties": {
         "sku": {
@@ -109,12 +108,12 @@
       "dependsOn": [
         "[variables('omsWorkspaceId')]"
       ],
-      "name": "[concat('ContainerInsights', '(', variables('omsWorkspaceName'), ')')]",
+      "name": "[concat('ContainerInsights', '(', parameters('omsWorkspaceName'), ')')]",
       "properties": {
-        "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
+        "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsWorkspaceName'))]"
       },
       "plan": {
-        "name": "[concat('ContainerInsights', '(', variables('omsWorkspaceName'), ')')]",
+        "name": "[concat('ContainerInsights', '(', parameters('omsWorkspaceName'), ')')]",
         "product": "OMSGallery/ContainerInsights",
         "promotionCode": "",
         "publisher": "Microsoft"

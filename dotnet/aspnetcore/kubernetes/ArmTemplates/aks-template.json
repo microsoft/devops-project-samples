@@ -37,6 +37,9 @@
         "clusterTags": {
             "type": "object",
             "defaultValue": {}
+        },
+        "httpApplicationRoutingEnabled": {
+            "type": "string"
         }
     },
     "variables": {
@@ -71,7 +74,7 @@
                 "kubernetesVersion": "[parameters('kubernetesVersion')]",
                 "addonProfiles": {
                     "httpApplicationRouting": {
-                        "enabled": true
+                        "enabled": "[parameters('httpApplicationRoutingEnabled')]"
                     },
                     "omsagent": {
                         "enabled": true,

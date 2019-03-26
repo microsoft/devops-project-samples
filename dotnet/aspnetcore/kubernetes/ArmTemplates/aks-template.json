@@ -127,7 +127,7 @@
     ],
     "outputs": {
         "applicationRoutingZone": {
-            "value": "[if(equals(parameters('httpApplicationRoutingEnabled'), true), reference(variables('clusterId')).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName, '')]",
+            "value": "[if(parameters('httpApplicationRoutingEnabled'), reference(variables('clusterId')).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName, '')]",
             "type": "string"
         },
         "aiKey": {

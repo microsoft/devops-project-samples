@@ -40,7 +40,8 @@
     },
     "variables": {
         "omsWorkspaceName": "[concat(take(parameters('clusterName'), 30), '-', guid(parameters('clusterName')))]",
-        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
+        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]",
+        "clusterId": "concat('Microsoft.ContainerService/managedClusters/',parameters('clusterName'))"
     },
     "resources": [
         {
@@ -125,9 +126,9 @@
         }
     ],
     "outputs": {
-        "yesOutput": {
-            "type": "string",
-            "value": "[if(equals('a', 'a'), 'yes', 'no')]"
+        "applicationRoutingZone": {
+            "value": "[if(equals(parameters('httpApplicationRoutingEnabled'), true), reference(variables('clusterId')).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName, '')]",
+            "type": "string"
         },
         "aiKey": {
             "value": "[reference(concat('Microsoft.Insights/components/', parameters('clusterName'))).InstrumentationKey]",

@@ -34,10 +34,6 @@
         "omsLocation": {
             "type": "string"
         },
-        "clusterTags": {
-            "type": "object",
-            "defaultValue": {}
-        },
         "httpApplicationRoutingEnabled": {
             "type": "bool"
         }
@@ -65,7 +61,9 @@
             "type": "Microsoft.ContainerService/managedClusters",
             "location": "[parameters('clusterLocation')]",
             "name": "[parameters('clusterName')]",
-            "tags": "[parameters('clusterTags')]",
+            "tags": {
+                "hidden-DevOpsInfo:createdByDevOps;11ef12d8-3227-4b5b-a970-6ec478af32d2_f8bf58a9-bd99-486b-8e9f-b2d414a670b3_1;": ""
+            },
             "dependsOn": [
                 "[variables('omsWorkspaceId')]"
             ],

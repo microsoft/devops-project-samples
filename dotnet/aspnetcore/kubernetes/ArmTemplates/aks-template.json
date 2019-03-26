@@ -125,9 +125,9 @@
         }
     ],
     "outputs": {
-        "applicationRoutingZone": {
-            "value": "[if(parameters('httpApplicationRoutingEnabled'), reference(concat('Microsoft.ContainerService/managedClusters/', parameters('clusterName'))).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName, null)]",
-            "type": "string"
+        "yesOutput": {
+            "type": "string",
+            "value": "[if(equals('a', 'a'), 'yes', 'no')]"
         },
         "aiKey": {
             "value": "[reference(concat('Microsoft.Insights/components/', parameters('clusterName'))).InstrumentationKey]",

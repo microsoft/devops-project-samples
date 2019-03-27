@@ -45,7 +45,7 @@
     "variables": {
         "omsWorkspaceName": "[concat(take(parameters('clusterName'), 30), '-', guid(parameters('clusterName')))]",
         "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]",
-        "clusterId": "concat('Microsoft.ContainerService/managedClusters/',parameters('clusterName'))"
+        "clusterId": "[concat('Microsoft.ContainerService/managedClusters/',parameters('clusterName'))]"
     },
     "resources": [
         {

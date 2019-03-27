@@ -46,10 +46,14 @@
         },
         "omsWorkspaceName": {
             "type": "string"
+        },
+        "httpApplicationRoutingEnabled": {
+            "type": "bool"
         }
     },
     "variables": {
-        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', parameters('omsWorkspaceName'))]"
+        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', parameters('omsWorkspaceName'))]",
+        "clusterId": "[concat('Microsoft.ContainerService/managedClusters/',parameters('clusterName'))]"
     },
     "resources": [
         {
@@ -79,7 +83,7 @@
                 "kubernetesVersion": "[parameters('kubernetesVersion')]",
                 "addonProfiles": {
                     "httpApplicationRouting": {
-                        "enabled": true
+                        "enabled": "[parameters('httpApplicationRoutingEnabled')]"
                     },
                     "omsagent": {
                         "enabled": true,
@@ -144,7 +148,7 @@
     ],
     "outputs": {
         "applicationRoutingZone": {
-            "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('clusterName'))).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName]",
+            "value": "[if(parameters('httpApplicationRoutingEnabled'), reference(variables('clusterId')).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName, '')]",
             "type": "string"
         },
         "aiKey": {

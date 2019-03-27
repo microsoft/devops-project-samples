@@ -37,11 +37,15 @@
         "clusterTags": {
             "type": "object",
             "defaultValue": {}
+        },
+        "httpApplicationRoutingEnabled": {
+            "type": "bool"
         }
     },
     "variables": {
         "omsWorkspaceName": "[concat(take(parameters('clusterName'), 30), '-', guid(parameters('clusterName')))]",
-        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
+        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]",
+        "clusterId": "[concat('Microsoft.ContainerService/managedClusters/',parameters('clusterName'))]"
     },
     "resources": [
         {
@@ -125,7 +129,7 @@
     ],
     "outputs": {
         "applicationRoutingZone": {
-            "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('clusterName'))).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName]",
+            "value": "[if(parameters('httpApplicationRoutingEnabled'), reference(variables('clusterId')).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName, '')]",
             "type": "string"
         },
         "aiKey": {

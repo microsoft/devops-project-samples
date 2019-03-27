@@ -38,13 +38,15 @@
             "type": "object",
             "defaultValue": {}
         },
+        "omsWorkspaceName": {
+            "type": "string"
+        },
         "httpApplicationRoutingEnabled": {
             "type": "bool"
         }
     },
     "variables": {
-        "omsWorkspaceName": "[concat(take(parameters('clusterName'), 30), '-', guid(parameters('clusterName')))]",
-        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]",
+        "omsWorkspaceId": "[concat('Microsoft.OperationalInsights/workspaces/', parameters('omsWorkspaceName'))]",
         "clusterId": "[concat('Microsoft.ContainerService/managedClusters/',parameters('clusterName'))]"
     },
     "resources": [
@@ -80,7 +82,7 @@
                     "omsagent": {
                         "enabled": true,
                         "config": {
-                            "logAnalyticsWorkspaceResourceID": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('omsWorkspaceName'))]"
+                            "logAnalyticsWorkspaceResourceID": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('omsWorkspaceName'))]"
                         }
                     }
                 },
@@ -100,7 +102,7 @@
         {
             "apiVersion": "2017-03-15-preview",
             "type": "Microsoft.OperationalInsights/workspaces",
-            "name": "[variables('omsWorkspaceName')]",
+            "name": "[parameters('omsWorkspaceName')]",
             "location": "[parameters('omsLocation')]",
             "properties": {
                 "sku": {
@@ -115,12 +117,12 @@
             "dependsOn": [
                 "[variables('omsWorkspaceId')]"
             ],
-            "name": "[concat('ContainerInsights', '(', variables('omsWorkspaceName'), ')')]",
+            "name": "[concat('ContainerInsights', '(', parameters('omsWorkspaceName'), ')')]",
             "properties": {
-                "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('omsWorkspaceName'))]"
+                "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsWorkspaceName'))]"
             },
             "plan": {
-                "name": "[concat('ContainerInsights', '(', variables('omsWorkspaceName'), ')')]",
+                "name": "[concat('ContainerInsights', '(', parameters('omsWorkspaceName'), ')')]",
                 "product": "OMSGallery/ContainerInsights",
                 "promotionCode": "",
                 "publisher": "Microsoft"

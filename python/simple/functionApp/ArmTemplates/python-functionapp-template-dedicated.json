@@ -101,7 +101,7 @@
             "location": "[parameters('appInsightLocation')]",
             "properties": {
                 "ApplicationId": "[parameters('functionAppName')]",
-                "Request_Source": "IbizaWebAppExtensionCreate"
+                "Request_Source": "AzureTfsExtensionAzureProject"
             }
         }
     ]

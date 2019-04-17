@@ -19,25 +19,29 @@
         },
         "sku": {
             "type": "string",
-            "defaultValue": "Standard S1"
+            "defaultValue": "Dynamic Y1",
+            "allowedValues": [ "Dynamic Y1" ]
         }
     },
     "resources": [
          {
             "type": "Microsoft.Web/serverfarms",
             "sku": {
-                "Tier": "[first(split(parameters('sku'), ' '))]",
-                "Name": "[first(skip(split(parameters('sku'), ' '), 1))]"
+                "tier": "Dynamic",
+                "name": "Y1",
+                "size": "Y1",
+                "family": "Y",
+                "capacity": 0
             },
             "apiVersion": "2015-08-01",
             "name": "[parameters('hostingPlanName')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "name": "[parameters('hostingPlanName')]",
-                "workerSizeId": "3",
+                "perSiteScaling": false,
                 "reserved": true,
-                "numberOfWorkers": "1",
-                "hostingEnvironment": ""
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
             },
             "kind": "linux"
         },
@@ -67,9 +71,7 @@
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                             "value": "[reference(resourceId('microsoft.insights/components/', parameters('functionAppName')), '2015-05-01').InstrumentationKey]"
                         }
-                    ],
-                    "alwaysOn": "true",
-                    "linuxFxVersion": "DOCKER|microsoft/azure-functions-python3.6:2.0"
+                    ]
                 },
                 "name": "[parameters('functionAppName')]",
                 "clientAffinityEnabled": false,
@@ -83,7 +85,7 @@
             ],
             "apiVersion": "2016-03-01",
             "location": "[resourceGroup().location]",
-            "kind": "functionapp"
+            "kind": "functionapp,linux"
         },
         {
             "apiVersion": "2015-05-01-preview",

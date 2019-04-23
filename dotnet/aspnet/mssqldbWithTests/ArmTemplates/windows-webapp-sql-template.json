@@ -29,6 +29,10 @@
         },
         "databaseName": {
             "type": "string"
+        },
+        "databaseEdition": {
+            "type": "string",
+            "defaultValue": "Basic"
         }
     },
     "resources": [
@@ -122,7 +126,7 @@
                     "apiVersion": "2014-04-01-preview",
                     "location": "[parameters('databaseLocation')]",
                     "properties": {
-                        "edition": "Basic",
+                        "edition": "[parameters('databaseEdition')]",
                         "collation": "SQL_Latin1_General_CP1_CI_AS",
                         "maxSizeBytes": "2147483648",
                         "requestedServiceObjectiveId": "dd6d99bb-f193-4ec1-86f2-43d3bccbc49c"

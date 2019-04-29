@@ -4,10 +4,6 @@ const {until} = require('selenium-webdriver');
 
 process.env['Path'] = process.env['Path'] + ';' + process.env['ChromeWebDriver'];
 
-async function sleep_for_milliseconds(milliseconds){
-	await sleep(milliseconds)
-}
-
 describe('sampleFunctionalTests', function () {
 	this.timeout(120000);
 
@@ -30,25 +26,23 @@ describe('sampleFunctionalTests', function () {
 			});
     });
 
-    var numRetries = 5;
-	for (var i = 0; i < numRetries; i++)
-    {
-		it('Assert page title', (done) => {
-			driver.get(process.env['webAppUrl']).then(() => {
-				return driver.wait(until.titleIs('Node.js Application'), 2000);
-			})
-			.then(() => 
+	it('Assert page title', async() => {
+		var numRetries = 5;
+		for (var i = 0; i < numRetries; i++)
+    	{
+			try
 			{
-				done();
-				break;
-			})
-			.catch((err) => {
+				await driver.get(process.env['webAppUrl']);
+				await driver.wait(until.titleIs('Node.js Application'), 2000);
+			}
+			catch(err)
+			{
 				if(i == (numRetries - 1))
 				{
-					done('Failed with error ' + err);
+					throw new Error('Failed with error ' + err);
 				}
-				sleep_for_milliseconds(5000);
-			});
-		});
-	}
+				await sleep(5000);
+			}
+		}
+	});
 });

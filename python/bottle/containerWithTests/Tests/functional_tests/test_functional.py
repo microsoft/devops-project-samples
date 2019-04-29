@@ -4,6 +4,7 @@ import unittest
 import os
 import sys
 import pytest
+import time
 
 class FunctionalTests(unittest.TestCase):
 
@@ -13,15 +14,20 @@ class FunctionalTests(unittest.TestCase):
 		self.driver = webdriver.Chrome(os.path.join(os.environ["ChromeWebDriver"], 'chromedriver.exe'), chrome_options=options)
 
 	def test_selenium(self):
-		try:
-			webAppUrl = pytest.config.getoption('webAppUrl')
-			response = self.driver.get(webAppUrl)
-			title = self.driver.title
-			self.assertIn("Home Page - Python Bottle Application", title)
-		except AssertionError:
-			raise
-		except Exception as e:
-			pytest.fail('tests_selenium.Error occurred while executing tests: ' + str(e))
+		num_retries = 5
+		for i in range(num_retries):
+			try:
+				webAppUrl = pytest.config.getoption('webAppUrl')
+				response = self.driver.get(webAppUrl)
+				title = self.driver.title
+				self.assertIn("Home Page - Python Bottle Application", title)
+				break
+			except AssertionError:
+				if(i == (num_retries - 1)):
+					raise
+				time.sleep(5)
+			except Exception as e:
+				pytest.fail('tests_selenium.Error occurred while executing tests: ' + str(e))
 
 	def tearDown(self):
 		try:

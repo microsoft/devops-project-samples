@@ -27,7 +27,7 @@ public class SampleFunctionalTest {
     }
 	
     @Test
-    public void testAssertTitleWithSelenium() throws InterruptedException {
+    public void testAssertTitleWithSelenium() throws InterruptedException, AssertionError {
         int numRetries = 5;
         for (int i = 0; i < numRetries; i++)
         {
@@ -41,14 +41,14 @@ public class SampleFunctionalTest {
                 assertEquals("Sample JSF Application", driver.getTitle());
                 break;
             }
-            catch(Eception e)
+            catch(AssertionError e)
+            {
+                if(i == (numRetries - 1))
                 {
-                    if(i == (numRetries - 1))
-                    {
-                        throw e;
-                    }
-                    Thread.sleep(5000);
+                    throw e;
                 }
+                Thread.sleep(5000);
+            }
         }
     }
     

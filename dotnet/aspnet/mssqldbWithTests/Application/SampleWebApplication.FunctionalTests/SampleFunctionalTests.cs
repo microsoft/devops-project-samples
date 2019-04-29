@@ -18,23 +18,42 @@ namespace SampleWebApplication.FunctionalTests
             SampleFunctionalTests.testContext = testContext;
         }
 
+        [TestInitialize]
+        public void TestInit()
+        {
+            driver = GetChromeDriver();
+        }
+
+        [TestCleanup]
+        public void TestClean()
+        {
+            driver.Quit();
+        }
+
         [TestMethod]
         public void SampleFunctionalTest1()
         {
-            try
+            var numRetries = 5;
+            for (int i = 0; i < numRetries; i++)
             {
-                driver = GetChromeDriver();
-                var webAppUrl = testContext.Properties["webAppUrl"].ToString();
-                driver.Navigate().GoToUrl(webAppUrl);
-                Assert.AreEqual("Home Page - My ASP.NET Application", driver.Title, "Expected title to be 'Home Page - My ASP.NET Application'");
-                var filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()) + ".png";
-                var screenshot = driver.GetScreenshot();
-                screenshot.SaveAsFile(filePath);
-                testContext.AddResultFile(filePath);
-            }
-            finally
-            {
-                driver.Quit();
+                try
+                {
+                    var webAppUrl = testContext.Properties["webAppUrl"].ToString();
+                    driver.Navigate().GoToUrl(webAppUrl);
+                    Assert.AreEqual("Home Page - My ASP.NET Application", driver.Title, "Expected title to be 'Home Page - My ASP.NET Application'");
+                    var filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()) + ".png";
+                    var screenshot = driver.GetScreenshot();
+                    screenshot.SaveAsFile(filePath);
+                    testContext.AddResultFile(filePath);
+                    break;
+                }
+                catch
+                {
+                    if(i == (numRetries - 1))
+                    {
+                        throw
+                    }
+                }
             }
         }
 

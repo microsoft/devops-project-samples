@@ -17,19 +17,38 @@ namespace SampleWebApplication.FunctionalTests
             SampleFunctionalTests.testContext = testContext;
         }
 
+        [TestInitialize]
+        public void TestInit()
+        {
+            driver = GetChromeDriver();
+        }
+
+        [TestCleanup]
+        public void TestClean()
+        {
+            driver.Quit();
+        }
+
         [TestMethod]
         public void SampleFunctionalTest1()
         {
-            try
+            var numRetries = 5;
+            for (int i = 0; i < numRetries; i++)
             {
-                driver = GetChromeDriver();
-                var webAppUrl = testContext.Properties["webAppUrl"].ToString();
-                driver.Navigate().GoToUrl(webAppUrl);
-                Assert.AreEqual("Home Page - ASP.NET CORE", driver.Title, "Expected title to be 'Home Page - ASP.NET CORE'");
-            }
-            finally
-            {
-                driver.Quit();
+                try
+                {
+                    var webAppUrl = testContext.Properties["webAppUrl"].ToString();
+                    driver.Navigate().GoToUrl(webAppUrl);
+                    Assert.AreEqual("Home Page - ASP.NET CORE", driver.Title, "Expected title to be 'Home Page - ASP.NET CORE'");
+                    break;
+                }
+                catch
+                {
+                    if(i == (numRetries - 1))
+                    {
+                        throw
+                    }
+                }
             }
         }
 

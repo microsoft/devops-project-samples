@@ -28,12 +28,27 @@ public class SampleFunctionalTest {
 	
     @Test
     public void testAssertTitleWithSelenium() throws InterruptedException {
-        if (isAlertPresent()) {
-            System.out.println(isAlertPresent());
-            driver.switchTo().alert().accept();
+        int numRetries = 5;
+        for (int i = 0; i < numRetries; i++)
+        {
+            try
+            {
+                if (isAlertPresent()) {
+                    System.out.println(isAlertPresent());
+                    driver.switchTo().alert().accept();
+                }
+                driver.get(System.getProperty("webAppUrl"));
+                assertEquals("Sample JSF Application", driver.getTitle());
+                break;
+            }
+            catch(Eception e)
+                {
+                    if(i == (numRetries - 1))
+                    {
+                        throw e;
+                    }
+                }
         }
-        driver.get(System.getProperty("webAppUrl"));
-        assertEquals("Java Spring Application", driver.getTitle());
     }
     
     protected boolean isAlertPresent() {

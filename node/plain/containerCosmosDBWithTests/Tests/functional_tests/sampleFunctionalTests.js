@@ -41,7 +41,9 @@ describe('sampleFunctionalTests', function () {
 				{
 					throw new Error('Failed with error ' + err);
 				}
-				await sleep(5000);
+				await new Promise(resolve=>{
+					setTimeout(resolve,5000)
+				});
 			}
 		}
 	});

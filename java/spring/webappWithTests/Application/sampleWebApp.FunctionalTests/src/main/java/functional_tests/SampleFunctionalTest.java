@@ -38,7 +38,7 @@ public class SampleFunctionalTest {
                     driver.switchTo().alert().accept();
                 }
                 driver.get(System.getProperty("webAppUrl"));
-                assertEquals("Sample JSF Application", driver.getTitle());
+                assertEquals("Java Spring Application", driver.getTitle());
                 break;
             }
             catch(AssertionError e)

@@ -26,13 +26,24 @@ describe('sampleFunctionalTests', function () {
 			});
     });
 
-    it('Assert page title', (done) => {
-		driver.get(process.env['webAppUrl']).then(() => {
-			return driver.wait(until.titleIs('Express - Node.js Express Application'), 2000);
-		})
-		.then(() => done())
-		.catch((err) => {
-			done('Failed with error ' + err);
+	var numRetries = 5;
+	for (var i = 0; i < numRetries; i++)
+    {
+		it('Assert page title', (done) => {
+			driver.get(process.env['webAppUrl']).then(() => {
+				return driver.wait(until.titleIs('Express - Node.js Express Application'), 2000);
+			})
+			.then(() => 
+			{
+				done();
+				break;
+			})
+			.catch((err) => {
+				if(i == (numRetries - 1))
+				{
+					done('Failed with error ' + err);
+				}
+			});
 		});
-    });
+	}
 });

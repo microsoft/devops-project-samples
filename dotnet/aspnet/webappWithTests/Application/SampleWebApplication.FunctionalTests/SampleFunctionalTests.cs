@@ -3,6 +3,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace SampleWebApplication.FunctionalTests
 {
@@ -51,8 +52,9 @@ namespace SampleWebApplication.FunctionalTests
                 {
                     if(i == (numRetries - 1))
                     {
-                        throw
+                        throw;
                     }
+                    Thread.Sleep(5000);
                 }
             }
         }

@@ -4,6 +4,10 @@ const {until} = require('selenium-webdriver');
 
 process.env['Path'] = process.env['Path'] + ';' + process.env['ChromeWebDriver'];
 
+async function sleep_for_milliseconds(milliseconds){
+	await sleep(milliseconds)
+}
+
 describe('sampleFunctionalTests', function () {
 	this.timeout(120000);
 
@@ -43,6 +47,7 @@ describe('sampleFunctionalTests', function () {
 				{
 					done('Failed with error ' + err);
 				}
+				sleep_for_milliseconds(5000);
 			});
 		});
 	}

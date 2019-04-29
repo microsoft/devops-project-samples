@@ -47,6 +47,7 @@ public class SampleFunctionalTest {
                     {
                         throw e;
                     }
+                    Thread.sleep(5000);
                 }
         }
     }

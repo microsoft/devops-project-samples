@@ -23,6 +23,7 @@ namespace SampleWebApplication.FunctionalTests
         public void TestInit()
         {
             driver = GetChromeDriver();
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
         }
 
         [TestCleanup]
@@ -32,20 +33,17 @@ namespace SampleWebApplication.FunctionalTests
         }
 
         [TestMethod]
+        [Timeout(600000)]
         public void SampleFunctionalTest1()
         {
+            var webAppUrl = testContext.Properties["webAppUrl"].ToString();
             var numRetries = 5;
             for (int i = 0; i < numRetries; i++)
             {
                 try
                 {
-                    var webAppUrl = testContext.Properties["webAppUrl"].ToString();
                     driver.Navigate().GoToUrl(webAppUrl);
                     Assert.AreEqual("Home Page - My ASP.NET Application", driver.Title, "Expected title to be 'Home Page - My ASP.NET Application'");
-                    var filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()) + ".png";
-                    var screenshot = driver.GetScreenshot();
-                    screenshot.SaveAsFile(filePath);
-                    testContext.AddResultFile(filePath);
                     break;
                 }
                 catch
@@ -57,6 +55,10 @@ namespace SampleWebApplication.FunctionalTests
                     Thread.Sleep(5000);
                 }
             }
+            var filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()) + ".png";
+            var screenshot = driver.GetScreenshot();
+            screenshot.SaveAsFile(filePath);
+            testContext.AddResultFile(filePath);
         }
 
         private RemoteWebDriver GetChromeDriver()

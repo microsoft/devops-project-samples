@@ -22,6 +22,7 @@ namespace SampleWebApplication.FunctionalTests
         public void TestInit()
         {
             driver = GetChromeDriver();
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
         }
 
         [TestCleanup]
@@ -31,14 +32,15 @@ namespace SampleWebApplication.FunctionalTests
         }
 
         [TestMethod]
+        [Timeout(600000)]
         public void SampleFunctionalTest1()
         {
+            var webAppUrl = testContext.Properties["webAppUrl"].ToString();
             var numRetries = 5;
             for (int i = 0; i < numRetries; i++)
             {
                 try
                 {
-                    var webAppUrl = testContext.Properties["webAppUrl"].ToString();
                     driver.Navigate().GoToUrl(webAppUrl);
                     Assert.AreEqual("Home Page - ASP.NET CORE", driver.Title, "Expected title to be 'Home Page - ASP.NET CORE'");
                     break;

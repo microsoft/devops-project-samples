@@ -5,17 +5,18 @@ const {until} = require('selenium-webdriver');
 process.env['Path'] = process.env['Path'] + ';' + process.env['ChromeWebDriver'];
 
 describe('sampleFunctionalTests', function () {
-	this.timeout(120000);
+	this.timeout(600000);
 
 	let driver;
 	var capabilities = webdriver.Capabilities.chrome();
 	capabilities.set('chromeOptions', {'args': ['--no-sandbox']});
 
-	before(() => {
+	before(async () => {
 		driver = new webdriver.Builder()
 			.forBrowser('chrome')
 			.withCapabilities(capabilities)
 			.build();
+			await driver.manage().setTimeouts({pageLoad: 120000});
 	})
 
     after((done) => {
@@ -27,12 +28,12 @@ describe('sampleFunctionalTests', function () {
     });
 
 	it('Assert page title', async() => {
+		await driver.get(process.env['webAppUrl']);
 		var numRetries = 5;
 		for (var i = 0; i < numRetries; i++)
     	{
 			try
 			{
-				await driver.get(process.env['webAppUrl']);
 				await driver.wait(until.titleIs('Sails Application'), 2000);
 			}
 			catch(err)

@@ -12,12 +12,13 @@ class FunctionalTests(unittest.TestCase):
 		options = webdriver.ChromeOptions()
 		options.add_argument('--no-sandbox')
 		self.driver = webdriver.Chrome(os.path.join(os.environ["ChromeWebDriver"], 'chromedriver.exe'), chrome_options=options)
+		self.driver.implicitly_wait(120)
 
 	def test_selenium(self):
+		webAppUrl = pytest.config.getoption('webAppUrl')
 		num_retries = 5
 		for i in range(num_retries):
 			try:
-				webAppUrl = pytest.config.getoption('webAppUrl')
 				response = self.driver.get(webAppUrl)
 				title = self.driver.title
 				self.assertIn("Home Page - Python Flask Application", title)

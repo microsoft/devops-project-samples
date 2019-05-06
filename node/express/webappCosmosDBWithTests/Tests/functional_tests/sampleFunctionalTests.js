@@ -28,12 +28,12 @@ describe('sampleFunctionalTests', function () {
     });
 
 	it('Assert page title', async() => {
-		await driver.get(process.env['webAppUrl']);
 		var numRetries = 5;
 		for (var i = 0; i < numRetries; i++)
     	{
 			try
 			{
+				await driver.get(process.env['webAppUrl']);
 				await driver.wait(until.titleIs('Express - Node.js Express Application'), 2000);
 			}
 			catch(err)

@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using System;
+using System.Threading;
 
 namespace StaticWebsite.FunctionalTests
 {
@@ -17,19 +18,41 @@ namespace StaticWebsite.FunctionalTests
             SampleFunctionalTests.testContext = testContext;
         }
 
+        [TestInitialize]
+        public void TestInit()
+        {
+            driver = GetChromeDriver();
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
+        }
+
+        [TestCleanup]
+        public void TestClean()
+        {
+            driver.Quit();
+        }
+
         [TestMethod]
+        [Timeout(600000)]
         public void SampleFunctionalTest1()
         {
-            try
+            var webAppUrl = testContext.Properties["webAppUrl"].ToString();
+            var numRetries = 5;
+            for (int i = 0; i < numRetries; i++)
             {
-                driver = GetChromeDriver();
-                var webAppUrl = testContext.Properties["webAppUrl"].ToString();
-                driver.Navigate().GoToUrl(webAppUrl);
-                Assert.AreEqual("HTML Application", driver.Title, "Expected title to be 'HTML Application'");
-            }
-            finally
-            {
-                driver.Quit();
+                try
+                {
+                    driver.Navigate().GoToUrl(webAppUrl);
+                    Assert.AreEqual("HTML Application", driver.Title, "Expected title to be 'HTML Application'");
+                    break;
+                }
+                catch
+                {
+                    if(i == (numRetries - 1))
+                    {
+                        throw;
+                    }
+                    Thread.Sleep(5000);
+                }
             }
         }
 

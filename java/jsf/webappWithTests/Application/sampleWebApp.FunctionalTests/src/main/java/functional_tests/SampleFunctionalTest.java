@@ -23,17 +23,33 @@ public class SampleFunctionalTest {
 	    ChromeOptions options = new ChromeOptions();
 	    options.addArguments("--no-sandbox");
 	    driver = new ChromeDriver(options);
-	    driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
+	    driver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
     }
 	
-    @Test
-    public void testAssertTitleWithSelenium() throws InterruptedException {
+    @Test(timeout = 600000)
+    public void testAssertTitleWithSelenium() throws InterruptedException, AssertionError {
         if (isAlertPresent()) {
             System.out.println(isAlertPresent());
             driver.switchTo().alert().accept();
         }
-        driver.get(System.getProperty("webAppUrl"));
-        assertEquals("Sample JSF Application", driver.getTitle());
+        int numRetries = 5;
+        for (int i = 0; i < numRetries; i++)
+        {
+            try
+            {
+                driver.get(System.getProperty("webAppUrl"));
+                assertEquals("Sample JSF Application", driver.getTitle());
+                break;
+            }
+            catch(AssertionError e)
+            {
+                if(i == (numRetries - 1))
+                {
+                    throw e;
+                }
+                Thread.sleep(5000);
+            }
+        }
     }
     
     protected boolean isAlertPresent() {

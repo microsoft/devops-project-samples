@@ -52,6 +52,7 @@ public class SampleFunctionalTest {
                     throw e;
                 }
             }
+            currentTimestamp = (new Date()).getTime();
         }
     }
     

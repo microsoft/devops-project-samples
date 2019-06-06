@@ -50,8 +50,8 @@ namespace SampleWebApplication.FunctionalTests
                 }
                 catch
                 {
-                    startTimestamp = DateTime.Now.Millisecond;
-                    if(startTimestamp > endTimestamp)
+                    var currentTimestamp = DateTime.Now.Millisecond;
+                    if(currentTimestamp > endTimestamp)
                     {
                         throw;
                     }

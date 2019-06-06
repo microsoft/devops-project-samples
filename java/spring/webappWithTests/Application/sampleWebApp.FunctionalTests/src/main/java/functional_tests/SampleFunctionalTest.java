@@ -38,7 +38,7 @@ public class SampleFunctionalTest {
         long currentTimestamp = (new Date()).getTime();
         long endTimestamp = currentTimestamp + 60*10*1000;
         
-        while(currentTimestamp <= endTimestamp + 10000)
+        while(true)
         {
             try
             {
@@ -48,12 +48,12 @@ public class SampleFunctionalTest {
             }
             catch(AssertionError e)
             {
+                currentTimestamp = (new Date()).getTime();
                 if(currentTimestamp > endTimestamp) {
                 {
                     throw e;
                 }
             }
-            currentTimestamp = (new Date()).getTime();
         }
     }
     

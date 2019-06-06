@@ -53,8 +53,8 @@ public class SampleFunctionalTest {
                 {
                     throw e;
                 }
+                Thread.sleep(5000);
             }
-            Thread.sleep(5000);
         }
     }
     

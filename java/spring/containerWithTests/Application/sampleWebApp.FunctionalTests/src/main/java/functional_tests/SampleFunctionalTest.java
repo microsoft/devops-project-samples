@@ -24,7 +24,7 @@ public class SampleFunctionalTest {
 	    ChromeOptions options = new ChromeOptions();
 	    options.addArguments("--no-sandbox");
 	    driver = new ChromeDriver(options);
-	    driver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+	    driver.manage().timeouts().pageLoadTimeout(360, TimeUnit.SECONDS);
     }
 	
     @Test(timeout = 600000)
@@ -37,7 +37,7 @@ public class SampleFunctionalTest {
         long currentTimestamp = (new Date()).getTime();
         long endTimestamp = currentTimestamp + 60*10*1000;
 
-        while(currentTimestamp <= endTimestamp + 10000)
+        while(true)
         {
             try
             {
@@ -47,11 +47,13 @@ public class SampleFunctionalTest {
             }
             catch(AssertionError e)
             {
-                if(currentTimestamp > endTimestamp) {
+                currentTimestamp = (new Date()).getTime();
+                if(currentTimestamp > endTimestamp)
+                {
                     throw e;
                 }
+                Thread.sleep(5000);
             }
-            currentTimestamp = (new Date()).getTime();
         }
     }
     

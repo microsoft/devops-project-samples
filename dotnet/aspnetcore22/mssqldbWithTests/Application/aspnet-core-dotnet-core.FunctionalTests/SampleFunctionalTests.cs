@@ -36,8 +36,10 @@ namespace SampleWebApplication.FunctionalTests
         public void SampleFunctionalTest1()
         {
             var webAppUrl = testContext.Properties["webAppUrl"].ToString();
-            var numRetries = 5;
-            for (int i = 0; i < numRetries; i++)
+
+            var startTimestamp = DateTime.Now.Millisecond;
+            var endTimstamp = startTimestamp + 60 * 10 * 1000;
+            while (true)
             {
                 try
                 {
@@ -47,7 +49,8 @@ namespace SampleWebApplication.FunctionalTests
                 }
                 catch
                 {
-                    if(i == (numRetries - 1))
+                    var currentTimestamp = DateTime.Now.Millisecond;
+                    if(currentTimestamp > endTimstamp)
                     {
                         throw;
                     }

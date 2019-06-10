@@ -16,15 +16,17 @@ class FunctionalTests(unittest.TestCase):
 
 	def test_selenium(self):
 		webAppUrl = pytest.config.getoption('webAppUrl')
-		num_retries = 5
-		for i in range(num_retries):
+		start_timestamp = time.time()
+		end_timestamp = start_timestamp + 60*10
+		while True:
 			try:
 				response = self.driver.get(webAppUrl)
 				title = self.driver.title
 				self.assertIn("Home Page - Python Flask Application", title)
 				break
 			except AssertionError:
-				if(i == (num_retries - 1)):
+                current_timestamp = time.time()
+				if(currrent_timestamp > end_timestamp):
 					raise
 				time.sleep(5)
 			except Exception as e:

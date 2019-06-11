@@ -25,8 +25,8 @@ class FunctionalTests(unittest.TestCase):
 				self.assertIn("Home Page - Python Bottle Application", title)
 				break
 			except AssertionError:
-                current_timestamp = time.time()
-				if(currrent_timestamp > end_timestamp):
+				current_timestamp = time.time()
+				if(current_timestamp > end_timestamp):
 					raise
 				time.sleep(5)
 			except Exception as e:

@@ -26,7 +26,7 @@ class FunctionalTests(unittest.TestCase):
 				break
 			except AssertionError:
 				current_timestamp = time.time()
-				if(currrent_timestamp > end_timestamp):
+				if(current_timestamp > end_timestamp):
 					raise
 				time.sleep(5)
 			except Exception as e:

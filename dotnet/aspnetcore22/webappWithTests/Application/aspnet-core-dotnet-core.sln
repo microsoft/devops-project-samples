@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aspnet-core-dotnet-core.Uni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aspnet-core-dotnet-core.FunctionalTests", "aspnet-core-dotnet-core.FunctionalTests\aspnet-core-dotnet-core.FunctionalTests.csproj", "{D6902CA6-4C33-4EB0-95BB-F49E513B66A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aspnet-core-dotnet-core", "aspnet-core-dotnet-core\aspnet-core-dotnet-core\aspnet-core-dotnet-core.csproj", "{C8479515-FA97-47A7-B69B-9B10CA618D68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aspnet-core-dotnet-core", "aspnet-core-dotnet-core\aspnet-core-dotnet-core.csproj", "{C8479515-FA97-47A7-B69B-9B10CA618D68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

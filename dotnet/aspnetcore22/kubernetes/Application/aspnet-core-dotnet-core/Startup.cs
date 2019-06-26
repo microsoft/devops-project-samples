@@ -30,6 +30,9 @@ namespace aspnet_core_dotnet_core
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Enable Application Insights for telemetries. Update the instrumentation key in 'appsettings.json' to transfer the events.
+            services.AddApplicationInsightsTelemetry();
+            services.AddApplicationInsightsKubernetesEnricher();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

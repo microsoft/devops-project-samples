@@ -15,7 +15,7 @@
             "type": "string",
             "defaultValue": "Standard S1"
         },
-        "stagingName": {
+        "webAppSlotName": {
             "type": "string",
             "defaultValue": "staging"
         }
@@ -97,15 +97,25 @@
         {  
             "apiVersion":"2016-08-01",
             "type":"Microsoft.Web/sites/slots",
-            "name":"[concat(parameters('webAppName'),'/',parameters('stagingName')]",
+            "name":"[concat(parameters('webAppName'),'/',parameters('webAppSlotName')]",
             "kind":"app",
-            "location":"[parameters('appInsightsLocation')]",
+            "location":"[resourceGroup().location]",
             "comments":"This specifies the web app slots.",
-            "tags":{  
-               "displayName":"WebAppSlot"
-            },
-            "properties":{  
-               "serverFarmId":"[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
+            "properties": {
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components/', parameters('webAppName')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "6.9.1"
+                        }
+                    ],
+                    "phpVersion": "7.1"
+                },
+                "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
             },
             "dependsOn":[  
                "[resourceId('Microsoft.Web/Sites', parameters('webAppName'))]"

@@ -97,7 +97,7 @@
         {  
             "apiVersion":"2016-08-01",
             "type":"Microsoft.Web/sites/slots",
-            "name":"[concat(parameters('webAppName'),'/',parameters('webAppSlotName')]",
+            "name":"[concat(parameters('webAppName'),'/',parameters('webAppSlotName'))]",
             "kind":"app",
             "location":"[resourceGroup().location]",
             "comments":"This specifies the web app slots.",

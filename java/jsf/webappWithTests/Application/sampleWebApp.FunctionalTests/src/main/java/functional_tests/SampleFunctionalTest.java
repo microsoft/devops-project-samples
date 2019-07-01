@@ -32,8 +32,11 @@ public class SampleFunctionalTest {
             System.out.println(isAlertPresent());
             driver.switchTo().alert().accept();
         }
-        int numRetries = 5;
-        for (int i = 0; i < numRetries; i++)
+        
+        long startTimestamp = (new Date()).getTime();
+        long endTimestamp = startTimestamp + 60*10*1000;
+        
+        while(true)
         {
             try
             {
@@ -43,7 +46,8 @@ public class SampleFunctionalTest {
             }
             catch(AssertionError e)
             {
-                if(i == (numRetries - 1))
+                startTimestamp = (new Date()).getTime();
+                if(startTimestamp > endTimestamp)
                 {
                     throw e;
                 }

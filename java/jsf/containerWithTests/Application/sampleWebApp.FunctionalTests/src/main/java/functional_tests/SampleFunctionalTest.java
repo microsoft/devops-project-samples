@@ -23,7 +23,7 @@ public class SampleFunctionalTest {
 	    ChromeOptions options = new ChromeOptions();
 	    options.addArguments("--no-sandbox");
 	    driver = new ChromeDriver(options);
-	    driver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+	    driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
     }
 	
     @Test(timeout = 600000)

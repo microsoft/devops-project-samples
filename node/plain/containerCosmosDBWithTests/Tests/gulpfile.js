@@ -11,6 +11,7 @@ gulp.task("unittest", () => {
         output = ncp.execSync('npm test unit_tests/*.js', options);
     }
     catch (err) {
+        console.error(err)
         process.exit(1);
     }
 })
@@ -31,6 +32,7 @@ gulp.task("functionaltest", () => {
         output = ncp.execSync('npm test functional_tests/*.js', options);
     }
     catch (err) {
+        console.error(err)
         process.exit(1);
     }
 })

@@ -43,7 +43,7 @@ describe('sampleFunctionalTests', function () {
 				var currentTimestamp = Date.now()
 				if(currentTimestamp > endTimestamp)
 				{
-					console.log("Failed with error" + err)
+					console.log("Failed with error " + err)
 					throw new Error('Failed with error ' + err);
 				}
 				await new Promise(resolve=>{

@@ -28,8 +28,10 @@ describe('sampleFunctionalTests', function () {
     });
 
 	it('Assert page title', async() => {
-		var numRetries = 5;
-		for (var i = 0; i < numRetries; i++)
+
+		var startTimestamp = Date.now()
+		var endTimestamp = startTimestamp + 60*10*1000;
+		while(true)
     	{
 			try
 			{
@@ -38,8 +40,10 @@ describe('sampleFunctionalTests', function () {
 			}
 			catch(err)
 			{
-				if(i == (numRetries - 1))
+				var currentTimestamp = Date.now()
+				if(currentTimestamp > endTimestamp)
 				{
+					console.log("Failed with error" + err)
 					throw new Error('Failed with error ' + err);
 				}
 				await new Promise(resolve=>{

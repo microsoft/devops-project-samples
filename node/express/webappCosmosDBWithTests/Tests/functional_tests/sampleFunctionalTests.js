@@ -16,7 +16,7 @@ describe('sampleFunctionalTests', function () {
 			.forBrowser('chrome')
 			.withCapabilities(capabilities)
 			.build();
-		await driver.manage().setTimeouts({pageLoad: 120000});
+		await driver.manage().setTimeouts({pageLoad: 300000});
 	})
 
     after((done) => {

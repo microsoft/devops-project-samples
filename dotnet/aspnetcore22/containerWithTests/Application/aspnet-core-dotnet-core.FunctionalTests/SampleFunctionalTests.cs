@@ -48,12 +48,13 @@ namespace SampleWebApplication.FunctionalTests
                     Assert.AreEqual("Home Page - ASP.NET Core 2.2", driver.Title, "Expected title to be 'Home Page - ASP.NET Core 2.2'");
                     break;
                 }
-                catch
+                catch (Exception ex)
                 {
                     var currentTimestamp = DateTime.Now.Millisecond;
                     if(currentTimestamp > endTimestamp)
                     {
-                        throw;
+                        Console.WriteLine($"{ex}");
+                        throw ex;
                     }
                     Thread.Sleep(5000);
                 }

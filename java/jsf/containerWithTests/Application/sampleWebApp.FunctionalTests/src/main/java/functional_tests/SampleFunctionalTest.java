@@ -50,6 +50,7 @@ public class SampleFunctionalTest {
                 startTimestamp = (new Date()).getTime();
                 if(startTimestamp > endTimestamp)
                 {
+                    System.out.println("Error while running testAssertTitleWithSelenium: " + e.toString());
                     throw e;
                 }
                 Thread.sleep(5000);

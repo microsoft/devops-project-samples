@@ -23,7 +23,7 @@ namespace SampleWebApplication.FunctionalTests
         public void TestInit()
         {
             driver = GetChromeDriver();
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(300);
         }
 
         [TestCleanup]
@@ -33,7 +33,6 @@ namespace SampleWebApplication.FunctionalTests
         }
 
         [TestMethod]
-        [Timeout(600000)]
         public void SampleFunctionalTest1()
         {
             var webAppUrl = testContext.Properties["webAppUrl"].ToString();
@@ -47,12 +46,14 @@ namespace SampleWebApplication.FunctionalTests
                     Assert.AreEqual("Home Page - My ASP.NET Application", driver.Title, "Expected title to be 'Home Page - My ASP.NET Application'");
                     break;
                 }
-                catch
+                catch(Exception e)
                 {
                     var currentTimestamp = DateTime.Now.Millisecond;
                     if(currentTimestamp > endTimestamp)
                     {
-                        throw;
+                        Console.Write("##vso[task.logissue type=error;]Test SampleFunctionalTest1 failed with error: " + e.ToString());
+                        throw e;
+                        break;
                     }
                     Thread.Sleep(5000);
                 }

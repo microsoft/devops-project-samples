@@ -27,7 +27,7 @@ public class SampleFunctionalTest {
 	    driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
     }
 	
-    @Test(timeout = 600000)
+    @Test
     public void testAssertTitleWithSelenium() throws InterruptedException, AssertionError {
         if (isAlertPresent()) {
             System.out.println(isAlertPresent());

@@ -36,7 +36,7 @@ namespace SampleWebApplication.FunctionalTests
         public void SampleFunctionalTest1()
         {
             var webAppUrl = testContext.Properties["webAppUrl"].ToString();
-            var startTimestamp = DateTime.Now.ToUnixTimeSeconds();;
+            var startTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var endTimestamp = startTimestamp + 60 * 10;
             while (true)
             {
@@ -48,7 +48,7 @@ namespace SampleWebApplication.FunctionalTests
                 }
                 catch(Exception e)
                 {
-                    var currentTimestamp = DateTime.Now.ToUnixTimeSeconds();
+                    var currentTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                     if(currentTimestamp > endTimestamp)
                     {
                         Console.Write("##vso[task.logissue type=error;]Test SampleFunctionalTest1 failed with error: " + e.ToString());

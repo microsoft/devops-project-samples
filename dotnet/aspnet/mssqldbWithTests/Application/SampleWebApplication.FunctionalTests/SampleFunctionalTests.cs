@@ -52,7 +52,7 @@ namespace SampleWebApplication.FunctionalTests
                     if(currentTimestamp > endTimestamp)
                     {
                         Console.Write("##vso[task.logissue type=error;]Test SampleFunctionalTest1 failed with error: " + e.ToString());
-                        throw e;
+                        throw;
                         break;
                     }
                     Thread.Sleep(5000);

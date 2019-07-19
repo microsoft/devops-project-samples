@@ -5,7 +5,7 @@ const {until} = require('selenium-webdriver');
 process.env['Path'] = process.env['Path'] + ';' + process.env['ChromeWebDriver'];
 
 describe('sampleFunctionalTests', function () {
-	this.timeout(600000);
+	this.timeout(0);
 
 	let driver;
 	var capabilities = webdriver.Capabilities.chrome();

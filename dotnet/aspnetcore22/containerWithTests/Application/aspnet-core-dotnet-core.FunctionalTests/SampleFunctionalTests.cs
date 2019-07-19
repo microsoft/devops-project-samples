@@ -22,7 +22,7 @@ namespace SampleWebApplication.FunctionalTests
         public void TestInit()
         {
             driver = GetChromeDriver();
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(300);
         }
 
         [TestCleanup]
@@ -32,13 +32,12 @@ namespace SampleWebApplication.FunctionalTests
         }
 
         [TestMethod]
-        [Timeout(600000)]
         public void SampleFunctionalTest1()
         {
             var webAppUrl = testContext.Properties["webAppUrl"].ToString();
 
-            var startTimestamp = DateTime.Now.Millisecond;
-            var endTimestamp = startTimestamp + 60 * 10 * 1000;
+            var startTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var endTimestamp = startTimestamp + 60 * 10;
 
             while (true)
             {
@@ -48,11 +47,12 @@ namespace SampleWebApplication.FunctionalTests
                     Assert.AreEqual("Home Page - ASP.NET Core 2.2", driver.Title, "Expected title to be 'Home Page - ASP.NET Core 2.2'");
                     break;
                 }
-                catch
+                catch (Exception e)
                 {
-                    var currentTimestamp = DateTime.Now.Millisecond;
+                    var currentTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                     if(currentTimestamp > endTimestamp)
                     {
+                        Console.Write("##vso[task.logissue type=error;]Test SampleFunctionalTest1 failed with error: " + e.ToString());
                         throw;
                     }
                     Thread.Sleep(5000);

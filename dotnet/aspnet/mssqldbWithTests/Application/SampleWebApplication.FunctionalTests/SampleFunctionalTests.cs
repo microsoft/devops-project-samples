@@ -35,7 +35,7 @@ namespace SampleWebApplication.FunctionalTests
         [TestMethod]
         public void SampleFunctionalTest1()
         {
-            var webAppUrl = "http://beerwithai.com/abc/def";
+            var webAppUrl = testContext.Properties["webAppUrl"].ToString();
             var startTimestamp = DateTime.Now.ToUnixTimeSeconds();
             var endTimestamp = startTimestamp + 60 * 10;
             while (true)

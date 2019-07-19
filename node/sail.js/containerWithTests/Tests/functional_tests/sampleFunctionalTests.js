@@ -5,7 +5,7 @@ const {until} = require('selenium-webdriver');
 process.env['Path'] = process.env['Path'] + ';' + process.env['ChromeWebDriver'];
 
 describe('sampleFunctionalTests', function () {
-	this.timeout(600000);
+	this.timeout(0);
 
 	let driver;
 	var capabilities = webdriver.Capabilities.chrome();
@@ -16,7 +16,7 @@ describe('sampleFunctionalTests', function () {
 			.forBrowser('chrome')
 			.withCapabilities(capabilities)
 			.build();
-			await driver.manage().setTimeouts({pageLoad: 120000});
+			await driver.manage().setTimeouts({pageLoad: 300000});
 	})
 
     after((done) => {
@@ -28,8 +28,9 @@ describe('sampleFunctionalTests', function () {
     });
 
 	it('Assert page title', async() => {
-		var numRetries = 5;
-		for (var i = 0; i < numRetries; i++)
+		var startTimestamp = Date.now()
+		var endTimestamp = startTimestamp + 60*10*1000;
+		while(true)
     	{
 			try
 			{
@@ -38,8 +39,10 @@ describe('sampleFunctionalTests', function () {
 			}
 			catch(err)
 			{
-				if(i == (numRetries - 1))
+				var currentTimestamp = Date.now()
+				if(currentTimestamp > endTimestamp)
 				{
+					console.log("##vso[task.logissue type=error;]Failed with error " + err)
 					throw new Error('Failed with error ' + err);
 				}
 				await new Promise(resolve=>{

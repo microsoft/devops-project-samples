@@ -27,7 +27,7 @@ public class SampleFunctionalTest {
 	    driver.manage().timeouts().pageLoadTimeout(360, TimeUnit.SECONDS);
     }
 	
-    @Test(timeout = 600000)
+    @Test
     public void testAssertTitleWithSelenium() throws InterruptedException, AssertionError {
         if (isAlertPresent()) {
             System.out.println(isAlertPresent());
@@ -50,6 +50,7 @@ public class SampleFunctionalTest {
                 startTimestamp = (new Date()).getTime();
                 if(startTimestamp > endTimestamp)
                 {
+                    System.out.println("##vso[task.logissue type=error;]Test testAssertTitleWithSelenium failed with error: " + e.toString());
                     throw e;
                 }
                 Thread.sleep(5000);

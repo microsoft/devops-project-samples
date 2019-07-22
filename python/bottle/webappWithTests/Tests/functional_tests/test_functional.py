@@ -12,7 +12,7 @@ class FunctionalTests(unittest.TestCase):
 		options = webdriver.ChromeOptions()
 		options.add_argument('--no-sandbox')
 		self.driver = webdriver.Chrome(os.path.join(os.environ["ChromeWebDriver"], 'chromedriver.exe'), chrome_options=options)
-		self.driver.implicitly_wait(120)
+		self.driver.implicitly_wait(300)
 
 	def test_selenium(self):
 		webAppUrl = pytest.config.getoption('webAppUrl')
@@ -24,13 +24,12 @@ class FunctionalTests(unittest.TestCase):
 				title = self.driver.title
 				self.assertIn("Home Page - Python Bottle Application", title)
 				break
-			except AssertionError:
+			except Exception as e:
 				current_timestamp = time.time()
 				if(current_timestamp > end_timestamp):
+					print('"##vso[task.logissue type=error;]Test test_selenium failed with error: ' + str(e))
 					raise
 				time.sleep(5)
-			except Exception as e:
-				pytest.fail('tests_selenium.Error occurred while executing tests: ' + str(e))
 
 	def tearDown(self):
 		try:

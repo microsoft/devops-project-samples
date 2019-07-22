@@ -24,15 +24,12 @@ class FunctionalTests(unittest.TestCase):
 				title = self.driver.title
 				self.assertIn("Home Page - Python Django Application", title)
 				break
-			except AssertionError as e:
+			except Exception as e:
 				print('"##vso[task.logissue type=error;]Test test_selenium failed with error: ' + str(e))
 				current_timestamp = time.time()
 				if(current_timestamp > end_timestamp):
 					raise
 				time.sleep(5)
-			except Exception as e:
-				print('"##vso[task.logissue type=error;]Test test_selenium failed with error: ' + str(e))
-				pytest.fail('tests_selenium.Error occurred while executing tests: ' + str(e))
 
 	def tearDown(self):
 		try:

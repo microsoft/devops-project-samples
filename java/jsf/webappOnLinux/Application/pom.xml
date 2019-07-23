@@ -7,9 +7,22 @@
 	<version>1.0</version>
 	<packaging>war</packaging>
 	<name>Sample JSF App</name>
+	<repositories>
+       <repository>
+          <id>central</id>
+          <name>Central</name>
+          <url>http://repo1.maven.org/maven2</url>
+       </repository>
+    </repositories>
 	
 <!-- JSF Dependency -->
   <dependencies>
+  <dependency>
+        <groupId>com.microsoft.azure</groupId>
+        <artifactId>applicationinsights-web</artifactId>
+        <!-- or applicationinsights-core for bare API -->
+        <version>[1.0,)</version>
+      </dependency>
     <dependency>
         <groupId>com.sun.faces</groupId>
         <artifactId>jsf-api</artifactId>

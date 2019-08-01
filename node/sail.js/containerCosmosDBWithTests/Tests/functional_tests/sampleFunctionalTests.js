@@ -36,6 +36,7 @@ describe('sampleFunctionalTests', function () {
 			{
 				await driver.get(process.env['webAppUrl']);
 				await driver.wait(until.titleIs('Sails Application'), 2000);
+				break;
 			}
 			catch(err)
 			{

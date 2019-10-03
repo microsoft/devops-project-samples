@@ -23,6 +23,7 @@ namespace VotingWeb.Controllers
     {
         private readonly HttpClient httpClient;
         private readonly FabricClient fabricClient;
+        private readonly string reverseProxyBaseUri;
         private readonly StatelessServiceContext serviceContext;
 
         public VotesController(HttpClient httpClient, StatelessServiceContext context, FabricClient fabricClient)
@@ -30,6 +31,7 @@ namespace VotingWeb.Controllers
             this.fabricClient = fabricClient;
             this.httpClient = httpClient;
             this.serviceContext = context;
+            this.reverseProxyBaseUri = Environment.GetEnvironmentVariable("ReverseProxyBaseUri");
         }
 
         // GET: api/Votes
@@ -113,7 +115,7 @@ namespace VotingWeb.Controllers
         /// <returns></returns>
         private Uri GetProxyAddress(Uri serviceName)
         {
-            return new Uri($"http://localhost:19081{serviceName.AbsolutePath}");
+            return new Uri($"{this.reverseProxyBaseUri}{serviceName.AbsolutePath}");
         }
 
         /// <summary>

@@ -35,16 +35,6 @@
                     ],
                     "properties": {
                     }
-                },
-                {
-                    "type": "siteextensions",
-                    "name": "azureappservice-python353x86",
-                    "apiVersion": "2015-08-01",
-                    "properties": {},
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', parameters('webAppName'))]",
-                        "[concat('Microsoft.Web/sites/', parameters('webAppName'), '/siteextensions/', 'Microsoft.ApplicationInsights.AzureWebSites')]"
-                    ]
                 }
             ],
             "properties": {

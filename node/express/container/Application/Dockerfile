@@ -1,4 +1,4 @@
-FROM node:6.9.3
+FROM node:10
 MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
 
 # Create app directory

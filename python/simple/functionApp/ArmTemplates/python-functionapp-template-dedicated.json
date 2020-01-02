@@ -73,7 +73,7 @@
                 },
                 "name": "[parameters('functionAppName')]",
                 "clientAffinityEnabled": false,
-                "serverFarmId": "[concat('subscriptions/', parameters('subscriptionId'), '/resourceGroups/',resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "serverFarmId": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/',resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
                 "hostingEnvironment": ""
             },
             "dependsOn": [

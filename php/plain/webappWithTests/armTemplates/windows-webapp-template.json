@@ -60,7 +60,7 @@
                             "value": "6.9.1"
                         }
                     ],
-                    "phpVersion": "7.1"
+                    "phpVersion": "7.3"
                 },
                 "name": "[parameters('webAppName')]",
                 "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",

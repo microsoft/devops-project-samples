@@ -1,4 +1,4 @@
-FROM maven:3.5.2-jdk-8 AS build-env
+FROM mcr.microsoft.com/java/maven:8u192-zulu-debian98 AS build-env
 WORKDIR /app
 COPY . /app
 RUN mvn package

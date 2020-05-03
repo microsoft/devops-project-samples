@@ -128,14 +128,40 @@
             }
         },
         {
-            "apiVersion": "2015-04-08",
-            "kind": "MongoDB",
-            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "type": "Microsoft.DocumentDb/databaseAccounts",
+            "apiVersion": "2019-12-12",
             "name": "[parameters('databaseAccountId')]",
             "location": "[parameters('databaseAccountLocation')]",
+            "tags": {
+                "defaultExperience": "Azure Cosmos DB for MongoDB API",
+                "hidden-cosmos-mmspecial": "",
+                "CosmosAccountType": "Non-Production"
+            },
+            "kind": "MongoDB",
             "properties": {
+                "enableAnalyticalStorage": false,
                 "databaseAccountOfferType": "Standard",
-                "name": "[parameters('databaseAccountId')]"
+                "locations": [
+                    {
+                        "id": "[concat(parameters('databaseAccountId'), '-', parameters('databaseAccountLocation'))]",
+                        "failoverPriority": 0,
+                        "locationName": "[parameters('databaseAccountLocation')]"
+                    }
+                ],
+                "enableMultipleWriteLocations": false,
+                "isVirtualNetworkFilterEnabled": false,
+                "virtualNetworkRules": [],
+                "ipRangeFilter": "",
+                "dependsOn": [],
+                "capabilities": [
+                    {
+                        "name": "EnableMongo"
+                    },
+                    {
+                        "name": "DisableRateLimitingResponses"
+                    }
+                ],
+                "enableFreeTier": true
             }
         }
     ],

@@ -19,7 +19,7 @@ public class SampleFunctionalTest {
 
     @Before
     public void startBrowser() {
-        String path = Paths.get(System.getenv("ChromeWebDriver"), "chromedriver.exe").toString();
+        String path = Paths.get(System.getProperty("ChromeWebDriver"), "chromedriver.exe").toString();
 	    System.setProperty("webdriver.chrome.driver", path);
 	    ChromeOptions options = new ChromeOptions();
 	    options.addArguments("--no-sandbox");

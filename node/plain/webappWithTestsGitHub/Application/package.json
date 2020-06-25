@@ -1,0 +1,12 @@
+{
+  "name": "nodejs-webapp",
+  "version": "0.0.0",
+  "description": "nodejs-webapp",
+  "main": "server.js",
+  "author": {
+    "name": "alagrawa"
+  },
+  "dependencies": {
+    "natives": "^1.1.6"
+  }
+}

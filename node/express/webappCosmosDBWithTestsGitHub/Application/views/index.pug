@@ -1,0 +1,34 @@
+﻿extends layout
+
+block content
+  .main-container
+    .cloud-image
+        img(src='/images/successCloudNew.svg')
+    .content
+        .tweet-container
+             a(href='http://twitter.com/intent/tweet/?text=I%20just%20created%20a%20new%20Node.js%20Express%20website%20on%20Azure%20using%20GitHub%20workflow&hashtags=GitHub%2CGitHubWorkflow%20%40Azure')
+                img(src='/images/tweetThis.svg')
+        .content-body
+            .success-text
+                p Success!
+            .description
+                p GitHub workflow has been successfully setup
+            .description
+                p Your Node.js Express app is up and running on Azure
+
+  .row
+    .col-md-4
+      h2 Get started right away
+      p Clone your code repository and start developing your application on IDE of your choice
+      p
+        a.btn.btn-default(href='https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository') Learn more &raquo;
+    .col-md-4
+      h2 Continuous Delivery
+      p View your workflow on GitHub and customize it as per your needs
+      p
+        a.btn.btn-default(href='https://help.github.com/en/actions') Learn more &raquo;
+    .col-md-4
+      h2 GitHub Workflow
+      p Learn more about all you can do with GitHub workflow by visiting the documentation
+      p
+        a.btn.btn-default(href='https://go.microsoft.com/fwlink/?linkid=862126') Learn more &raquo;

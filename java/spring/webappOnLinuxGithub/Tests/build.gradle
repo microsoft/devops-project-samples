@@ -1,0 +1,38 @@
+plugins {
+	id 'java'
+}
+
+group = 'com.myapp.functionalTests'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+sourceSets {
+    main{
+        java {
+            srcDir 'src/test'            
+        }
+    }
+}
+
+dependencies {
+	compile group: 'junit', name: 'junit', version: '4.10'
+	compile group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.1.0'
+	compile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.1.0'
+	compile group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.1.0'
+	compile group: 'org.junit.platform', name: 'junit-platform-surefire-provider', version: '1.2.0'
+	compile group: 'org.junit.platform', name: 'junit-platform-console-standalone', version: '1.1.0'
+	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
+
+}
+
+task fatJar(type: Jar) {
+    baseName = 'SampleWebAppFunctionalTests-jar-with-dependencies'
+    from { 
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } 
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+    with jar
+}

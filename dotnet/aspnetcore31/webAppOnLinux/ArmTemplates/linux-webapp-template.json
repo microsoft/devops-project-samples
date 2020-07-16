@@ -17,7 +17,7 @@
         },
         "linuxFxVersion": {
             "type": "string",
-            "defaultValue": "dotnetcore|2.2"
+            "defaultValue": "dotnetcore|3.1"
         },
         "startupCommand": {
             "type": "string",

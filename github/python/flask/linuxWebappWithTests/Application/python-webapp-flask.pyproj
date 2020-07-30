@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>bc578bb7-484d-4022-8c3a-4d7f2aeb451d</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{789894c7-04a9-4a11-a6b5-3f4435165112};{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>app.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <LaunchProvider>Web launcher</LaunchProvider>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <OutputPath>.</OutputPath>
+    <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+    <Name>python-webapp-flask</Name>
+    <RootNamespace>python-webapp-flask</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="app.py" />
+    <Compile Include="python_webapp_flask\__init__.py" />
+    <Compile Include="python_webapp_flask\views.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="python_webapp_flask\" />
+    <Folder Include="python_webapp_flask\static\" />
+    <Folder Include="python_webapp_flask\static\content\" />
+    <Folder Include="python_webapp_flask\static\fonts\" />
+    <Folder Include="python_webapp_flask\static\img\" />
+    <Folder Include="python_webapp_flask\static\scripts\" />
+    <Folder Include="python_webapp_flask\templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="python_webapp_flask\static\fonts\segoeuil.ttf" />
+    <Content Include="python_webapp_flask\static\img\successCloudNew.svg" />
+    <Content Include="python_webapp_flask\static\img\tweetThis.svg" />
+    <Content Include="requirements.txt" />
+    <Content Include="python_webapp_flask\static\content\bootstrap.css" />
+    <Content Include="python_webapp_flask\static\content\bootstrap.min.css" />
+    <Content Include="python_webapp_flask\static\content\site.css" />
+    <Content Include="python_webapp_flask\static\scripts\bootstrap.js" />
+    <Content Include="python_webapp_flask\static\scripts\bootstrap.min.js" />
+    <Content Include="python_webapp_flask\static\scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="python_webapp_flask\static\scripts\jquery-1.10.2.js" />
+    <Content Include="python_webapp_flask\static\scripts\jquery-1.10.2.min.js" />
+    <Content Include="python_webapp_flask\static\scripts\jquery-1.10.2.min.map" />
+    <Content Include="python_webapp_flask\static\scripts\jquery.validate-vsdoc.js" />
+    <Content Include="python_webapp_flask\static\scripts\jquery.validate.js" />
+    <Content Include="python_webapp_flask\static\scripts\jquery.validate.min.js" />
+    <Content Include="python_webapp_flask\static\scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="python_webapp_flask\static\scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="python_webapp_flask\static\scripts\modernizr-2.6.2.js" />
+    <Content Include="python_webapp_flask\static\scripts\respond.js" />
+    <Content Include="python_webapp_flask\static\scripts\respond.min.js" />
+    <Content Include="python_webapp_flask\static\scripts\_references.js" />
+    <Content Include="python_webapp_flask\templates\about.html" />
+    <Content Include="python_webapp_flask\templates\contact.html" />
+    <Content Include="python_webapp_flask\templates\index.html" />
+    <Content Include="python_webapp_flask\templates\layout.html" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

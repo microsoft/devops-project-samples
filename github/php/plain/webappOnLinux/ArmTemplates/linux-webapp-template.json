@@ -1,0 +1,88 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "webAppName": {
+            "type": "string"
+        },
+        "hostingPlanName": {
+            "type": "string"
+        },
+        "appInsightsLocation": {
+            "type": "string"
+        },
+        "sku": {
+            "type": "string",
+            "defaultValue": "Standard S1"
+        },
+        "linuxFxVersion": {
+            "type": "string",
+            "defaultValue": "php|7.3"
+        },
+        "startupCommand": {
+            "type": "string",
+            "defaultValue": ""
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2016-03-01",
+            "name": "[parameters('webAppName')]",
+            "type": "Microsoft.Web/sites",
+            "properties": {
+                "name": "[parameters('webAppName')]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components/', parameters('webAppName')), '2015-05-01').InstrumentationKey]"
+                        }
+                    ],
+                    "appCommandLine": "[parameters('startupCommand')]",
+                    "linuxFxVersion": "[parameters('linuxFxVersion')]"
+                },
+                "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "hostingEnvironment": ""
+            },
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "[concat('hidden-related:', '/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "[resourceId('microsoft.insights/components/', parameters('webAppName'))]"
+            ]
+        },
+        {
+            "apiVersion": "2016-09-01",
+            "name": "[parameters('hostingPlanName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "name": "[parameters('hostingPlanName')]",
+                "workerSizeId": "0",
+                "reserved": true,
+                "numberOfWorkers": "1",
+                "hostingEnvironment": ""
+            },
+            "sku": {
+                "Tier": "[first(skip(split(parameters('sku'), ' '), 1))]",
+                "Name": "[first(split(parameters('sku'), ' '))]"
+            },
+            "kind": "linux"
+        },
+        {
+            "type": "Microsoft.Insights/components",
+            "name": "[parameters('webAppName')]",
+            "apiVersion": "2014-04-01",
+            "location": "[parameters('appInsightsLocation')]",
+            "tags": {
+                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAppName'))]": "Resource"
+            },
+            "properties": {
+                "applicationId": "[parameters('webAppName')]",
+                "Request_Source": "AzureTfsExtensionAzureProject"
+            }
+        }
+    ]
+}

@@ -5,15 +5,8 @@ var obj = JSON.parse(fs.readFileSync('connectionData.json', 'utf8'));
 var connectionString = "mongodb://account:key@account.documents.azure.com:10255/?ssl=true";
 if(process.env.NODE_ENV == "production"){
     var connectionString = obj.connectionString;
-    var stringSplit1 = connectionString.split("://")[1];
-    var stringSplit2 = stringSplit1.split('@');
-    var userNamePassword = stringSplit2[0];
-    userNamePassword = userNamePassword.split(':');
-    var userName = userNamePassword[0];
-    var password = userNamePassword[1];
     var databaseName = obj.databaseName;
     var collectionName = obj.collectionName;
-    connectionString = ("mongodb://" + encodeURIComponent(userName) + ":" + encodeURIComponent(password) + "@" + stringSplit2[1]);
 }
 else{
     MongoClient =  {
@@ -36,7 +29,7 @@ else{
                     return testDB;
                 },
                 close: function(){
-                    
+
                 }
             }
             callback(null, client);

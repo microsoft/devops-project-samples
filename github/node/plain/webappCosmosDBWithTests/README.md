@@ -1,10 +1,10 @@
-# Nodejs Express web application
+# Nodejs web application
 
-Sample Nodejs Express web application built on [visual studio code](https://code.visualstudio.com/).
+Sample Nodejs web application built on [visual studio code](https://code.visualstudio.com/).
 
 Language| Framework | Runtime | Platform | Author |
 | --------| -------- | -------- |--------|--------|
-javascript| Express | node | Azure Web App| |
+javascript| simple node js | node | Azure Web App| |
 
 ## Installation
 

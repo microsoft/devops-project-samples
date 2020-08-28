@@ -2,9 +2,9 @@
 
 Sample Nodejs Express web application built on [visual studio code](https://code.visualstudio.com/).
 
-| Language | Framework | Platform | Author |
-| -------- | -------- |--------|--------|
-| Nodejs | Express | Azure Web App, Virtual Machine| |
+Language| Framework | Runtime | Platform | Author |
+| --------| -------- | -------- |--------|--------|
+javascript| Express | node | Azure Web App| |
 
 ## Installation
 
@@ -38,19 +38,13 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
     $ npm install npm -g
 
+## Running
 
-
-
-## Contributing
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-  - #### Clone this repository  
+ - #### Clone this repository  
 
 ```bash
     $ git clone https://github.com/YOUR_USERNAME/REPOSITORY_NAME.git
 ```
-## Running
 
 - #### Install dependencies
 ```bash
@@ -73,7 +67,11 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 Any change to this repository will result in triggering a workflow to build and deploy this app on azure as an app service. Learn more about [Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/) and [Github Actions](https://docs.github.com/en/actions).
 
+## Contributing
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+
 ## License:
 
 See [LICENSE](LICENSE).
-

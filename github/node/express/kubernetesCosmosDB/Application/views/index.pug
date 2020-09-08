@@ -1,0 +1,40 @@
+﻿extends layout
+
+block content
+  .main-container
+    .cloud-image
+        img(src='/images/successCloudNew.svg')
+    .content
+        .tweet-container
+             a(href='http://twitter.com/intent/tweet/?text=I%20just%20created%20a%20new%20Node.js%20Express%20website%20on%20Azure%20using%20GitHub%20workflow&hashtags=GitHub%2CGitHubWorkflow%20%40Azure')
+                img(src='/images/tweetThis.svg')    
+        .content-body
+            .success-text
+                p Success!
+            .description 
+                p GitHub workflow has been successfully setup
+            .description
+                p Your Node.js Express app is up and running on Azure
+            .description
+                p #{message}
+                br
+            .description
+                img(src='/images/azureCosmosDB.svg' width="5%")/ Powered by Azure Cosmos Database
+            .description
+                p Total visits: #{count}
+  .row
+    .col-md-4
+      h2 Get started right away
+      p Clone your code repository and start developing your application on IDE of your choice
+      p
+        a.btn.btn-default(href='https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository') Learn more &raquo;
+    .col-md-4
+      h2 Continuous Delivery
+      p Learn more about all you can do with Github Actions by visiting the documentation
+      p
+        a.btn.btn-default(href='https://docs.github.com/en/actions') Learn more &raquo;
+    .col-md-4
+      h2 Github Repository
+      p Learn more about all you can do with Github by visiting the documentation
+      p
+        a.btn.btn-default(href='https://docs.github.com') Learn more &raquo;

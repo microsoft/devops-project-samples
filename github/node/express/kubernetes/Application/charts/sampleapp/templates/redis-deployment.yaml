@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: {{ .Values.extensionApiVersion }}
 kind: Deployment
 metadata:
   name: {{ .Values.redis.service.name }}

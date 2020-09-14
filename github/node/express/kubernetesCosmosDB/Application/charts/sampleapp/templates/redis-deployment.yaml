@@ -1,0 +1,25 @@
+apiVersion: {{ .Values.extensionApiVersion }}
+kind: Deployment
+metadata:
+  name: {{ .Values.redis.service.name }}
+  labels:
+    app: {{ .Values.redis.service.name }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.redis.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.redis.service.name }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.redis.service.name }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Values.redis.service.name }}
+        image: redis
+        ports:
+        - containerPort: {{ .Values.redis.service.port }}
+          name: http

@@ -13,13 +13,7 @@
         },
         "clusterLocation": {
             "type": "string"
-        },
-        "servicePrincipalClientId": {
-            "type": "securestring"
-        },
-        "servicePrincipalClientSecret": {
-            "type": "securestring"
-        },
+        },        
         "agentCount": {
             "defaultValue": 3,
             "type": "int"
@@ -92,11 +86,10 @@
                         "count": "[parameters('agentCount')]",
                         "vmSize": "[parameters('agentVMSize')]"
                     }
-                ],
-                "servicePrincipalProfile": {
-                    "clientId": "[parameters('servicePrincipalClientId')]",
-                    "secret": "[parameters('servicePrincipalClientSecret')]"
-                }
+                ]
+            },
+            "identity": {
+                "type": "SystemAssigned"
             }
         },
         {

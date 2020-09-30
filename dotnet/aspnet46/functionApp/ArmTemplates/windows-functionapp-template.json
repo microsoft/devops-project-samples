@@ -106,6 +106,10 @@
                     {
                         "name": "FUNCTIONS_EXTENSION_VERSION",
                         "value": "~1"
+                    },
+                    {
+                        "name": "AzureWebJobsStorage",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2015-05-01-preview').key1)]"
                     }
                 ],
                 "phpVersion": "7.1"

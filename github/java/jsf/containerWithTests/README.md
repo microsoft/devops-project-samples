@@ -3,7 +3,7 @@
 | Java | JSF | Azure Web App| |
 
 
-# Java Spring boot web application
+# Java JSF web application
 
 Sample Java JSF application built on [visual studio code](https://code.visualstudio.com/).
 

@@ -1,0 +1,21 @@
+{
+  "name": "nodejs-webapp-tests",
+  "version": "0.0.0",
+  "description": "nodejs-webapp-tests",
+  "author": {
+    "name": "tejasd1990"
+  },
+  "dependencies": {
+    "applicationinsights": "^1.0.0",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "natives": "^1.1.6",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
+  "scripts": {
+    "test": "node --no-deprecation node_modules/mocha/bin/mocha --reporter mocha-junit-reporter --reporter-options mochaFile=../TestResults/TEST-RESULT.xml"
+  }
+}

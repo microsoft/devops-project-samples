@@ -1,0 +1,43 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "ASP.NET Core 3.1 Application";
+}
+
+<div class="main-container">
+    <div class="cloud-image">
+        <img src="~/images/successCloudNew.svg" />
+    </div>
+    <div class="content">
+        <div class="tweet-container">
+            <a href="http://twitter.com/intent/tweet/?text=I%20just%20created%20a%20new%20Asp.net%20core%20website%20on%20Azure%20using%20GitHub%20workflow&hashtags=GitHub%2CGitHubWorkflow%20%40Azure">
+                <img src="~/images/tweetThis.svg" />
+            </a>
+        </div>
+        <div class="content-body">
+            <div class="success-text">Success!</div>
+            <div class="description line-1"> GitHub workflow has been successfully setup</div>
+            <div class="description line-2"> Your ASP.NET Core app is up and running on Azure</div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Get started right away </h2>
+        <p>
+            Clone your code repository and start developing your application on IDE of your choice
+        </p>
+        <p><a class="btn btn-light" href="https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository" target="_blank">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Continuous Delivery</h2>
+        <p>Learn more about all you can do with Github Actions by visiting the documentation</p>
+        <p><a class="btn btn-light" href="https://docs.github.com/en/actions" target="_blank">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Github Repository</h2>
+        <p>Learn more about all you can do with Github by visiting the documentation</p>
+        <p><a class="btn btn-light" href="https://docs.github.com" target="_blank">Learn more &raquo;</a></p>
+    </div>
+</div>
+

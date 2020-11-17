@@ -43,15 +43,5 @@
                 "name": "[parameters('databaseAccountId')]"
             }
         }
-    ],
-    "outputs": {
-        "aiKey": {
-            "value": "[reference(concat('Microsoft.Insights/components/', parameters('applicationInsightsName'))).InstrumentationKey]",
-            "type": "string"
-        },
-        "azureCosmosDBAccountKeys": {
-            "value": "[listConnectionStrings(concat('Microsoft.DocumentDb/databaseAccounts/', parameters('databaseAccountId')), '2015-04-08')]",
-            "type": "object"
-        }
-    }
+    ]
 }

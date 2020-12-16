@@ -2,7 +2,7 @@
 {{- $fullName := include "sampleapp.fullname" . -}}
 {{- $serviceName := include "sampleapp.name" . -}}
 {{- $servicePort := .Values.service.port -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}

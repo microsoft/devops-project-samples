@@ -18,9 +18,10 @@
         <WorkingFolder>CodePackage</WorkingFolder>
       </ExeHost>
     </EntryPoint>
-      <EnvironmentVariables>
+    <EnvironmentVariables>
           <EnvironmentVariable Name="APPINSIGHTS_INSTRUMENTATIONKEY" Value="DefaultValue"/>
-      </EnvironmentVariables>
+        <EnvironmentVariable Name="ReverseProxyBaseUri" Value="http://localhost:19081"/>
+    </EnvironmentVariables>
   </CodePackage>
 
   <!-- Config package is the contents of the Config directoy under PackageRoot that contains an

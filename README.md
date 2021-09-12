@@ -1,3 +1,4 @@
+[![Build Status](https://dev.azure.com/f5eng/DT/_apis/build/status/DT-ASP.NET%20Core%20(.NET%20Framework)-CI)](https://dev.azure.com/f5eng/DT/_build/latest?definitionId=130)
 
 # Contributing
 

@@ -1,5 +1,6 @@
 {
     "require": {
-        "microsoft/application-insights": "*"
+        "microsoft/application-insights": "*",
+         "phpunit/phpunit": "~6.0"
       }
   }

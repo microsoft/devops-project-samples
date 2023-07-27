@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "ejs": "2.5.5",
-    "sails": "~0.12.14",
+    "sails": "~1.5.7",
     "sails-disk": "~0.10.9"
   },
   "scripts": {
